@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Close.png" />
+    <None Remove="Resources\Connection.png" />
+    <None Remove="Resources\ConnectionTwo.png" />
+    <None Remove="Resources\Deploy.png" />
+    <None Remove="Resources\DeployTwo.png" />
+    <None Remove="Resources\Help.png" />
+    <None Remove="Resources\Microphone.png" />
+    <None Remove="Resources\MicrophoneCrossed.png" />
+    <None Remove="Resources\Minimize.png" />
+    <None Remove="Resources\Pause.png" />
+    <None Remove="Resources\Play.png" />
+    <None Remove="Resources\PlayNext.png" />
+    <None Remove="Resources\PlayPrevious.png" />
+    <None Remove="Resources\Record.png" />
+    <None Remove="Resources\Settings.png" />
+    <None Remove="Resources\Speaker.png" />
+    <None Remove="Resources\SpeakerCrossed.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Close.png" />
+    <Resource Include="Resources\Connection.png" />
+    <Resource Include="Resources\ConnectionTwo.png" />
+    <Resource Include="Resources\Deploy.png" />
+    <Resource Include="Resources\DeployTwo.png" />
+    <Resource Include="Resources\Help.png" />
+    <Resource Include="Resources\Microphone.png" />
+    <Resource Include="Resources\MicrophoneCrossed.png" />
+    <Resource Include="Resources\Minimize.png" />
+    <Resource Include="Resources\Pause.png" />
+    <Resource Include="Resources\Play.png" />
+    <Resource Include="Resources\PlayNext.png" />
+    <Resource Include="Resources\PlayPrevious.png" />
+    <Resource Include="Resources\Record.png" />
+    <Resource Include="Resources\Settings.png" />
+    <Resource Include="Resources\Speaker.png" />
+    <Resource Include="Resources\SpeakerCrossed.png" />
+  </ItemGroup>
+
+</Project>

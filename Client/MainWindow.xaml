@@ -1,0 +1,195 @@
+﻿<Window x:Class="Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        AllowsTransparency="true"
+        WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="220" MinWidth="660" Height="0" Width="0">
+    <Window.Resources>
+        <Image x:Key="Minimize" Source="/Client;component/Resources/Minimize.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
+        <Image x:Key="Deploy" Source="/Client;component/Resources/Deploy.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
+        <Image x:Key="DeployTwo" Source="/Client;component/Resources/DeployTwo.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
+        <Image x:Key="Close" Source="/Client;component/Resources/Close.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
+        <Image x:Key="Speaker" Source="/Client;component/Resources/Speaker.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
+        <Image x:Key="SpeakerCrossed" Source="/Client;component/Resources/SpeakerCrossed.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
+        <Image x:Key="Microphone" Source="/Client;component/Resources/Microphone.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
+        <Image x:Key="MicrophoneCrossed" Source="/Client;component/Resources/MicrophoneCrossed.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
+        <Image x:Key="Settings" Source="/Client;component/Resources/Settings.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="Fant" Margin="6"/>
+        <Image x:Key="Connection" Source="/Client;component/Resources/Connection.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
+        <Image x:Key="ConnectionTwo" Source="/Client;component/Resources/ConnectionTwo.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
+        <Image x:Key="Pause" Source="/Client;component/Resources/Pause.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
+        <Image x:Key="Play" Source="/Client;component/Resources/Play.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
+        <Image x:Key="Record" Source="/Client;component/Resources/Record.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
+        <Image x:Key="PlayNext" Source="/Client;component/Resources/PlayNext.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
+        <Image x:Key="PlayPrevious" Source="/Client;component/Resources/PlayPrevious.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
+        <Image x:Key="Help" Source="/Client;component/Resources/Help.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
+        <Image x:Key="Clients" Source="/Client;component/Resources/Clients.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
+    </Window.Resources>
+    <Border BorderBrush="Black" BorderThickness="4">
+        <Grid>
+            <Grid.Resources>
+                <Style TargetType="Slider">
+                    <Setter Property="Margin" Value="4"/>
+                </Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="4"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="TextAlignment" Value="Center"/>
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Margin" Value="4"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                </Style>
+                <Style TargetType="Button">
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Background="Thistle">
+
+            </Grid>
+            <Grid Grid.Column="1" Background="Thistle" MouseLeftButtonDown="ProgramName_MouseLeftButtonDown">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" x:Name="ProgramName" Text="программа - клиент"/>
+                <Button x:Name="Minimize" Grid.Column="1" Click="Minimize_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <StaticResource ResourceKey="Minimize"/>
+                </Button>
+                <Button x:Name="Deploy" Grid.Column="2" Click="Deploy_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <DynamicResource ResourceKey="Deploy"/>
+                </Button>
+                <Button x:Name="Exit" Grid.Column="3" Click="Exit_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <StaticResource ResourceKey="Close"/>
+                </Button>
+            </Grid>
+            <Border Grid.Row="1" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
+                <Grid Background="LightGoldenrodYellow">
+                    <Button x:Name="Connect" Click="Connect_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                        <DynamicResource ResourceKey="Connection"/>
+                    </Button>
+                </Grid>
+            </Border>
+            <Grid Grid.Column="1" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Border BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
+                        <TextBlock x:Name="ServerName" Text="сервер"/>
+                    </Border>
+                    <Border Grid.Column="1" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
+                        <Button x:Name="Clients" Click="Clients_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <TextBlock Text="абоненты"/>
+                        </Button>
+                    </Border>
+                    <Border Grid.Column="2" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
+                        <TextBox x:Name="ClientName" Text="имя" TextChanged="ClientName_TextChanged" BorderThickness="0"/>
+                    </Border>
+                    <Border BorderBrush="DarkGray" Grid.Column="3" BorderThickness="0 0 0.6 0">
+                        <TextBlock x:Name="Status" Text="статус"/>
+                    </Border>
+                    <Border BorderBrush="DarkGray" Grid.Column="4" BorderThickness="0 0 0.6 0">
+                        <TextBlock x:Name="SessionName" Text="сессия"/>
+                    </Border>
+                </Grid>
+                <Border Grid.Column="1" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
+                    <Grid Background="PaleTurquoise">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="Record" Click="Record_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <DynamicResource ResourceKey="Record"/>
+                        </Button>
+                        <Button x:Name="RecordPause" Grid.Column="1" Click="RecordPause_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <DynamicResource ResourceKey="Pause"/>
+                        </Button>
+                        <Button x:Name="PlayPrevious" Grid.Column="2" Click="PlayPrevious_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <StaticResource ResourceKey="PlayPrevious"/>
+                        </Button>
+                        <Button x:Name="Play" Grid.Column="3" Click="Play_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <DynamicResource ResourceKey="Play"/>
+                        </Button>
+                        <Button x:Name="PlayNext" Grid.Column="4" Click="PlayNext_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <StaticResource ResourceKey="PlayNext"/>
+                        </Button>
+                    </Grid>
+                </Border>
+                <Border Grid.Column="2" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
+                    <Grid Background="PaleGreen">
+                        <TextBlock x:Name="Time" Text="00:00:00 - 00:00:00"/>
+                    </Grid>
+                </Border>
+                <Border Grid.Column="3" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
+                    <Button x:Name="Settings" Click="Settings_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                        <StaticResource ResourceKey="Settings"/>
+                    </Button>
+                </Border>
+                <Button x:Name="Help" Grid.Column="4" Click="Help_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <StaticResource ResourceKey="Help"/>
+                </Button>
+            </Grid>
+
+            <Border Grid.Row="2"  BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
+                <Grid Background="LightGoldenrodYellow">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="OutputMuteStatus" Click="OutputMuteStatus_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                        <DynamicResource ResourceKey="Speaker"/>
+                    </Button>
+                    <Slider x:Name="OutputVolume" Grid.Row="1" Maximum="1.0" Value="1.0" ValueChanged="OutputVolume_ValueChanged"/>
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="3" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
+                <Grid Background="LightGoldenrodYellow">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="InputMuteStatus" Click="InputMuteStatus_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                        <DynamicResource ResourceKey="Microphone"/>
+                    </Button>
+                    <Slider x:Name="InputVolume" Grid.Row="1" Maximum="1.0" Value="1.0" ValueChanged="InputVolume_ValueChanged"/>
+                </Grid>
+            </Border>
+            <Border Grid.Row="4" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
+                <Grid Background="LightGoldenrodYellow">
+
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,13 @@
+E:\Stuff\Transmission\Mobile\Mobile\bin\Debug\netstandard2.1\Mobile.deps.json
+E:\Stuff\Transmission\Mobile\Mobile\bin\Debug\netstandard2.1\Mobile.dll
+E:\Stuff\Transmission\Mobile\Mobile\bin\Debug\netstandard2.1\ref\Mobile.dll
+E:\Stuff\Transmission\Mobile\Mobile\bin\Debug\netstandard2.1\Mobile.pdb
+E:\Stuff\Transmission\Mobile\Mobile\obj\Debug\netstandard2.1\App.xaml.g.cs
+E:\Stuff\Transmission\Mobile\Mobile\obj\Debug\netstandard2.1\MainPage.xaml.g.cs
+E:\Stuff\Transmission\Mobile\Mobile\obj\Debug\netstandard2.1\Mobile.AssemblyInfoInputs.cache
+E:\Stuff\Transmission\Mobile\Mobile\obj\Debug\netstandard2.1\Mobile.AssemblyInfo.cs
+E:\Stuff\Transmission\Mobile\Mobile\obj\Debug\netstandard2.1\Mobile.csproj.CoreCompileInputs.cache
+E:\Stuff\Transmission\Mobile\Mobile\obj\Debug\netstandard2.1\XamlC.stamp
+E:\Stuff\Transmission\Mobile\Mobile\obj\Debug\netstandard2.1\Mobile.dll
+E:\Stuff\Transmission\Mobile\Mobile\obj\Debug\netstandard2.1\ref\Mobile.dll
+E:\Stuff\Transmission\Mobile\Mobile\obj\Debug\netstandard2.1\Mobile.pdb
