@@ -4,10 +4,63 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Transmission" SizeToContent="WidthAndHeight" ResizeMode="NoResize" MinHeight="200" MinWidth="300">
-    <Grid>
+        WindowStartupLocation="CenterOwner"
+        Closing="Window_Closing"
+        Title="Transmission" WindowStyle="None" ResizeMode="NoResize" MinHeight="130" MinWidth="160" Width="0" Height="0">
+    <Window.Resources>
+        <Image x:Key="Minimize" Source="/Client;component/Resources/Minimize.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
+        <Image x:Key="Deploy" Source="/Client;component/Resources/Deploy.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
+        <Image x:Key="DeployTwo" Source="/Client;component/Resources/DeployTwo.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
+        <Image x:Key="Close" Source="/Client;component/Resources/Close.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
+    </Window.Resources>
+    <Border BorderBrush="MediumPurple" BorderThickness="2">
+        <Grid>
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="4"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Background="Thistle" Grid.ColumnSpan="2" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="настройки" HorizontalAlignment="Center"/>
+                <Button x:Name="Minimize" Grid.Column="1" Click="Minimize_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <StaticResource ResourceKey="Minimize"/>
+                </Button>
+                <Button x:Name="Deploy" Grid.Column="2" Click="Deploy_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <DynamicResource ResourceKey="Deploy"/>
+                </Button>
+                <Button x:Name="CloseButton" Grid.Column="3" Click="CloseButton_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <StaticResource ResourceKey="Close"/>
+                </Button>
+            </Grid>
 
-        <ComboBox x:Name="Languages" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" SelectionChanged="Languages_SelectionChanged"/>
+            <TextBlock Grid.Row="1" Text="язык"/>
+            <ComboBox x:Name="Languages" Grid.Column="1" Grid.Row="1" SelectionChanged="Languages_SelectionChanged"/>
 
-    </Grid>
+            <TextBlock Grid.Row="2" Text="тема"/>
+            <ComboBox x:Name="Themes" Grid.Column="1" Grid.Row="2"/>
+
+            <TextBlock Grid.Row="3" Text="динамик"/>
+            <ComboBox x:Name="OutputType" Grid.Column="1" Grid.Row="3"/>
+
+            <TextBlock Grid.Row="4" Text="микрофон"/>
+            <ComboBox x:Name="InputType" Grid.Column="1" Grid.Row="4"/>
+        </Grid>
+    </Border>
 </Window>

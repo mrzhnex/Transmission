@@ -25,6 +25,9 @@ namespace Server
 
         public List<int> OpenedClients { get; set; } = new List<int>();
 
+        public bool IsSettingsWindowOpened { get; set; } = false;
+        public bool IsHelpWindowOpened { get; set; } = false;
+
         private void ProgramName_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             DragMove();
@@ -45,8 +48,15 @@ namespace Server
         #region Buttons
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
-            SettingsWindow settingsWindow = new SettingsWindow();
-            settingsWindow.Show();
+            if (!IsSettingsWindowOpened)
+            {
+                IsSettingsWindowOpened = true;
+                SettingsWindow settingsWindow = new SettingsWindow
+                {
+                    Owner = this
+                };
+                settingsWindow.Show();
+            }
         }
         private void Open_Click(object sender, RoutedEventArgs e)
         {
@@ -57,6 +67,18 @@ namespace Server
             else
             {
                 Manage.ServerSession = new Session(Manage.DefaultInformation.ServerPort, Manage.DefaultInformation.SessionName, true);
+            }
+        }
+        private void Help_Click(object sender, RoutedEventArgs e)
+        {
+            if (!IsHelpWindowOpened)
+            {
+                IsHelpWindowOpened = true;
+                HelpWindow helpWindow = new HelpWindow
+                {
+                    Owner = this
+                };
+                helpWindow.Show();
             }
         }
         private void Record_Click(object sender, RoutedEventArgs e)
@@ -119,7 +141,6 @@ namespace Server
         {
             Manage.EventManager.ExecuteEvent<IEventHandlerShutdown>(new ShutdownEvent());
             base.OnClosing(e);
-            System.Windows.Application.Current.Shutdown();
         }
         private void InputVolume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -323,10 +344,5 @@ namespace Server
             }
         }
         #endregion
-
-        private void Help_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

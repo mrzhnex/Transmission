@@ -1,11 +1,7 @@
 ﻿using Core.Main;
-using System;
 using System.Linq;
 using System.Net;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Threading;
 
 namespace Client
 {
@@ -14,41 +10,6 @@ namespace Client
         public ConnectWindow()
         {
             InitializeComponent();
-            SetLanguageBinding();
-            Closing += ConnectWindow_Closing;
-        }
-
-        private void ConnectWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            MainWindow.MainWindowInstance.IsConnectWindowOpened = false;
-        }
-
-        private void SetLanguageBinding()
-        {
-            TextBlock[] textBlocks = new TextBlock[]
-            {
-                Password, Server
-            };
-            Button[] buttons = new Button[]
-            {
-                Connect
-            };
-            foreach (TextBlock textBlock in textBlocks)
-            {
-                SetLanguageBindingTextBlock(textBlock);
-            }
-            foreach (Button button in buttons)
-            {
-                SetLanguageBindingButton(button);
-            }
-        }
-        private void SetLanguageBindingTextBlock(TextBlock textBlock)
-        {
-            textBlock.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { textBlock.SetBinding(TextBlock.TextProperty, new Binding(textBlock.Name) { Source = Manage.LocalizationManager.Current }); }));
-        }
-        private void SetLanguageBindingButton(Button button)
-        {
-            button.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { button.SetBinding(ContentProperty, new Binding(button.Name) { Source = Manage.LocalizationManager.Current }); }));
         }
 
         private void Connect_Click(object sender, RoutedEventArgs e)
@@ -86,6 +47,39 @@ namespace Client
             Manage.Logger.Add($"Попытка подключиться к {IpAddressField.Text}", LogType.Application, LogLevel.Info);
             Manage.ClientSession = new Core.Client.Session(iPAddress, MainWindow.MainWindowInstance.ClientName.Text, port, key);
             Close();
+        }
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            MainWindow.MainWindowInstance.IsConnectWindowOpened = false;
+        }
+
+        private void Minimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void Deploy_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+            {
+                Deploy.Content = FindResource("Deploy");
+                WindowState = WindowState.Normal;
+            }
+            else
+            {
+                Deploy.Content = FindResource("DeployTwo");
+                WindowState = WindowState.Maximized;
+            }
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void Grid_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DragMove();
         }
     }
 }

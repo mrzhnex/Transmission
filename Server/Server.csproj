@@ -28,6 +28,7 @@
     <None Remove="Resources\Settings.png" />
     <None Remove="Resources\Speaker.png" />
     <None Remove="Resources\SpeakerCrossed.png" />
+    <None Remove="Resources\Test.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,6 +53,7 @@
     <Resource Include="Resources\Settings.png" />
     <Resource Include="Resources\Speaker.png" />
     <Resource Include="Resources\SpeakerCrossed.png" />
+    <Resource Include="Resources\Test.png" />
   </ItemGroup>
 
 </Project>

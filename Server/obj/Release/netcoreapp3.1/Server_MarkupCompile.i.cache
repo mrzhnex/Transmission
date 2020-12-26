@@ -10,11 +10,11 @@ none
 false
 TRACE;RELEASE;NETCOREAPP;NETCOREAPP3_1
 E:\Stuff\Transmission\Server\App.xaml
-4201320997
+51697396710
 
-101014827229
+111672204726
 1962047277058
-ClientControl.xaml;ClientWindow.xaml;MainWindow.xaml;SettingsWindow.xaml;
+ClientControl.xaml;ClientWindow.xaml;HelpWindow.xaml;MainWindow.xaml;SettingsWindow.xaml;
 
 False
 

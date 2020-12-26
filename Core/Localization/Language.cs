@@ -9,7 +9,7 @@ namespace Core.Localization
     public class Language : INotifyPropertyChanged
     {
         [XmlIgnore]
-        public static Language Default { get; private set; } = new Language("en", "English");
+        public static Language Default { get; private set; } = new Language("ru", "русский");
         public string Culture { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
 
@@ -61,9 +61,9 @@ namespace Core.Localization
         #endregion
 
         #region Lower strings
-        private string connect = "Connect";
-        private string server = "Server";
-        private string password = "Password";
+        private string connect = "подключиться";
+        private string server = "сервер";
+        private string password = "пароль";
         #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;

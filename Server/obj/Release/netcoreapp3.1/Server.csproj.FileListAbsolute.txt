@@ -32,3 +32,5 @@ E:\Stuff\Transmission\Server\obj\Release\netcoreapp3.1\Server.csproj.CopyComplet
 E:\Stuff\Transmission\Server\obj\Release\netcoreapp3.1\Server.dll
 E:\Stuff\Transmission\Server\obj\Release\netcoreapp3.1\Server.pdb
 E:\Stuff\Transmission\Server\obj\Release\netcoreapp3.1\Server.genruntimeconfig.cache
+E:\Stuff\Transmission\Server\obj\Release\netcoreapp3.1\HelpWindow.baml
+E:\Stuff\Transmission\Server\obj\Release\netcoreapp3.1\HelpWindow.g.cs

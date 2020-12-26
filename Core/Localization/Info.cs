@@ -9,7 +9,7 @@ namespace Core.Localization
         private static string FolderName { get; set; } = "Languages";
         public static string FileFormat { get; set; } = "xml";
         public static int CultureMaxLength { get; set; } = 2;
-        public static string DefaultLanguageCulture { get; set; } = "en";
+        public static string DefaultLanguageCulture { get; set; } = "ru";
 
         public static string GetFullFileName(string culture)
         {

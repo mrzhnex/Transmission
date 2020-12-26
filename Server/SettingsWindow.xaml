@@ -4,18 +4,75 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Transmission" SizeToContent="WidthAndHeight" ResizeMode="NoResize" MinHeight="100" MinWidth="200">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <ComboBox x:Name="Languages" Grid.ColumnSpan="2" SelectionChanged="Languages_SelectionChanged"/>
-        <TextBlock x:Name="ServerPort" Grid.Column="0" Grid.Row="1" Text="Server port"/>
-        <TextBox x:Name="ServerPortField" Grid.Column="1" Grid.Row="1" TextChanged="ServerPortField_TextChanged"/>
-    </Grid>
+        WindowStartupLocation="CenterOwner"
+        Closing="Window_Closing"
+        Title="Transmission" WindowStyle="None" ResizeMode="NoResize" MinHeight="180" MinWidth="220" Width="0" Height="0">
+    <Window.Resources>
+        <Image x:Key="Minimize" Source="/Server;component/Resources/Minimize.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
+        <Image x:Key="Deploy" Source="/Server;component/Resources/Deploy.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
+        <Image x:Key="DeployTwo" Source="/Server;component/Resources/DeployTwo.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
+        <Image x:Key="Close" Source="/Server;component/Resources/Close.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
+    </Window.Resources>
+    <Border BorderBrush="DarkSlateGray" BorderThickness="2">
+        <Grid>
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="4"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Background="Thistle" Grid.ColumnSpan="2" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="ProgramName" Text="настройки" HorizontalAlignment="Center"/>
+                <Button x:Name="Minimize" Grid.Column="1" Click="Minimize_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <StaticResource ResourceKey="Minimize"/>
+                </Button>
+                <Button x:Name="Deploy" Grid.Column="2" Click="Deploy_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <DynamicResource ResourceKey="Deploy"/>
+                </Button>
+                <Button x:Name="CloseButton" Grid.Column="3" Click="CloseButton_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <StaticResource ResourceKey="Close"/>
+                </Button>
+            </Grid>
+
+            <TextBlock Grid.Row="1" Text="язык"/>
+            <ComboBox x:Name="Languages" Grid.Column="1" Grid.Row="1" SelectionChanged="Languages_SelectionChanged"/>
+            
+            <TextBlock x:Name="ServerPort" Grid.Row="2" Text="порт"/>
+            <TextBox x:Name="ServerPortField" Grid.Column="1" Grid.Row="2" TextChanged="ServerPortField_TextChanged"/>
+
+            <TextBlock Grid.Row="3" Text="динамик"/>
+            <ComboBox x:Name="OutputType" Grid.Column="1" Grid.Row="3"/>
+
+            <TextBlock Grid.Row="4" Text="микрофон"/>
+            <ComboBox x:Name="InputType" Grid.Column="1" Grid.Row="4"/>
+
+            <TextBlock Grid.Row="5" Text="сортировка"/>
+            <ComboBox x:Name="Sort" Grid.Column="1" Grid.Row="5"/>
+
+            <TextBlock Grid.Row="6" Text="папка для сохранения"/>
+            <Grid Grid.Column="1" Grid.Row="6">
+                <TextBox x:Name="RecordSaveFolder" Text="по умолчанию"/>
+            </Grid>
+
+
+        </Grid>
+    </Border>
 </Window>

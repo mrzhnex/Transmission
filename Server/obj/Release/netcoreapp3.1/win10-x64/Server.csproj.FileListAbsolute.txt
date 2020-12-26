@@ -526,3 +526,5 @@ E:\Stuff\Transmission\Server\obj\release\netcoreapp3.1\win10-x64\Server.csproj.C
 E:\Stuff\Transmission\Server\obj\release\netcoreapp3.1\win10-x64\Server.dll
 E:\Stuff\Transmission\Server\obj\release\netcoreapp3.1\win10-x64\Server.pdb
 E:\Stuff\Transmission\Server\obj\release\netcoreapp3.1\win10-x64\Server.genruntimeconfig.cache
+E:\Stuff\Transmission\Server\obj\release\netcoreapp3.1\win10-x64\HelpWindow.baml
+E:\Stuff\Transmission\Server\obj\release\netcoreapp3.1\win10-x64\HelpWindow.g.cs

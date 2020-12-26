@@ -1,0 +1,51 @@
+﻿<Window x:Class="Server.HelpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        Closing="Window_Closing"
+        Title="HelpWindow" WindowStyle="None" ResizeMode="NoResize" MinHeight="100" MinWidth="160" Width="0" Height="0">
+    <Window.Resources>
+        <Image x:Key="Minimize" Source="/Server;component/Resources/Minimize.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
+        <Image x:Key="Deploy" Source="/Server;component/Resources/Deploy.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
+        <Image x:Key="DeployTwo" Source="/Server;component/Resources/DeployTwo.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
+        <Image x:Key="Close" Source="/Server;component/Resources/Close.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
+    </Window.Resources>
+    <Border BorderBrush="MediumPurple" BorderThickness="2">
+        <Grid>
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="4"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Background="Thistle" Grid.ColumnSpan="2" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="справка" HorizontalAlignment="Center"/>
+                <Button x:Name="Minimize" Grid.Column="1" Click="Minimize_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <StaticResource ResourceKey="Minimize"/>
+                </Button>
+                <Button x:Name="Deploy" Grid.Column="2" Click="Deploy_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <DynamicResource ResourceKey="Deploy"/>
+                </Button>
+                <Button x:Name="CloseButton" Grid.Column="3" Click="CloseButton_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <StaticResource ResourceKey="Close"/>
+                </Button>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

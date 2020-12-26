@@ -17,6 +17,7 @@ namespace Client
         public static MainWindow MainWindowInstance { get; set; }
         public bool IsConnectWindowOpened { get; set; } = false;
         public bool IsHelpWindowOpened { get; set; } = false;
+        public bool IsSettingsWindowOpened { get; set; } = false;
         public Core.Server.Client Client { get; set; } = new Core.Server.Client(new IPEndPoint(IPAddress.Any, 0), 0, nameof(Client), new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second), nameof(Client), nameof(Client), false);
         public MainWindow()
         {
@@ -65,7 +66,10 @@ namespace Client
                 if (!IsConnectWindowOpened)
                 {
                     IsConnectWindowOpened = true;
-                    ConnectWindow connectWindow = new ConnectWindow();
+                    ConnectWindow connectWindow = new ConnectWindow
+                    {
+                        Owner = this
+                    };
                     connectWindow.Show();
                 }
             }
@@ -76,15 +80,25 @@ namespace Client
         }
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
-            SettingsWindow settingsWindow = new SettingsWindow();
-            settingsWindow.Show();
+            if (!IsSettingsWindowOpened)
+            {
+                IsSettingsWindowOpened = true;
+                SettingsWindow settingsWindow = new SettingsWindow
+                {
+                    Owner = this
+                };
+                settingsWindow.Show();
+            }
         }
         private void Help_Click(object sender, RoutedEventArgs e)
         {
             if (!IsHelpWindowOpened)
             {
                 IsHelpWindowOpened = true;
-                HelpWindow helpWindow = new HelpWindow();
+                HelpWindow helpWindow = new HelpWindow
+                {
+                    Owner = this
+                };
                 helpWindow.Show();
             }
         }
@@ -166,7 +180,6 @@ namespace Client
             Client.Record.Save();
             Manage.EventManager.ExecuteEvent<IEventHandlerShutdown>(new ShutdownEvent());
             base.OnClosing(e);
-            System.Windows.Application.Current.Shutdown();
         }
         private void InputMuteStatus_Checked(object sender, RoutedEventArgs e)
         {

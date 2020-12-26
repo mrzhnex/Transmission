@@ -5,21 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:Server"
         mc:Ignorable="d"
         AllowsTransparency="true"
-        WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="240" MinWidth="682" Height="0" Width="0">
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="250" MinWidth="750" Height="0" Width="0">
     <Window.Resources>
         <Image x:Key="Minimize" Source="/Server;component/Resources/Minimize.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
         <Image x:Key="Deploy" Source="/Server;component/Resources/Deploy.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
         <Image x:Key="DeployTwo" Source="/Server;component/Resources/DeployTwo.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
         <Image x:Key="Close" Source="/Server;component/Resources/Close.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
-        <Image x:Key="Help" Source="/Server;component/Resources/Help.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
+        <Image x:Key="Help" Source="/Server;component/Resources/Help.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
         <Image x:Key="Settings" Source="/Server;component/Resources/Settings.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
         <Image x:Key="Connection" Source="/Server;component/Resources/Connection.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
         <Image x:Key="ConnectionTwo" Source="/Server;component/Resources/ConnectionTwo.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
-        <Image x:Key="Pause" Source="/Server;component/Resources/Pause.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
-        <Image x:Key="Play" Source="/Server;component/Resources/Play.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
-        <Image x:Key="Record" Source="/Server;component/Resources/Record.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
-        <Image x:Key="PlayNext" Source="/Server;component/Resources/PlayNext.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
-        <Image x:Key="PlayPrevious" Source="/Server;component/Resources/PlayPrevious.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
+        
+        <Image x:Key="Pause" Source="/Server;component/Resources/Pause.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0" />
+        <Image x:Key="Play" Source="/Server;component/Resources/Play.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0" />
+        <Image x:Key="Record" Source="/Server;component/Resources/Record.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0" />
+        <Image x:Key="PlayNext" Source="/Server;component/Resources/PlayNext.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0" />
+        <Image x:Key="PlayPrevious" Source="/Server;component/Resources/PlayPrevious.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0" />
 
         <Image x:Key="Speaker" Source="/Server;component/Resources/Speaker.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
         <Image x:Key="SpeakerCrossed" Source="/Server;component/Resources/SpeakerCrossed.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
@@ -40,13 +42,76 @@
         <Image x:Key="SpeakerCrossed4" Source="/Server;component/Resources/SpeakerCrossed.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
         <Image x:Key="Microphone4" Source="/Server;component/Resources/Microphone.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
         <Image x:Key="MicrophoneCrossed4" Source="/Server;component/Resources/MicrophoneCrossed.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
+
+        <Image x:Key="Test" Source="/Server;component/Resources/Test.png" Height="60" Width="180" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
+        <Image x:Key="Test2" Source="/Server;component/Resources/Test.png" Height="60" Width="180" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
+        <Image x:Key="Test3" Source="/Server;component/Resources/Test.png" Height="60" Width="180" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
     </Window.Resources>
-    <Border BorderBrush="Black" BorderThickness="4">
+    <Border BorderBrush="MediumPurple" BorderThickness="4">
         <Grid>
             <Grid.Resources>
+                <LinearGradientBrush x:Key="HorizontalBrush" StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="Black" Offset="1.0" />
+                </LinearGradientBrush>
+                <Style x:Key="SliderThumbStyle" TargetType="Thumb">
+                    <Setter Property="SnapsToDevicePixels" Value="true"/>
+                    <Setter Property="OverridesDefaultStyle" Value="false"/>
+                    <Setter Property="Height" Value="20"/>
+                    <Setter Property="Width" Value="15"/>
+                    <Setter Property="SnapsToDevicePixels" Value="true"/>
+                    <Setter Property="OverridesDefaultStyle" Value="true"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Thumb}">
+                                <Rectangle Fill="Azure" Stroke="Black" Height="18" Width="8" StrokeThickness="1" Margin="0" RadiusX="15" RadiusY="2"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
                 <Style TargetType="Slider">
                     <Setter Property="Margin" Value="4"/>
+                    <Setter Property="OverridesDefaultStyle" Value="true"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Width" Value="30"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Slider">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" Name="row" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*" Name="column" />
+                                        <ColumnDefinition Width="auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Name="PART_Border" 
+                            BorderBrush="Black" BorderThickness="1" 
+                            Padding="1.5"
+                            CornerRadius="4" 
+                            Grid.Row="1" Grid.Column="1"
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}"
+                            Background="{StaticResource HorizontalBrush}"
+                            HorizontalAlignment="Stretch"  
+                            VerticalAlignment="Center" />
+                                    <Track Name="PART_Track" 
+                               HorizontalAlignment="Stretch" 
+                               VerticalAlignment="Center"   
+                               Grid.Row="1" Grid.Column="1"
+                               Width="{TemplateBinding Width}" 
+                               Height="{TemplateBinding Height}">
+                                        <Track.Thumb>
+                                            <Thumb Style="{StaticResource SliderThumbStyle}" />
+                                        </Track.Thumb>
+                                    </Track>
+                                </Grid>
+
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
                 <Style TargetType="TextBlock">
                     <Setter Property="Margin" Value="4"/>
@@ -58,11 +123,9 @@
                 </Style>
             </Grid.Resources>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -72,28 +135,7 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <Grid Background="Thistle">
-
-            </Grid>
-
-            <Border Grid.Row="1" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
-                <Grid Background="LightGoldenrodYellow">
-                    <Button x:Name="Settings" Click="Settings_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-                        <StaticResource ResourceKey="Settings"/>
-                    </Button>
-                </Grid>
-            </Border>
-            <Border Grid.Row="2" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
-                <Grid Background="LightGoldenrodYellow">
-
-                </Grid>
-            </Border>
-            <Border Grid.Row="3" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
-                <Grid Background="LightGoldenrodYellow">
-
-                </Grid>
-            </Border>
-            <Grid Grid.Column="1" Grid.ColumnSpan="5" Background="Thistle" MouseLeftButtonDown="ProgramName_MouseLeftButtonDown">
+            <Grid Grid.ColumnSpan="5" Background="Thistle" MouseLeftButtonDown="ProgramName_MouseLeftButtonDown">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -101,141 +143,164 @@
                     <ColumnDefinition Width="auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Name="ProgramName" Text="программа - сервер" HorizontalAlignment="Center"/>
-                <Button x:Name="Minimize" Grid.Column="1" Click="Minimize_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                <Button x:Name="Minimize" Grid.Column="1" Click="Minimize_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="свернуть">
                     <StaticResource ResourceKey="Minimize"/>
                 </Button>
-                <Button x:Name="Deploy" Grid.Column="2" Click="Deploy_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                <Button x:Name="Deploy" Grid.Column="2" Click="Deploy_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="развернуть">
                     <DynamicResource ResourceKey="Deploy"/>
                 </Button>
-                <Button x:Name="CloseButton" Grid.Column="3" Click="Close_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                <Button x:Name="CloseButton" Grid.Column="3" Click="Close_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="закрыть">
                     <StaticResource ResourceKey="Close"/>
                 </Button>
             </Grid>
 
+            <Border Grid.Row="1" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
+                <Grid Background="NavajoWhite">
+                    <Grid Margin="10 0 10 0" HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="Open" Click="Open_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="открыть сервер">
+                            <DynamicResource ResourceKey="Connection"/>
+                        </Button>
+                        <TextBlock x:Name="ServerName" Grid.Column="1" Text="наименование сервера"/>
+                    </Grid>
+                </Grid>
+            </Border>
             <Border Grid.Column="1" Grid.Row="1" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
                 <Grid Background="NavajoWhite">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"></ColumnDefinition>
-                        <ColumnDefinition Width="auto"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Button x:Name="Open" Click="Open_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-                        <DynamicResource ResourceKey="Connection"/>
-                    </Button>
-                    <TextBlock x:Name="ServerName" Grid.Column="1" Text="наименование сервера"/>
+                    <Grid Margin="20 0 20 0" HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="Record" Click="Record_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="запись">
+                            <DynamicResource ResourceKey="Record"/>
+                        </Button>
+                        <Button x:Name="RecordPause" Grid.Column="1" Click="RecordPause_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="пауза">
+                            <DynamicResource ResourceKey="Pause"/>
+                        </Button>
+                        <Slider x:Name="InputVolume" Grid.Column="2" Maximum="1.0" Value="1.0" ValueChanged="InputVolume_ValueChanged" ToolTip="уровень"/>
+                    </Grid>
                 </Grid>
             </Border>
             <Border Grid.Column="2" Grid.Row="1" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
                 <Grid Background="NavajoWhite">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Button x:Name="Record" Click="Record_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-                        <DynamicResource ResourceKey="Record"/>
-                    </Button>
-                    <Button x:Name="RecordPause" Grid.Column="1" Click="RecordPause_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-                        <DynamicResource ResourceKey="Pause"/>
-                    </Button>
-                    <Slider x:Name="InputVolume" Grid.Column="2" Maximum="1.0" Value="1.0" ValueChanged="InputVolume_ValueChanged"/>
+                    <Grid Margin="20 0 20 0" HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="PlayPrevious" Click="PlayPrevious_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="предыдущий">
+                            <StaticResource ResourceKey="PlayPrevious"/>
+                        </Button>
+                        <Button x:Name="Play" Grid.Column="1" Click="Play_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="воспроизвести">
+                            <StaticResource ResourceKey="Play"/>
+                        </Button>
+                        <Button x:Name="PlayNext" Grid.Column="2" Click="PlayNext_Click"  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="следующий">
+                            <StaticResource ResourceKey="PlayNext"/>
+                        </Button>
+                        <Slider x:Name="OutputVolume" Grid.Column="3" Maximum="1.0" Value="1.0" ValueChanged="OutputVolume_ValueChanged" ToolTip="уровень"/>
+                    </Grid>
                 </Grid>
             </Border>
-            <Border Grid.Column="3" Grid.Row="1" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
-                <Grid Background="NavajoWhite">
+            <Grid Grid.Column="3" Grid.Row="1" Background="NavajoWhite">
+                <Grid Margin="0 0 0 0" HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="PlayPrevious" Click="PlayPrevious_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-                        <StaticResource ResourceKey="PlayPrevious"/>
+                    <TextBlock x:Name="Time" Text="00:00:00 - 00:00:00"/>
+                    <Button x:Name="Settings" Grid.Column="1" Click="Settings_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="настройки">
+                        <StaticResource ResourceKey="Settings"/>
                     </Button>
-                    <Button x:Name="Play" Grid.Column="1" Click="Play_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-                        <StaticResource ResourceKey="Play"/>
+                    <Button x:Name="Help" Grid.Column="2" Click="Help_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="справка">
+                        <StaticResource ResourceKey="Help"/>
                     </Button>
-                    <Button x:Name="PlayNext" Grid.Column="2" Click="PlayNext_Click"  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-                        <StaticResource ResourceKey="PlayNext"/>
-                    </Button>
-                    <Slider x:Name="OutputVolume" Grid.Column="3" Maximum="1.0" Value="1.0" ValueChanged="OutputVolume_ValueChanged"/>
                 </Grid>
-            </Border>
-            <Grid Grid.Column="4" Grid.Row="1" Background="NavajoWhite">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <TextBlock x:Name="Time" Text="00:00:00 - 00:00:00"/>
-                <Button x:Name="Help" Grid.Column="1" Click="Help_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-                    <StaticResource ResourceKey="Help"/>
-                </Button>
             </Grid>
 
-            <Border Grid.Column="1" Grid.Row="2" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
-                <Grid Background="PaleTurquoise">
+            <Border Grid.Row="2" BorderBrush="DarkGray" Background="PaleTurquoise" BorderThickness="0 0 0.6 0">
+                <Grid HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="auto"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="ServersOutputMuteStatus" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <Button x:Name="ServersOutputMuteStatus" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="динамик">
                         <DynamicResource ResourceKey="Speaker4"/>
                     </Button>
                     <TextBlock x:Name="ServersField" Grid.Column="1" Text="серверы"/>
-                    <Button x:Name="ServersInputMuteStatus" Grid.Column="2" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <Button x:Name="ServersInputMuteStatus" Grid.Column="2" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="микрофон">
                         <DynamicResource ResourceKey="Microphone4"/>
                     </Button>
                 </Grid>
             </Border>
-            <Border Grid.Column="2" Grid.Row="2" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
-                <Grid Background="PaleTurquoise">
+            <Border Grid.Column="1" Grid.Row="2" BorderBrush="DarkGray" Background="PaleTurquoise" BorderThickness="0 0 0.6 0">
+                <Grid HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="auto"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="ModeratorsOutputMuteStatus" Click="ModeratorsOutputMuteStatus_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <Button x:Name="ModeratorsOutputMuteStatus" Click="ModeratorsOutputMuteStatus_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="динамик">
                         <StaticResource ResourceKey="Speaker3"/>
                     </Button>
                     <TextBlock x:Name="ModeratorsField" Grid.Column="1" Text="модераторы"/>
-                    <Button x:Name="ModeratorsInputMuteStatus" Grid.Column="2" Click="ModeratorsInputMuteStatus_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <Button x:Name="ModeratorsInputMuteStatus" Grid.Column="2" Click="ModeratorsInputMuteStatus_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="микрофон">
                         <DynamicResource ResourceKey="Microphone3"/>
                     </Button>
                 </Grid>
             </Border>
-            <Border Grid.Column="3" Grid.Row="2" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
-                <Grid Background="PaleTurquoise">
+            <Border Grid.Column="2" Grid.Row="2" BorderBrush="DarkGray" Background="PaleTurquoise" BorderThickness="0 0 0.6 0">
+                <Grid HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="auto"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="SpeakersOutputMuteStatus" Click="SpeakersOutputMuteStatus_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <Button x:Name="SpeakersOutputMuteStatus" Click="SpeakersOutputMuteStatus_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="динамик">
                         <DynamicResource ResourceKey="Speaker2"/>
                     </Button>
                     <TextBlock x:Name="SpeakersField" Grid.Column="1" Text="выступающие"/>
-                    <Button x:Name="SpeakersInputMuteStatus" Grid.Column="2" Click="SpeakersInputMuteStatus_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <Button x:Name="SpeakersInputMuteStatus" Grid.Column="2" Click="SpeakersInputMuteStatus_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="микрофон">
                         <DynamicResource ResourceKey="Microphone2"/>
                     </Button>
                 </Grid>
             </Border>
-            <Grid Grid.Column="4" Grid.Row="2" Background="PaleTurquoise">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="auto"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Button x:Name="ListenersOutputMuteStatus" Click="ListenersOutputMuteStatus_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-                    <DynamicResource ResourceKey="Speaker"/>
-                </Button>
-                <TextBlock x:Name="ListenersField" Grid.Column="1" Text="слушатели"/>
-                <Button x:Name="ListenersInputMuteStatus" Grid.Column="2" Click="ListenersInputMuteStatus_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-                    <DynamicResource ResourceKey="Microphone"/>
-                </Button>
-            </Grid>
+            <Border Grid.Column="3" Grid.Row="2" Background="PaleTurquoise" BorderThickness="0">
+                <Grid HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="ListenersOutputMuteStatus" Click="ListenersOutputMuteStatus_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="динамик">
+                        <DynamicResource ResourceKey="Speaker"/>
+                    </Button>
+                    <TextBlock x:Name="ListenersField" Grid.Column="1" Text="слушатели"/>
+                    <Button x:Name="ListenersInputMuteStatus" Grid.Column="2" Click="ListenersInputMuteStatus_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="микрофон">
+                        <DynamicResource ResourceKey="Microphone"/>
+                    </Button>
+                </Grid>
+            </Border>
 
+            <Grid Grid.Row="3">
+                <ListBox Grid.Row="1" x:Name="Servers" BorderThickness="0 0 0.6 0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <local:ClientControl x:Name="ClientControl"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
             <Grid Grid.Column="1" Grid.Row="3">
-                <ListBox Grid.Row="1" x:Name="Servers">
+                <ListBox x:Name="Moderators" Drop="Moderators_Drop" AllowDrop="True" BorderThickness="0 0 0.6 0">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <local:ClientControl x:Name="ClientControl"/>
@@ -244,31 +309,43 @@
                 </ListBox>
             </Grid>
             <Grid Grid.Column="2" Grid.Row="3">
-                <ListBox x:Name="Moderators" Drop="Moderators_Drop" AllowDrop="True">
+                <ListBox x:Name="Speakers" Drop="Speakers_Drop" AllowDrop="true" BorderThickness="0 0 0.6 0">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <local:ClientControl x:Name="ClientControl"/>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
+                <StackPanel>
+                    <Border BorderBrush="DarkGray" BorderThickness="0 0 0 0.6">
+                        <StaticResource ResourceKey="Test3" />
+                    </Border>
+                </StackPanel>
             </Grid>
             <Grid Grid.Column="3" Grid.Row="3">
-                <ListBox x:Name="Speakers" Drop="Speakers_Drop" AllowDrop="true">
+                <ListBox x:Name="Listeners" Drop="Listeners_Drop" AllowDrop="true" BorderThickness="0 0 0.6 0">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <local:ClientControl x:Name="ClientControl"/>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-            </Grid>
-            <Grid Grid.Column="4" Grid.Row="3">
-                <ListBox x:Name="Listeners" Drop="Listeners_Drop" AllowDrop="true">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <local:ClientControl x:Name="ClientControl"/>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                <Grid Height="auto">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel>
+                        <Border BorderBrush="DarkGray" BorderThickness="0 0 0 0.6">
+                            <StaticResource ResourceKey="Test" />
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1">
+                        <Border BorderBrush="DarkGray" BorderThickness="0 0 0 0.6">
+                            <StaticResource ResourceKey="Test2" />
+                        </Border>
+                    </StackPanel>
+                </Grid>
             </Grid>
         </Grid>
     </Border>
