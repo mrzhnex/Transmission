@@ -12,7 +12,7 @@ namespace Server
         public void OnServerUpdate(ServerUpdateEvent serverUpdateEvent)
         {
             MainWindow.MainWindowInstance.UpdateServerInfo(serverUpdateEvent.Clients);
-            MainWindow.MainWindowInstance.Time.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { MainWindow.MainWindowInstance.Time.Text = $"{Manage.ServerSession.Server.ConnectionInfo.SessionStartTimeSpan} - {new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second)}"; }));
+            MainWindow.MainWindowInstance.CurrentTime.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { MainWindow.MainWindowInstance.CurrentTime.Text = $"{new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second)}"; }));
         }
 
         public void OnLog(LogEvent logEvent)

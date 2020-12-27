@@ -13,7 +13,7 @@
         <Image x:Key="DeployTwo" Source="/Server;component/Resources/DeployTwo.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
         <Image x:Key="Close" Source="/Server;component/Resources/Close.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
     </Window.Resources>
-    <Border BorderBrush="DarkSlateGray" BorderThickness="2">
+    <Border BorderBrush="MediumPurple" BorderThickness="2">
         <Grid>
             <Grid.Resources>
                 <Style TargetType="TextBlock">

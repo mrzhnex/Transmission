@@ -213,7 +213,9 @@ namespace Client
             Status.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { Status.Text = clientUpdateEvent.ConnectionInfo.ClientStatus.ToString(); }));
             SessionName.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { SessionName.Text = clientUpdateEvent.ConnectionInfo.SessionName; }));
             ServerName.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { ServerName.Text = clientUpdateEvent.ConnectionInfo.ServerName; }));
-            Time.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { Time.Text = $"{clientUpdateEvent.ConnectionInfo.SessionStartTimeSpan} - {new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second)}"; }));
+            SessionTime.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { SessionTime.Text = $"{clientUpdateEvent.ConnectionInfo.SessionStartTimeSpan}"; }));
+            CurrentTime.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { CurrentTime.Text = $"{new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second)}"; }));
+
         }
         public void OnConnect(ConnectEvent connectEvent)
         {
@@ -222,7 +224,8 @@ namespace Client
         public void OnDisconnect(DisconnectEvent disconnectEvent)
         {
             Connect.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { Connect.Content = FindResource("Connection"); }));
-            Time.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { Time.Text = "00:00:00 - 00:00:00"; }));
+            SessionTime.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { SessionTime.Text = "00:00:00"; }));
+            CurrentTime.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { CurrentTime.Text = "00:00:00"; }));
         }
         #endregion
 

@@ -47,7 +47,7 @@
         <Image x:Key="Test2" Source="/Server;component/Resources/Test.png" Height="60" Width="180" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
         <Image x:Key="Test3" Source="/Server;component/Resources/Test.png" Height="60" Width="180" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
     </Window.Resources>
-    <Border BorderBrush="MediumPurple" BorderThickness="4">
+    <Border BorderBrush="MediumPurple" BorderThickness="2">
         <Grid>
             <Grid.Resources>
                 <LinearGradientBrush x:Key="HorizontalBrush" StartPoint="0,0" EndPoint="1,0">
@@ -114,7 +114,7 @@
                     </Setter>
                 </Style>
                 <Style TargetType="TextBlock">
-                    <Setter Property="Margin" Value="4"/>
+                    <Setter Property="Margin" Value="2"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
                     <Setter Property="TextAlignment" Value="Center"/>
                 </Style>
@@ -215,7 +215,16 @@
                         <ColumnDefinition Width="auto"></ColumnDefinition>
                         <ColumnDefinition Width="auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBlock x:Name="Time" Text="00:00:00 - 00:00:00"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Name="SessionTime" Text="00:00:00" ToolTip="начало сессии"/>
+                        <TextBlock Grid.Column="1" Text="-"/>
+                        <TextBlock x:Name="CurrentTime" Grid.Column="2" Text="00:00:00" ToolTip="текущее время"/>
+                    </Grid>
                     <Button x:Name="Settings" Grid.Column="1" Click="Settings_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="настройки">
                         <StaticResource ResourceKey="Settings"/>
                     </Button>

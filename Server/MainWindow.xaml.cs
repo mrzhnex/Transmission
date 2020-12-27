@@ -155,13 +155,15 @@ namespace Server
         #region Client-Server
         public void OnOpen(OpenEvent openEvent)
         {
+            SessionTime.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { SessionTime.Text = $"{Manage.ServerSession.Server.ConnectionInfo.SessionStartTimeSpan}"; }));
             Open.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { Open.Content = FindResource("ConnectionTwo"); }));
         }
         public void OnClose(CloseEvent closeEvent)
         {
             UpdateServerInfo(new List<Client>());
             Open.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { Open.Content = FindResource("Connection"); }));
-            Time.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { Time.Text = "00:00:00 - 00:00:00"; }));
+            SessionTime.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { SessionTime.Text = "00:00:00"; }));
+            CurrentTime.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { CurrentTime.Text = "00:00:00"; }));
 
         }
         public void OnClientDisconnect(ClientDisconnectEvent clientDisconnectEvent)

@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         AllowsTransparency="true"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="300" MinWidth="818" Height="0" Width="0">
+        WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="300" MinWidth="840" Height="0" Width="0">
     <Window.Resources>
         <Image x:Key="Minimize" Source="/Client;component/Resources/Minimize.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
         <Image x:Key="Deploy" Source="/Client;component/Resources/Deploy.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
@@ -97,7 +97,7 @@
                     </Setter>
                 </Style>
                 <Style TargetType="TextBlock">
-                    <Setter Property="Margin" Value="4"/>
+                    <Setter Property="Margin" Value="2"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
                     <Setter Property="TextAlignment" Value="Center"/>
                 </Style>
@@ -181,8 +181,8 @@
                         <TextBlock x:Name="SessionName" Text="сессия"/>
                     </Border>
                 </Grid>
-                <Border Grid.Column="1" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0.6">
-                    <Grid Background="PaleTurquoise">
+                <Border Grid.Column="1" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0.6" Background="PaleTurquoise">
+                    <Grid HorizontalAlignment="Center" Margin="6 0 6 0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -215,9 +215,16 @@
                         </Grid>
                     </Grid>
                 </Border>
-                <Border Grid.Column="2" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0.6">
-                    <Grid Background="PaleGreen">
-                        <TextBlock x:Name="Time" Text="00:00:00 - 00:00:00"/>
+                <Border Grid.Column="2" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0.6" Background="PaleGreen">
+                    <Grid HorizontalAlignment="Center" Margin="6 0 6 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Name="SessionTime" Text="00:00:00" ToolTip="начало сессии"/>
+                        <TextBlock Grid.Column="1" Text="-"/>
+                        <TextBlock x:Name="CurrentTime" Grid.Column="2" Text="00:00:00" ToolTip="текущее время"/>
                     </Grid>
                 </Border>
                 <Border Grid.Column="3" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0.6">
