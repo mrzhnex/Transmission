@@ -26,7 +26,7 @@ E:\Stuff\Transmission\Client\obj\Debug\netcoreapp3.1\Client.dll
 E:\Stuff\Transmission\Client\obj\Debug\netcoreapp3.1\Client.pdb
 E:\Stuff\Transmission\Client\obj\Debug\netcoreapp3.1\Client.genruntimeconfig.cache
 E:\Stuff\Transmission\Client\obj\Debug\netcoreapp3.1\HelpWindow.g.cs
-E:\Stuff\Transmission\Client\obj\Debug\netcoreapp3.1\Client_MarkupCompile.lref
 E:\Stuff\Transmission\Client\obj\Debug\netcoreapp3.1\HelpWindow.baml
 E:\Stuff\Transmission\Client\obj\Debug\netcoreapp3.1\Client.Resource.resources
 E:\Stuff\Transmission\Client\obj\Debug\netcoreapp3.1\Client.csproj.GenerateResource.cache
+E:\Stuff\Transmission\Client\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll

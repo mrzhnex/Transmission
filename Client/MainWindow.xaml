@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         AllowsTransparency="true"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="300" MinWidth="840" Height="0" Width="0">
+        WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="220" MinWidth="840" Height="0" Width="0">
     <Window.Resources>
         <Image x:Key="Minimize" Source="/Client;component/Resources/Minimize.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
         <Image x:Key="Deploy" Source="/Client;component/Resources/Deploy.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
@@ -26,9 +26,6 @@
         <Image x:Key="PlayPrevious" Source="/Client;component/Resources/PlayPrevious.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0"/>
         <Image x:Key="Help" Source="/Client;component/Resources/Help.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
         <Image x:Key="Clients" Source="/Client;component/Resources/Clients.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
-
-        <Image x:Key="Test" Source="/Client;component/Resources/Test.png" Height="100" Width="760" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
-        <Image x:Key="Test2" Source="/Client;component/Resources/Test2.png" Height="100" Width="760" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
     </Window.Resources>
     <Border BorderBrush="MediumPurple" BorderThickness="2">
         <Grid>
@@ -269,14 +266,12 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <StaticResource ResourceKey="Test"/>
             </Grid>
 
             <Grid Grid.Row="3" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <StaticResource ResourceKey="Test2"/>
             </Grid>
 
             <Border Grid.Row="4" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">

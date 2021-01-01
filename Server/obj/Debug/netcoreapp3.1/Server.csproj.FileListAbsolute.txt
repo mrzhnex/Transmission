@@ -31,3 +31,6 @@ E:\Stuff\Transmission\Server\obj\Debug\netcoreapp3.1\ClientWindow.baml
 E:\Stuff\Transmission\Server\obj\Debug\netcoreapp3.1\ClientControl.baml
 E:\Stuff\Transmission\Server\obj\Debug\netcoreapp3.1\ClientControl.g.cs
 E:\Stuff\Transmission\Server\obj\Debug\netcoreapp3.1\GeneratedInternalTypeHelper.g.cs
+E:\Stuff\Transmission\Server\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+E:\Stuff\Transmission\Server\obj\Debug\netcoreapp3.1\HelpWindow.baml
+E:\Stuff\Transmission\Server\obj\Debug\netcoreapp3.1\HelpWindow.g.cs

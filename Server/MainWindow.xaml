@@ -42,10 +42,6 @@
         <Image x:Key="SpeakerCrossed4" Source="/Server;component/Resources/SpeakerCrossed.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
         <Image x:Key="Microphone4" Source="/Server;component/Resources/Microphone.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
         <Image x:Key="MicrophoneCrossed4" Source="/Server;component/Resources/MicrophoneCrossed.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
-
-        <Image x:Key="Test" Source="/Server;component/Resources/Test.png" Height="60" Width="180" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
-        <Image x:Key="Test2" Source="/Server;component/Resources/Test.png" Height="60" Width="180" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
-        <Image x:Key="Test3" Source="/Server;component/Resources/Test.png" Height="60" Width="180" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
     </Window.Resources>
     <Border BorderBrush="MediumPurple" BorderThickness="2">
         <Grid>
@@ -303,7 +299,9 @@
                 <ListBox Grid.Row="1" x:Name="Servers" BorderThickness="0 0 0.6 0">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <local:ClientControl x:Name="ClientControl"/>
+                            <Border BorderBrush="DarkGray" BorderThickness="0 0 0 0.6">
+                                <local:ClientControl x:Name="ClientControl"/>
+                            </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
@@ -312,7 +310,9 @@
                 <ListBox x:Name="Moderators" Drop="Moderators_Drop" AllowDrop="True" BorderThickness="0 0 0.6 0">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <local:ClientControl x:Name="ClientControl"/>
+                            <Border BorderBrush="DarkGray" BorderThickness="0 0 0 0.6">
+                                <local:ClientControl x:Name="ClientControl"/>
+                            </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
@@ -321,40 +321,23 @@
                 <ListBox x:Name="Speakers" Drop="Speakers_Drop" AllowDrop="true" BorderThickness="0 0 0.6 0">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <local:ClientControl x:Name="ClientControl"/>
+                            <Border BorderBrush="DarkGray" BorderThickness="0 0 0 0.6">
+                                <local:ClientControl x:Name="ClientControl"/>
+                            </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <StackPanel>
-                    <Border BorderBrush="DarkGray" BorderThickness="0 0 0 0.6">
-                        <StaticResource ResourceKey="Test3" />
-                    </Border>
-                </StackPanel>
             </Grid>
             <Grid Grid.Column="3" Grid.Row="3">
                 <ListBox x:Name="Listeners" Drop="Listeners_Drop" AllowDrop="true" BorderThickness="0 0 0.6 0">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <local:ClientControl x:Name="ClientControl"/>
+                            <Border BorderBrush="DarkGray" BorderThickness="0 0 0 0.6">
+                                <local:ClientControl x:Name="ClientControl"/>
+                            </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Grid Height="auto">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <StackPanel>
-                        <Border BorderBrush="DarkGray" BorderThickness="0 0 0 0.6">
-                            <StaticResource ResourceKey="Test" />
-                        </Border>
-                    </StackPanel>
-                    <StackPanel Grid.Row="1">
-                        <Border BorderBrush="DarkGray" BorderThickness="0 0 0 0.6">
-                            <StaticResource ResourceKey="Test2" />
-                        </Border>
-                    </StackPanel>
-                </Grid>
             </Grid>
         </Grid>
     </Border>
