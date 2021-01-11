@@ -34,3 +34,6 @@ E:\Stuff\Transmission\Server\obj\Debug\netcoreapp3.1\GeneratedInternalTypeHelper
 E:\Stuff\Transmission\Server\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
 E:\Stuff\Transmission\Server\obj\Debug\netcoreapp3.1\HelpWindow.baml
 E:\Stuff\Transmission\Server\obj\Debug\netcoreapp3.1\HelpWindow.g.cs
+E:\Stuff\Transmission\Server\bin\Debug\netcoreapp3.1\LiveCharts.dll
+E:\Stuff\Transmission\Server\bin\Debug\netcoreapp3.1\LiveCharts.Geared.dll
+E:\Stuff\Transmission\Server\bin\Debug\netcoreapp3.1\LiveCharts.Wpf.dll

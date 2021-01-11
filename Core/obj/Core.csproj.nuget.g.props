@@ -15,4 +15,8 @@
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgLiveCharts_Wpf Condition=" '$(PkgLiveCharts_Wpf)' == '' ">C:\Users\Табула\.nuget\packages\livecharts.wpf\0.9.7</PkgLiveCharts_Wpf>
+    <PkgLiveCharts_Geared Condition=" '$(PkgLiveCharts_Geared)' == '' ">C:\Users\Табула\.nuget\packages\livecharts.geared\1.2.9</PkgLiveCharts_Geared>
+  </PropertyGroup>
 </Project>

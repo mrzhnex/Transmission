@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "RQn7uqUIU+3aSMwCxTKGZlLReCUa+c4GSqPm0/Zm+XBmhBK6SGfRcza0oApPvI9+nJ1JuV0h16YriH1J98pF/w==",
+  "dgSpecHash": "EUWZrb+yFyMowPbsEusViKVLupE8Rio+4WhtRBgXdURxHlWBKVeoicoKQHe2JLerfnP719BqhmQNCXctaQUHSw==",
   "success": true,
   "projectFilePath": "E:\\Stuff\\Transmission\\Mobile\\Mobile.UWP\\Mobile.UWP.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Табула\\.nuget\\packages\\livecharts\\0.9.7\\livecharts.0.9.7.nupkg.sha512",
+    "C:\\Users\\Табула\\.nuget\\packages\\livecharts.geared\\1.2.9\\livecharts.geared.1.2.9.nupkg.sha512",
+    "C:\\Users\\Табула\\.nuget\\packages\\livecharts.wpf\\0.9.7\\livecharts.wpf.0.9.7.nupkg.sha512",
     "C:\\Users\\Табула\\.nuget\\packages\\microsoft.net.native.compiler\\2.1.8\\microsoft.net.native.compiler.2.1.8.nupkg.sha512",
     "C:\\Users\\Табула\\.nuget\\packages\\microsoft.net.uwpcoreruntimesdk\\2.1.2\\microsoft.net.uwpcoreruntimesdk.2.1.2.nupkg.sha512",
     "C:\\Users\\Табула\\.nuget\\packages\\microsoft.netcore.platforms\\2.0.0\\microsoft.netcore.platforms.2.0.0.nupkg.sha512",
@@ -34,5 +37,26 @@
     "C:\\Users\\Табула\\.nuget\\packages\\xamarin.essentials\\1.3.1\\xamarin.essentials.1.3.1.nupkg.sha512",
     "C:\\Users\\Табула\\.nuget\\packages\\xamarin.forms\\4.6.0.847\\xamarin.forms.4.6.0.847.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Пакет \"LiveCharts.Geared 1.2.9\" был восстановлен с помощью \".NETFramework,Version=v4.6.1\", а не целевой платформы проекта \"UAP,Version=v10.0.16299\". Этот пакет может быть не полностью совместим с вашим проектом.",
+      "libraryId": "LiveCharts.Geared",
+      "targetGraphs": [
+        "UAP,Version=v10.0.16299"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Пакет \"LiveCharts.Wpf 0.9.7\" был восстановлен с помощью \".NETFramework,Version=v4.6.1\", а не целевой платформы проекта \"UAP,Version=v10.0.16299\". Этот пакет может быть не полностью совместим с вашим проектом.",
+      "libraryId": "LiveCharts.Wpf",
+      "targetGraphs": [
+        "UAP,Version=v10.0.16299"
+      ]
+    }
+  ]
 }

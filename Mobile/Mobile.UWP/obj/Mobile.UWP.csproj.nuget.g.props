@@ -43,5 +43,7 @@
     <PkgMicrosoft_UI_Xaml Condition=" '$(PkgMicrosoft_UI_Xaml)' == '' ">C:\Users\Табула\.nuget\packages\microsoft.ui.xaml\2.3.191211002</PkgMicrosoft_UI_Xaml>
     <PkgMicrosoft_Net_UWPCoreRuntimeSdk Condition=" '$(PkgMicrosoft_Net_UWPCoreRuntimeSdk)' == '' ">C:\Users\Табула\.nuget\packages\microsoft.net.uwpcoreruntimesdk\2.1.2</PkgMicrosoft_Net_UWPCoreRuntimeSdk>
     <PkgMicrosoft_Net_Native_Compiler Condition=" '$(PkgMicrosoft_Net_Native_Compiler)' == '' ">C:\Users\Табула\.nuget\packages\microsoft.net.native.compiler\2.1.8</PkgMicrosoft_Net_Native_Compiler>
+    <PkgLiveCharts_Wpf Condition=" '$(PkgLiveCharts_Wpf)' == '' ">C:\Users\Табула\.nuget\packages\livecharts.wpf\0.9.7</PkgLiveCharts_Wpf>
+    <PkgLiveCharts_Geared Condition=" '$(PkgLiveCharts_Geared)' == '' ">C:\Users\Табула\.nuget\packages\livecharts.geared\1.2.9</PkgLiveCharts_Geared>
   </PropertyGroup>
 </Project>

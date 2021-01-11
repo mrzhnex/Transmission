@@ -4,6 +4,7 @@ using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using Core.Application;
 using Core.Events;
 using Core.Handlers;
 using Core.Main;
@@ -19,6 +20,8 @@ namespace Client
         public bool IsHelpWindowOpened { get; set; } = false;
         public bool IsSettingsWindowOpened { get; set; } = false;
         public Core.Server.Client Client { get; set; } = new Core.Server.Client(new IPEndPoint(IPAddress.Any, 0), 0, nameof(Client), new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second), nameof(Client), nameof(Client), false);
+        public Spectrum InputSpectrum { get; set; } = new Spectrum(); 
+        public Spectrum OutputSpectrum { get; set; } = new Spectrum();
         public MainWindow()
         {
             InitializeComponent();
@@ -26,7 +29,10 @@ namespace Client
             Manage.Application = new Application();
             Manage.Application.AddEventHandlers(this); 
             Manage.ApplicationManager.Load();
+            OutputSpectrum = (Spectrum)OutputSpectrumControl.DataContext;
+            InputSpectrum = (Spectrum)InputSpectrumControl.DataContext;
         }
+
         public void OnSettingsLoaded(SettingsLoadedEvent settingsLoadedEvent)
         {
             ClientName.Text = settingsLoadedEvent.Settings.ClientName;
@@ -215,7 +221,6 @@ namespace Client
             ServerName.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { ServerName.Text = clientUpdateEvent.ConnectionInfo.ServerName; }));
             SessionTime.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { SessionTime.Text = $"{clientUpdateEvent.ConnectionInfo.SessionStartTimeSpan}"; }));
             CurrentTime.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { CurrentTime.Text = $"{new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second)}"; }));
-
         }
         public void OnConnect(ConnectEvent connectEvent)
         {

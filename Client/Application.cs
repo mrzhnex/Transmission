@@ -2,6 +2,7 @@
 using Core.Handlers;
 using Core.Main;
 using NAudio.Wave;
+using System.Linq;
 
 namespace Client
 {
@@ -50,6 +51,7 @@ namespace Client
         {
             MainWindow.MainWindowInstance.Client.AddAudio(e.Buffer);
             Manage.EventManager.ExecuteEvent<IEventHandlerInput>(new InputEvent(e.Buffer));
+            MainWindow.MainWindowInstance.InputSpectrum.ProcessData(e.Buffer.ToList());
         }
 
         public void OnLog(LogEvent logEvent)
@@ -62,6 +64,7 @@ namespace Client
         {
             MainWindow.MainWindowInstance.Client.AddAudio(outputEvent.Data);
             BufferStream.AddSamples(outputEvent.Data, 0, outputEvent.Data.Length);
+            MainWindow.MainWindowInstance.OutputSpectrum.ProcessData(outputEvent.Data.ToList());
         }
     }
 }

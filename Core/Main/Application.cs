@@ -1,5 +1,6 @@
 ﻿using Core.Events;
 using Core.Handlers;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Core.Main
@@ -8,8 +9,8 @@ namespace Core.Main
     {
         protected internal bool IsInputPrepared { get; set; } = false;
         protected internal bool IsOutputPrepared { get; set; } = false;
-        protected internal bool IsInputNotFound { get; set; } = false;
-        protected internal bool IsOutputNotFound { get; set; } = false;
+        protected internal bool IsInputNotFound { get; set; } = true;
+        protected internal bool IsOutputNotFound { get; set; } = true;
         protected internal abstract bool CanInput();
         protected internal abstract bool CanOutput();
         protected internal abstract void PrepareInput();

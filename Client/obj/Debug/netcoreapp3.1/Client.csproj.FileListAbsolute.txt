@@ -10,7 +10,6 @@ E:\Stuff\Transmission\Client\obj\Debug\netcoreapp3.1\Client_MarkupCompile.cache
 E:\Stuff\Transmission\Client\obj\Debug\netcoreapp3.1\Client.g.resources
 E:\Stuff\Transmission\Client\obj\Debug\netcoreapp3.1\Client.AssemblyInfoInputs.cache
 E:\Stuff\Transmission\Client\obj\Debug\netcoreapp3.1\Client.AssemblyInfo.cs
-E:\Stuff\Transmission\Client\obj\Debug\netcoreapp3.1\Client.csproj.CoreCompileInputs.cache
 E:\Stuff\Transmission\Client\bin\Debug\netcoreapp3.1\Client.exe
 E:\Stuff\Transmission\Client\bin\Debug\netcoreapp3.1\Client.deps.json
 E:\Stuff\Transmission\Client\bin\Debug\netcoreapp3.1\Client.runtimeconfig.json
@@ -30,3 +29,11 @@ E:\Stuff\Transmission\Client\obj\Debug\netcoreapp3.1\HelpWindow.baml
 E:\Stuff\Transmission\Client\obj\Debug\netcoreapp3.1\Client.Resource.resources
 E:\Stuff\Transmission\Client\obj\Debug\netcoreapp3.1\Client.csproj.GenerateResource.cache
 E:\Stuff\Transmission\Client\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+E:\Stuff\Transmission\Client\bin\Debug\netcoreapp3.1\LiveCharts.dll
+E:\Stuff\Transmission\Client\bin\Debug\netcoreapp3.1\LiveCharts.Wpf.dll
+E:\Stuff\Transmission\Client\obj\Debug\netcoreapp3.1\Client.csproj.CoreCompileInputs.cache
+E:\Stuff\Transmission\Client\obj\Debug\netcoreapp3.1\Client_MarkupCompile.lref
+E:\Stuff\Transmission\Client\obj\Debug\netcoreapp3.1\GeneratedInternalTypeHelper.g.cs
+E:\Stuff\Transmission\Client\bin\Debug\netcoreapp3.1\LiveCharts.Geared.dll
+E:\Stuff\Transmission\Client\obj\Debug\netcoreapp3.1\SpectrumControl.g.cs
+E:\Stuff\Transmission\Client\obj\Debug\netcoreapp3.1\SpectrumControl.baml
