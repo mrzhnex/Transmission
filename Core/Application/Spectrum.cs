@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using LiveCharts.Geared;
 
@@ -9,7 +9,7 @@ namespace Core.Application
 {
     public class Spectrum : INotifyPropertyChanged
     {
-        private int KeepValues { get; set; } = 20000;
+        private int KeepValues { get; set; } = 4500;
 
         public Spectrum()
         {
@@ -21,7 +21,7 @@ namespace Core.Application
             this.KeepValues = KeepValues;
         }
 
-        public GearedValues<int> Values { get; set; } = new GearedValues<int>().WithQuality(Quality.Highest);
+        public GearedValues<int> Values { get; set; } = new GearedValues<int>().WithQuality(Quality.Low);
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -34,25 +34,32 @@ namespace Core.Application
 
         public void Update()
         {
+            int length = 10;
             while (true)
             {
-                if (PreValues.Count == 0)
+                if (PreValues.Count < length)
                     continue;
-                int value = PreValues[0];
-                PreValues.RemoveAt(0);
-                var first = Values.DefaultIfEmpty(0).FirstOrDefault();
-                if (Values.Count > KeepValues - 1) Values.Remove(first);
-                if (Values.Count < KeepValues) Values.Add(value);
+                Thread.Sleep(1);
+
+                if (Values.Count > KeepValues - length)
+                {
+                    for (int i = 0; i < length; i++)
+                    {
+                        Values.RemoveAt(0);
+                    }
+                }
+                Values.AddRange(PreValues.GetRange(0, length));
+                PreValues.RemoveRange(0, length);
             }
         }
 
-        public void ProcessData(List<byte> list)
+        public void ProcessData(List<byte> list, bool silent = false)
         {
             byte[] buffer;
             List<int> Amp = new List<int>();
             int volume = 0;
-
             bool end = false;
+
             while (!end)
             {
                 for (int i = 0; i < 16; i++)
@@ -70,6 +77,10 @@ namespace Core.Application
                         break;
                     }
                 }
+                if (silent)
+                    volume /= 100000;
+                else
+                    volume /= 100;
                 Amp.Add(volume);
                 volume = 0;
             }

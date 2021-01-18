@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Stuff\\Transmission\\Core\\Core.csproj": {}
+    "C:\\Users\\Табула\\Desktop\\Transmission\\Core\\Core.csproj": {}
   },
   "projects": {
-    "E:\\Stuff\\Transmission\\Core\\Core.csproj": {
+    "C:\\Users\\Табула\\Desktop\\Transmission\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Stuff\\Transmission\\Core\\Core.csproj",
+        "projectUniqueName": "C:\\Users\\Табула\\Desktop\\Transmission\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "E:\\Stuff\\Transmission\\Core\\Core.csproj",
+        "projectPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Core\\Core.csproj",
         "packagesPath": "C:\\Users\\Табула\\.nuget\\packages\\",
-        "outputPath": "E:\\Stuff\\Transmission\\Core\\obj\\",
+        "outputPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",

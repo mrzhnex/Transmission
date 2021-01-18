@@ -13,7 +13,7 @@ namespace Core.Events
         public override void ExecuteHandler(IEventHandler handler)
         {
             Manage.Logger.Add($"Set {nameof(OutputMuteStatus)} to {OutputMuteStatus}", LogType.Application, LogLevel.Info);
-            Manage.ApplicationManager.Current.OutputMuteStatus = OutputMuteStatus;
+            Manage.ApplicationManager.Current.ClientSettings.OutputMuteStatus = OutputMuteStatus;
             ((IEventHandlerOutputMuteStatusChanged)handler).OnOutputMuteStatusChanged(this);
         }
     }

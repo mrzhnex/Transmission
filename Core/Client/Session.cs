@@ -45,6 +45,12 @@ namespace Core.Client
             Manage.Logger.Add($"Send {nameof(ServerKey)} {Manage.GetStringFromBuffer(ServerKey)} to the server {ServerIpEndPoint}", LogType.Client, LogLevel.Info);
         }
         
+        public void SetUsername(string Username)
+        {
+            this.Username = Username;
+            ConnectionInfo.Username = Username;
+        }
+
         public void OnInput(InputEvent inputEvent)
         {
             if (ClientStage == ClientStage.Connected)
@@ -73,7 +79,7 @@ namespace Core.Client
             Manage.EventManager.ExecuteEvent<IEventHandlerConnect>(new ConnectEvent(ip));
             Manage.Logger.Add($"The server {ServerIpEndPoint} allowed the connection by {key}", LogType.Client, LogLevel.Info);
             ConnectTimeSpan = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-            ConnectionInfo = new ConnectionInfo(0,Username, ConnectTimeSpan);
+            ConnectionInfo = new ConnectionInfo(0, Username, ConnectTimeSpan);
             ClientStage = ClientStage.Connected;
         }
         public void Disconnect(string reason)

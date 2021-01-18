@@ -13,7 +13,7 @@ namespace Core.Events
         public override void ExecuteHandler(IEventHandler handler)
         {
             Manage.Logger.Add($"Set {nameof(InputVolumeValue)} to {InputVolumeValue}", LogType.Application, LogLevel.Info);
-            Manage.ApplicationManager.Current.InputVolumeValue = InputVolumeValue;
+            Manage.ApplicationManager.Current.ClientSettings.InputVolumeValue = InputVolumeValue;
             ((IEventHandlerInputVolumeChanged)handler).OnInputVolumeChanged(this);
         }
     }

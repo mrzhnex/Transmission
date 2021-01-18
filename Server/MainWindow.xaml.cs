@@ -66,7 +66,7 @@ namespace Server
             }
             else
             {
-                Manage.ServerSession = new Session(Manage.DefaultInformation.ServerPort, Manage.DefaultInformation.SessionName, true);
+                Manage.ServerSession = new Session(Manage.ApplicationManager.Current.ServerSettings.Port, Manage.DefaultInformation.SessionName, Manage.ApplicationManager.Current.ServerSettings.Password, true);
             }
         }
         private void Help_Click(object sender, RoutedEventArgs e)
@@ -227,7 +227,7 @@ namespace Server
                     break;
             }
         }
-        private void RefreshLists()
+        public void RefreshLists()
         {
             Servers.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { Servers.Items.Refresh(); }));
             Moderators.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { Moderators.Items.Refresh(); }));

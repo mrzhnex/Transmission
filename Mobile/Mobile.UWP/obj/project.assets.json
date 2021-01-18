@@ -9107,11 +9107,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Stuff\\Transmission\\Mobile\\Mobile.UWP\\Mobile.UWP.csproj",
+      "projectUniqueName": "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile.UWP\\Mobile.UWP.csproj",
       "projectName": "Mobile.UWP",
-      "projectPath": "E:\\Stuff\\Transmission\\Mobile\\Mobile.UWP\\Mobile.UWP.csproj",
+      "projectPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile.UWP\\Mobile.UWP.csproj",
       "packagesPath": "C:\\Users\\Табула\\.nuget\\packages\\",
-      "outputPath": "E:\\Stuff\\Transmission\\Mobile\\Mobile.UWP\\obj\\",
+      "outputPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile.UWP\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
@@ -9134,8 +9134,8 @@
       "frameworks": {
         "uap10.0.16299": {
           "projectReferences": {
-            "E:\\Stuff\\Transmission\\Mobile\\Mobile\\Mobile.csproj": {
-              "projectPath": "E:\\Stuff\\Transmission\\Mobile\\Mobile\\Mobile.csproj"
+            "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile\\Mobile.csproj": {
+              "projectPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile\\Mobile.csproj"
             }
           }
         }

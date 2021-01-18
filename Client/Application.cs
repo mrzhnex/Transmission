@@ -49,9 +49,12 @@ namespace Client
 
         private void Input(object sender, WaveInEventArgs e)
         {
-            MainWindow.MainWindowInstance.Client.AddAudio(e.Buffer);
             Manage.EventManager.ExecuteEvent<IEventHandlerInput>(new InputEvent(e.Buffer));
-            MainWindow.MainWindowInstance.InputSpectrum.ProcessData(e.Buffer.ToList());
+            MainWindow.MainWindowInstance.Client.AddAudio(e.Buffer);
+            if (Manage.ApplicationManager.Current.ClientSettings.InputMuteStatus)
+                MainWindow.MainWindowInstance.InputSpectrum.ProcessData(e.Buffer.ToList(), true);
+            else
+                MainWindow.MainWindowInstance.InputSpectrum.ProcessData(e.Buffer.ToList());
         }
 
         public void OnLog(LogEvent logEvent)
@@ -62,9 +65,12 @@ namespace Client
 
         public void OnOutput(OutputEvent outputEvent)
         {
-            MainWindow.MainWindowInstance.Client.AddAudio(outputEvent.Data);
             BufferStream.AddSamples(outputEvent.Data, 0, outputEvent.Data.Length);
-            MainWindow.MainWindowInstance.OutputSpectrum.ProcessData(outputEvent.Data.ToList());
+            MainWindow.MainWindowInstance.Client.AddAudio(outputEvent.Data);
+            if (Manage.ApplicationManager.Current.ClientSettings.OutputMuteStatus)
+                MainWindow.MainWindowInstance.OutputSpectrum.ProcessData(outputEvent.Data.ToList(), true);
+            else
+                MainWindow.MainWindowInstance.OutputSpectrum.ProcessData(outputEvent.Data.ToList());
         }
     }
 }

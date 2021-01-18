@@ -9,6 +9,8 @@
       "Server/1.0.0": {
         "dependencies": {
           "Core": "1.0.0",
+          "LiveCharts.Geared": "1.2.9",
+          "LiveCharts.Wpf": "0.9.7",
           "Newtonsoft.Json": "10.0.2"
         },
         "runtime": {

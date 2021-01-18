@@ -7,6 +7,8 @@
   </PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="LiveCharts.Geared" Version="1.2.9" />
+		<PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
 		<PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
 	</ItemGroup>
 

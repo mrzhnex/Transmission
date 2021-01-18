@@ -6,35 +6,28 @@
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:local="clr-namespace:Core.Application;assembly=Core"
              mc:Ignorable="d"
-             d:DesignHeight="200" d:DesignWidth="200">
+             d:DesignHeight="100" d:DesignWidth="100">
     <UserControl.DataContext>
         <local:Spectrum/>
     </UserControl.DataContext>
     <Grid>
-        <lvc:CartesianChart DisableAnimations="True" DataTooltip="{x:Null}" Hoverable="False">
+        <lvc:CartesianChart DisableAnimations="True" RenderOptions.BitmapScalingMode="LowQuality" Background="Black" DataTooltip="{x:Null}" Hoverable="False">
             <lvc:CartesianChart.Resources>
                 <Style TargetType="lvc:LineSeries">
-                    <Setter Property="StrokeThickness" Value="0"></Setter>
-                    <Setter Property="Fill" Value="#CC2196F3"></Setter>
-                    <Setter Property="LineSmoothness" Value=".3"></Setter>
-                    <Setter Property="AreaLimit" Value="0"></Setter>
-                </Style>
-                <Style TargetType="lvc:Separator">
-                    <Setter Property="Stroke" Value="#DADADA"></Setter>
-                    <Setter Property="StrokeThickness" Value="2"></Setter>
-                    <Style.Triggers>
-                        <Trigger Property="AxisOrientation" Value="X">
-                            <Setter Property="IsEnabled" Value="False"></Setter>
-                        </Trigger>
-                    </Style.Triggers>
+                    <Setter Property="Stroke" Value="White"/>
+                    <Setter Property="StrokeThickness" Value="0.5"/>
+                    <Setter Property="Fill" Value="CornflowerBlue"/>
                 </Style>
             </lvc:CartesianChart.Resources>
             <lvc:CartesianChart.Series>
-                <lvc:LineSeries Values="{Binding Values}" PointGeometry="{x:Null}"></lvc:LineSeries>
+                <lvc:LineSeries Values="{Binding Values}" PointGeometry="{x:Null}"/>
             </lvc:CartesianChart.Series>
             <lvc:CartesianChart.AxisX>
-                <lvc:Axis MaxValue="20500" ShowLabels="False"></lvc:Axis>
+                <lvc:Axis ShowLabels="False"/>
             </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis ShowLabels="False" MaxValue="1000"/>
+            </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
     </Grid>
 </UserControl>

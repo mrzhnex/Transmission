@@ -1,11 +1,8 @@
 ﻿using Core.Localization;
 using Core.Main;
-using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Threading;
 
 namespace Server
 {
@@ -15,7 +12,8 @@ namespace Server
         {
             InitializeComponent();
             SetLanguageBinding();
-            ServerPortField.Text = Manage.DefaultInformation.ServerPort.ToString();
+            ServerPortField.Text = Manage.ApplicationManager.Current.ServerSettings.Port.ToString();
+            ServerPasswordField.Text = Manage.ApplicationManager.Current.ServerSettings.Password;
             for (int i = 1; i < 4; i++)
             {
                 OutputType.Items.Add($"вид {i}");
@@ -49,7 +47,7 @@ namespace Server
                 Manage.Logger.Add($"Некорректный порт {(sender as TextBox).Text}", LogType.Application, LogLevel.Warn);
                 return;
             }
-            Manage.DefaultInformation.ServerPort = port;
+            Manage.ApplicationManager.Current.ServerSettings.Port = port;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -84,6 +82,21 @@ namespace Server
         private void Grid_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             DragMove();
+        }
+
+        private void ServerPasswordField_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if ((sender as TextBox).Text == null)
+            {
+                Manage.Logger.Add($"Некорректный порт {(sender as TextBox).Text}", LogType.Application, LogLevel.Warn);
+                return;
+            }
+            Manage.ApplicationManager.Current.ServerSettings.Password = (sender as TextBox).Text;
+        }
+
+        private void RecordSaveFolder_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

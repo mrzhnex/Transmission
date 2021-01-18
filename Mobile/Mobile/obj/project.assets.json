@@ -1200,11 +1200,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Stuff\\Transmission\\Mobile\\Mobile\\Mobile.csproj",
+      "projectUniqueName": "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile\\Mobile.csproj",
       "projectName": "Mobile",
-      "projectPath": "E:\\Stuff\\Transmission\\Mobile\\Mobile\\Mobile.csproj",
+      "projectPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile\\Mobile.csproj",
       "packagesPath": "C:\\Users\\Табула\\.nuget\\packages\\",
-      "outputPath": "E:\\Stuff\\Transmission\\Mobile\\Mobile\\obj\\",
+      "outputPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\",
@@ -1226,8 +1226,8 @@
       "frameworks": {
         "netstandard2.0": {
           "projectReferences": {
-            "E:\\Stuff\\Transmission\\Core\\Core.csproj": {
-              "projectPath": "E:\\Stuff\\Transmission\\Core\\Core.csproj"
+            "C:\\Users\\Табула\\Desktop\\Transmission\\Core\\Core.csproj": {
+              "projectPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Core\\Core.csproj"
             }
           }
         }

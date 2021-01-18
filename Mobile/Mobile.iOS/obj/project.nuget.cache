@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MmqHnBJLeyaLB7htuC71CEGmgmUf6hpiAsmac2ycqaYmqe994ad8BZw3emEgweZQE/Ac382WFCze8A7EnlbSYA==",
+  "dgSpecHash": "CZIMCJMCqHB55fGu4crP/zBGcJLmnhjTsshdYN5euRAJKBGwLT22CIeOvcoDFneZ1G3PfOhddLDnjlHbxR0b4g==",
   "success": false,
-  "projectFilePath": "E:\\Stuff\\Transmission\\Mobile\\Mobile.iOS\\Mobile.iOS.csproj",
+  "projectFilePath": "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile.iOS\\Mobile.iOS.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Табула\\.nuget\\packages\\livecharts\\0.9.7\\livecharts.0.9.7.nupkg.sha512",
     "C:\\Users\\Табула\\.nuget\\packages\\livecharts.geared\\1.2.9\\livecharts.geared.1.2.9.nupkg.sha512",

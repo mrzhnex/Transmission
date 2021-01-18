@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Stuff\\Transmission\\Server\\Server.csproj": {}
+    "C:\\Users\\Табула\\Desktop\\Transmission\\Server\\Server.csproj": {}
   },
   "projects": {
-    "E:\\Stuff\\Transmission\\Core\\Core.csproj": {
+    "C:\\Users\\Табула\\Desktop\\Transmission\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Stuff\\Transmission\\Core\\Core.csproj",
+        "projectUniqueName": "C:\\Users\\Табула\\Desktop\\Transmission\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "E:\\Stuff\\Transmission\\Core\\Core.csproj",
+        "projectPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Core\\Core.csproj",
         "packagesPath": "C:\\Users\\Табула\\.nuget\\packages\\",
-        "outputPath": "E:\\Stuff\\Transmission\\Core\\obj\\",
+        "outputPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
@@ -81,14 +81,14 @@
         }
       }
     },
-    "E:\\Stuff\\Transmission\\Server\\Server.csproj": {
+    "C:\\Users\\Табула\\Desktop\\Transmission\\Server\\Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Stuff\\Transmission\\Server\\Server.csproj",
+        "projectUniqueName": "C:\\Users\\Табула\\Desktop\\Transmission\\Server\\Server.csproj",
         "projectName": "Server",
-        "projectPath": "E:\\Stuff\\Transmission\\Server\\Server.csproj",
+        "projectPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Server\\Server.csproj",
         "packagesPath": "C:\\Users\\Табула\\.nuget\\packages\\",
-        "outputPath": "E:\\Stuff\\Transmission\\Server\\obj\\",
+        "outputPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Server\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
@@ -110,8 +110,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "E:\\Stuff\\Transmission\\Core\\Core.csproj": {
-                "projectPath": "E:\\Stuff\\Transmission\\Core\\Core.csproj"
+              "C:\\Users\\Табула\\Desktop\\Transmission\\Core\\Core.csproj": {
+                "projectPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Core\\Core.csproj"
               }
             }
           }
@@ -125,6 +125,14 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "LiveCharts.Geared": {
+              "target": "Package",
+              "version": "[1.2.9, )"
+            },
+            "LiveCharts.Wpf": {
+              "target": "Package",
+              "version": "[0.9.7, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[10.0.2, )"

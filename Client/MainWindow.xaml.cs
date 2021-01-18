@@ -35,14 +35,14 @@ namespace Client
 
         public void OnSettingsLoaded(SettingsLoadedEvent settingsLoadedEvent)
         {
-            ClientName.Text = settingsLoadedEvent.Settings.ClientName;
-            InputVolume.Value = settingsLoadedEvent.Settings.InputVolumeValue;
-            OutputVolume.Value = settingsLoadedEvent.Settings.OutputVolumeValue;
-            if (settingsLoadedEvent.Settings.OutputMuteStatus)
+            ClientName.Text = settingsLoadedEvent.Settings.ClientSettings.ClientName;
+            InputVolume.Value = settingsLoadedEvent.Settings.ClientSettings.InputVolumeValue;
+            OutputVolume.Value = settingsLoadedEvent.Settings.ClientSettings.OutputVolumeValue;
+            if (settingsLoadedEvent.Settings.ClientSettings.OutputMuteStatus)
             {
                 OutputMuteStatus.Content = FindResource("SpeakerCrossed");
             }
-            if (settingsLoadedEvent.Settings.InputMuteStatus)
+            if (settingsLoadedEvent.Settings.ClientSettings.InputMuteStatus)
             {
                 InputMuteStatus.Content = FindResource("MicrophoneCrossed");
             }
@@ -178,7 +178,9 @@ namespace Client
         {
             if ((sender as TextBox).Text != null && (sender as TextBox).Text.Length > 0)
             {
-                Manage.ApplicationManager.Current.ClientName = (sender as TextBox).Text;
+                Manage.ApplicationManager.Current.ClientSettings.ClientName = (sender as TextBox).Text;
+                if (Manage.ClientSession != null)
+                    Manage.ClientSession.SetUsername(Manage.ApplicationManager.Current.ClientSettings.ClientName);
             }
         }
         protected override void OnClosing(CancelEventArgs e)
@@ -189,13 +191,13 @@ namespace Client
         }
         private void InputMuteStatus_Checked(object sender, RoutedEventArgs e)
         {
-            if (((sender as CheckBox).IsChecked == null || (bool)(sender as CheckBox).IsChecked) == Manage.ApplicationManager.Current.InputMuteStatus)
+            if (((sender as CheckBox).IsChecked == null || (bool)(sender as CheckBox).IsChecked) == Manage.ApplicationManager.Current.ClientSettings.InputMuteStatus)
                 return;
             Manage.EventManager.ExecuteEvent<IEventHandlerInputMuteStatusChanged>(new InputMuteStatusChangedEvent((sender as CheckBox).IsChecked == null || (bool)(sender as CheckBox).IsChecked));
         }
         private void OutputMuteStatus_Checked(object sender, RoutedEventArgs e)
         {
-            if (((sender as CheckBox).IsChecked == null || (bool)(sender as CheckBox).IsChecked) == Manage.ApplicationManager.Current.OutputMuteStatus)
+            if (((sender as CheckBox).IsChecked == null || (bool)(sender as CheckBox).IsChecked) == Manage.ApplicationManager.Current.ClientSettings.OutputMuteStatus)
                 return;
             Manage.EventManager.ExecuteEvent<IEventHandlerOutputMuteStatusChanged>(new OutputMuteStatusChangedEvent((sender as CheckBox).IsChecked == null || (bool)(sender as CheckBox).IsChecked));
         }

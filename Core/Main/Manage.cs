@@ -49,18 +49,5 @@ namespace Core.Main
             }
             return result;
         }
-        public static byte[] GenerateNewKey()
-        {
-            byte[] key = new byte[DefaultInformation.KeyLength];
-            Random random = new Random();
-            for (byte i = 0; i < key.Length; i++)
-            {
-                if (i % 2 == 0)
-                    key[i] = (byte)random.Next(1, 3);
-                else
-                    key[i] = (byte)random.Next(0, 2);
-            }
-            return key;
-        }
     }
 }

@@ -1,13 +1,14 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Text;
 using System.Text.RegularExpressions;
 using Core.Main;
 
 namespace Core.Server
 {
-    public class ConnectionInfo
+    public class ConnectionInfo : INotifyPropertyChanged
     {
-
+        public static ConnectionInfo Default = new ConnectionInfo(-1, "Default", TimeSpan.Zero);
         #region static
         public bool IsVerified { get; set; } = false;
         public int Id { get; private set; } = 0;
@@ -18,7 +19,16 @@ namespace Core.Server
         #region client decision
         public bool OutputClientMuteStatus { get; set; } = false;
         public bool InputClientMuteStatus { get; set; } = false;
-        public string Username { get; private set; } = string.Empty;
+        public string Username
+        {
+            get { return username; }
+            set
+            {
+                username = value;
+                OnPropertyChanged("Username");
+            }
+        }
+        private string username;
         #endregion
 
         #region server decision
@@ -32,7 +42,21 @@ namespace Core.Server
         #endregion
         public TimeSpan ConnectionTimeSpan
         {
-            get { return ConnectionDateTime(DateTime.Now); }
+            get
+            {
+                return ConnectionDateTime(DateTime.Now);
+            }
+            set
+            {
+                OnPropertyChanged("ConnectionTimeSpan");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         public object[] Data { get; private set; } = new object[] { };
 
@@ -44,8 +68,11 @@ namespace Core.Server
             this.VerificationMessage = VerificationMessage;
             this.SessionName = SessionName;
             this.ServerName = ServerName;
+            ConnectionTimeSpan = new TimeSpan(0, 0, 0);
             UpdateData();
         }
+
+        public ConnectionInfo() { }
 
         public void SetOutputServerMuteStatus(bool OutputServerMuteStatus)
         {

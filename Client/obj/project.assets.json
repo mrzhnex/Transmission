@@ -5607,11 +5607,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Stuff\\Transmission\\Client\\Client.csproj",
+      "projectUniqueName": "C:\\Users\\Табула\\Desktop\\Transmission\\Client\\Client.csproj",
       "projectName": "Client",
-      "projectPath": "E:\\Stuff\\Transmission\\Client\\Client.csproj",
+      "projectPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Client\\Client.csproj",
       "packagesPath": "C:\\Users\\Табула\\.nuget\\packages\\",
-      "outputPath": "E:\\Stuff\\Transmission\\Client\\obj\\",
+      "outputPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Client\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\",
@@ -5633,8 +5633,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "E:\\Stuff\\Transmission\\Core\\Core.csproj": {
-              "projectPath": "E:\\Stuff\\Transmission\\Core\\Core.csproj"
+            "C:\\Users\\Табула\\Desktop\\Transmission\\Core\\Core.csproj": {
+              "projectPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Core\\Core.csproj"
             }
           }
         }

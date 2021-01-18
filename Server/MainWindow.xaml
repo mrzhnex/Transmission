@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         AllowsTransparency="true"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="250" MinWidth="750" Height="0" Width="0">
+        WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="250" MinWidth="950" Height="0" Width="0">
     <Window.Resources>
         <Image x:Key="Minimize" Source="/Server;component/Resources/Minimize.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
         <Image x:Key="Deploy" Source="/Server;component/Resources/Deploy.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
@@ -301,7 +301,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="DarkGray" BorderThickness="0 0 0 0.6">
-                                <local:ClientControl x:Name="ClientControl"/>
+                                <local:ClientControl x:Name="ClientControl" HorizontalAlignment="Center"/>
                             </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -312,7 +312,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="DarkGray" BorderThickness="0 0 0 0.6">
-                                <local:ClientControl x:Name="ClientControl"/>
+                                <local:ClientControl x:Name="ClientControl" HorizontalAlignment="Center" />
                             </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -323,7 +323,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="DarkGray" BorderThickness="0 0 0 0.6">
-                                <local:ClientControl x:Name="ClientControl"/>
+                                <local:ClientControl x:Name="ClientControl" HorizontalAlignment="Center"/>
                             </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -334,7 +334,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="DarkGray" BorderThickness="0 0 0 0.6">
-                                <local:ClientControl x:Name="ClientControl"/>
+                                <local:ClientControl x:Name="ClientControl" HorizontalAlignment="Center"/>
                             </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

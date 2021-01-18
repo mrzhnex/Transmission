@@ -97,10 +97,6 @@
       <Project>{9ab4a600-f3e3-495d-baf6-55d311f48d0b}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mobile\Mobile.csproj">
-      <Project>{375537be-6658-4fd7-a002-68224f7c2c1f}</Project>
-      <Name>Mobile</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>

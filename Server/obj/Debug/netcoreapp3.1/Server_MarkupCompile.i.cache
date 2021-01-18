@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-E:\Stuff\Transmission\Server\obj\Debug\netcoreapp3.1\
+C:\Users\Табула\Desktop\Transmission\Server\obj\Debug\netcoreapp3.1\
 Server
 none
 false
 TRACE;DEBUG;NETCOREAPP;NETCOREAPP3_1
-E:\Stuff\Transmission\Server\App.xaml
-51697396710
+C:\Users\Табула\Desktop\Transmission\Server\App.xaml
+6949618044
 
-11-1548483149
-199-1405120505
-ClientControl.xaml;ClientWindow.xaml;HelpWindow.xaml;MainWindow.xaml;SettingsWindow.xaml;
+12459147978
+199-274946045
+ClientControl.xaml;ClientWindow.xaml;HelpWindow.xaml;MainWindow.xaml;SettingsWindow.xaml;SpectrumControl.xaml;
 
 True
 

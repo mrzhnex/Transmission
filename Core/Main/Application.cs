@@ -1,5 +1,6 @@
 ﻿using Core.Events;
 using Core.Handlers;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -16,7 +17,6 @@ namespace Core.Main
         protected internal abstract void PrepareInput();
         protected internal abstract void PrepareOutput();
         private Thread Thread { get; set; }
-
         public Application()
         {
             Thread = new Thread(OutputThread);

@@ -1,30 +1,48 @@
-﻿using Core.Events;
+﻿using Core.Application;
+using Core.Events;
 using Core.Handlers;
 using Core.Main;
 using Core.Server;
 using System;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Threading;
 
 namespace Server
 {
     public partial class ClientWindow : Window, IEventHandlerClientUpdate
     {
-        public ClientWindow(ConnectionInfo ConnectionInfo)
+        public Spectrum InputSpectrum { get; set; } = new Spectrum();
+        public Spectrum OutputSpectrum { get; set; } = new Spectrum();
+
+        private int Id { get; set; } = 0;
+
+        public ClientWindow(int Id)
         {
-            DataContext = ConnectionInfo;
+            this.Id = Id;
             InitializeComponent();
+
+            Binding binding = new Binding
+            {
+                Source = Manage.ServerSession.Clients.FirstOrDefault(x => x.ConnectionInfo.Id == Id).ConnectionInfo,
+                Mode = BindingMode.TwoWay,
+                Path = new PropertyPath(nameof(Username))
+            };
+
+            BindingOperations.SetBinding(Username, TextBlock.TextProperty, binding);
+
             Manage.Application.AddEventHandlers(this);
+            InputSpectrum = (Spectrum)InputSpectrumControl.DataContext;
+            OutputSpectrum = (Spectrum)OutputSpectrumControl.DataContext;
         }
 
         #region Client
 
         private void Disconnect_Click(object sender, RoutedEventArgs e)
         {
-            ConnectionInfo connectionInfo = new ConnectionInfo(-1, "Default", TimeSpan.Zero);
-            System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { connectionInfo = DataContext as ConnectionInfo; }));
-            Manage.ServerSession.DisconnectClient(Manage.ServerSession.Clients.FirstOrDefault(x => x.ConnectionInfo.Id == connectionInfo.Id), "Server discision");
+            Manage.ServerSession.DisconnectClient(Manage.ServerSession.Clients.FirstOrDefault(x => x.ConnectionInfo.Id == Id), "Server discision");
             Close();
         }
         private void OutputMuteStatus_Click(object sender, RoutedEventArgs e)
@@ -79,20 +97,13 @@ namespace Server
 
         public void OnClientUpdate(ClientUpdateEvent clientUpdateEvent)
         {
-            ConnectionInfo connectionInfo = new ConnectionInfo(-1, "Default", TimeSpan.Zero);
-            System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { connectionInfo = DataContext as ConnectionInfo; }));
-            if (connectionInfo.Id == clientUpdateEvent.ConnectionInfo.Id)
-            {
-                System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { DataContext = clientUpdateEvent.ConnectionInfo; }));
-            }
+
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            ConnectionInfo connectionInfo = new ConnectionInfo(-1, "Default", TimeSpan.Zero);
-            System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { connectionInfo = DataContext as ConnectionInfo; }));
-            if (MainWindow.MainWindowInstance.OpenedClients.Contains(connectionInfo.Id))
-                MainWindow.MainWindowInstance.OpenedClients.Remove(connectionInfo.Id);
+            if (MainWindow.MainWindowInstance.OpenedClients.Contains(Id))
+                MainWindow.MainWindowInstance.OpenedClients.Remove(Id);
         }
 
         private void Settings_Click(object sender, RoutedEventArgs e)

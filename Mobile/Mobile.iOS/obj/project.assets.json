@@ -1958,11 +1958,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Stuff\\Transmission\\Mobile\\Mobile.iOS\\Mobile.iOS.csproj",
+      "projectUniqueName": "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile.iOS\\Mobile.iOS.csproj",
       "projectName": "Mobile.iOS",
-      "projectPath": "E:\\Stuff\\Transmission\\Mobile\\Mobile.iOS\\Mobile.iOS.csproj",
+      "projectPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile.iOS\\Mobile.iOS.csproj",
       "packagesPath": "C:\\Users\\Табула\\.nuget\\packages\\",
-      "outputPath": "E:\\Stuff\\Transmission\\Mobile\\Mobile.iOS\\obj\\",
+      "outputPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile.iOS\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
@@ -1984,8 +1984,8 @@
       "frameworks": {
         "xamarinios10": {
           "projectReferences": {
-            "E:\\Stuff\\Transmission\\Mobile\\Mobile\\Mobile.csproj": {
-              "projectPath": "E:\\Stuff\\Transmission\\Mobile\\Mobile\\Mobile.csproj"
+            "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile\\Mobile.csproj": {
+              "projectPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile\\Mobile.csproj"
             }
           }
         }

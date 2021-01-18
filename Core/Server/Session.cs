@@ -21,7 +21,7 @@ namespace Core.Server
         public List<Client> Clients { get; private set; } = new List<Client>();
         public List<Client> DisconnectedClients { get; private set; } = new List<Client>();
         private List<IPAddress> Blacklist { get; set; } = new List<IPAddress>();
-        private byte[] Key { get; set; } = new byte[] { };
+        private string Password { get; set; } = string.Empty;
         private Thread CloseThread { get; set; }
         private Thread StartThread { get; set; }
         private Thread SendingThread { get; set; }
@@ -40,10 +40,11 @@ namespace Core.Server
 
         public Client Server { get; set; } = new Client(new IPEndPoint(IPAddress.Any, 0), 0, nameof(Server), new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second), nameof(Name), nameof(ServerName), false);
 
-        public Session(int Port, string Name, bool StartServerAnyway = false)
+        public Session(int Port, string Name, string Password, bool StartServerAnyway = false)
         {
             Manage.Logger.Add("The server is starting...", LogType.Server, LogLevel.Debug);
             this.Port = Port;
+            this.Password = Password;
             NatUtility.DeviceFound += DeviceFound;
             NatUtility.StartDiscovery();
             ListeningThread = new Thread(new ThreadStart(Listening));
@@ -72,7 +73,6 @@ namespace Core.Server
             }
             if (StartServerAnyway)
             {
-                Key = Manage.GenerateNewKey();
                 ListeningSocket.Bind(new IPEndPoint(IPAddress.Any, this.Port));
                 StartThread.Start();
             }
@@ -80,6 +80,11 @@ namespace Core.Server
             {
                 CloseThread.Start();
             }
+        }
+
+        public void SetPassword(string Password)
+        {
+            this.Password = Password;
         }
 
         #region Events
@@ -154,8 +159,8 @@ namespace Core.Server
         private void Open()
         {
             while (Manage.ServerSession == null) { }
-            Manage.Logger.Add($"{nameof(Key)} is {Manage.GetStringFromBuffer(Key)}", LogType.Server, LogLevel.Info);
-            Manage.EventManager.ExecuteEvent<IEventHandlerOpen>(new OpenEvent(Key));
+            Manage.Logger.Add($"{nameof(Password)} is {Password}", LogType.Server, LogLevel.Info);
+            Manage.EventManager.ExecuteEvent<IEventHandlerOpen>(new OpenEvent(Password));
             Manage.Logger.Add($"The server is open at {ListeningSocket.LocalEndPoint}", LogType.Server, LogLevel.Info);
             ServerStage = ServerStage.Open;
             ListeningThread.Start();
@@ -209,11 +214,11 @@ namespace Core.Server
         }
         private bool IsKey(byte[] data)
         {
-            if (Key.Length > data.Length)
+            if (Password.Length > data.Length)
                 return false;
-            for (int i = 0; i < Key.Length; i++)
+            for (int i = 0; i < Password.Length; i++)
             {
-                if (Key[i] != data[i])
+                if (Password[i] != data[i])
                     return false;
             }
             return true;
@@ -278,7 +283,7 @@ namespace Core.Server
         {
             Client client = new Client(iPEndPoint, Clients.Count + DisconnectedClients.Count, "Username", Server.ConnectionInfo.SessionStartTimeSpan, Name, ServerName);
             Clients.Add(client);
-            SendData(Key, client.Socket);
+            SendData(Encoding.ASCII.GetBytes(Password), client.Socket);
             Manage.Logger.Add($"The user {client.Socket} has connected to the server. Create new {nameof(client.ConnectionInfo.Key)} {Manage.GetStringFromBuffer(client.ConnectionInfo.Key())}", LogType.Server, LogLevel.Info);
 
             new Thread(delegate ()
@@ -386,7 +391,7 @@ namespace Core.Server
                     }
                     else
                     {
-                        BlockClient(iPEndPoint, $"by wrong {nameof(Key)} {Manage.GetStringFromBuffer(data)}");
+                        BlockClient(iPEndPoint, $"by wrong {nameof(Password)} {Manage.GetStringFromBuffer(data)}");
                     }
                 }
             }

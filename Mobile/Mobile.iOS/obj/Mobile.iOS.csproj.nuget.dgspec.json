@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Stuff\\Transmission\\Mobile\\Mobile.iOS\\Mobile.iOS.csproj": {}
+    "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile.iOS\\Mobile.iOS.csproj": {}
   },
   "projects": {
-    "E:\\Stuff\\Transmission\\Core\\Core.csproj": {
+    "C:\\Users\\Табула\\Desktop\\Transmission\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Stuff\\Transmission\\Core\\Core.csproj",
+        "projectUniqueName": "C:\\Users\\Табула\\Desktop\\Transmission\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "E:\\Stuff\\Transmission\\Core\\Core.csproj",
+        "projectPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Core\\Core.csproj",
         "packagesPath": "C:\\Users\\Табула\\.nuget\\packages\\",
-        "outputPath": "E:\\Stuff\\Transmission\\Core\\obj\\",
+        "outputPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
@@ -81,14 +81,14 @@
         }
       }
     },
-    "E:\\Stuff\\Transmission\\Mobile\\Mobile.iOS\\Mobile.iOS.csproj": {
+    "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile.iOS\\Mobile.iOS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Stuff\\Transmission\\Mobile\\Mobile.iOS\\Mobile.iOS.csproj",
+        "projectUniqueName": "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile.iOS\\Mobile.iOS.csproj",
         "projectName": "Mobile.iOS",
-        "projectPath": "E:\\Stuff\\Transmission\\Mobile\\Mobile.iOS\\Mobile.iOS.csproj",
+        "projectPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile.iOS\\Mobile.iOS.csproj",
         "packagesPath": "C:\\Users\\Табула\\.nuget\\packages\\",
-        "outputPath": "E:\\Stuff\\Transmission\\Mobile\\Mobile.iOS\\obj\\",
+        "outputPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile.iOS\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "fallbackFolders": [
@@ -110,8 +110,8 @@
         "frameworks": {
           "xamarinios10": {
             "projectReferences": {
-              "E:\\Stuff\\Transmission\\Mobile\\Mobile\\Mobile.csproj": {
-                "projectPath": "E:\\Stuff\\Transmission\\Mobile\\Mobile\\Mobile.csproj"
+              "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile\\Mobile.csproj": {
+                "projectPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile\\Mobile.csproj"
               }
             }
           }
@@ -143,14 +143,14 @@
         }
       }
     },
-    "E:\\Stuff\\Transmission\\Mobile\\Mobile\\Mobile.csproj": {
+    "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile\\Mobile.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Stuff\\Transmission\\Mobile\\Mobile\\Mobile.csproj",
+        "projectUniqueName": "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile\\Mobile.csproj",
         "projectName": "Mobile",
-        "projectPath": "E:\\Stuff\\Transmission\\Mobile\\Mobile\\Mobile.csproj",
+        "projectPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile\\Mobile.csproj",
         "packagesPath": "C:\\Users\\Табула\\.nuget\\packages\\",
-        "outputPath": "E:\\Stuff\\Transmission\\Mobile\\Mobile\\obj\\",
+        "outputPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Mobile\\Mobile\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
@@ -172,8 +172,8 @@
         "frameworks": {
           "netstandard2.0": {
             "projectReferences": {
-              "E:\\Stuff\\Transmission\\Core\\Core.csproj": {
-                "projectPath": "E:\\Stuff\\Transmission\\Core\\Core.csproj"
+              "C:\\Users\\Табула\\Desktop\\Transmission\\Core\\Core.csproj": {
+                "projectPath": "C:\\Users\\Табула\\Desktop\\Transmission\\Core\\Core.csproj"
               }
             }
           }

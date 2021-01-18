@@ -4,10 +4,10 @@ namespace Core.Events
 {
     public class OpenEvent : Event
     {
-        public byte[] Key { get; set; } = new byte[0];
-        public OpenEvent(byte[] Key)
+        public string Password { get; set; } = string.Empty;
+        public OpenEvent(string Password)
         {
-            this.Key = Key;
+            this.Password = Password;
         }
         public override void ExecuteHandler(IEventHandler handler)
         {
