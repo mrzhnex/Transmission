@@ -4,14 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:notlocal="clr-namespace:Server"
-        xmlns:local="clr-namespace:Core.Server;assembly=Core"
         mc:Ignorable="d"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         Closing="Window_Closing"
         AllowsTransparency="true"
-        WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="180" MinWidth="300" Height="0" Width="0">
+        WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="160" MinWidth="400" Height="0" Width="0">
     <Window.Resources>
-        <local:ConnectionInfo x:Key="ConnectionInfoContext"/>
         <Style x:Key="NonDefaultMouseOverEffect" TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True" />
             <Setter Property="Cursor" Value="Hand" />
@@ -30,100 +28,163 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Image x:Key="Minimize" Source="/Server;component/Resources/Minimize.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
-        <Image x:Key="Deploy" Source="/Server;component/Resources/Deploy.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
-        <Image x:Key="DeployTwo" Source="/Server;component/Resources/DeployTwo.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
-        <Image x:Key="Close" Source="/Server;component/Resources/Close.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
-        <Image x:Key="Settings" Source="/Server;component/Resources/Settings.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
-        <Image x:Key="ConnectionTwo" Source="/Server;component/Resources/ConnectionTwo.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
-        <Image x:Key="Speaker" Source="/Server;component/Resources/Speaker.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
-        <Image x:Key="SpeakerCrossed" Source="/Server;component/Resources/SpeakerCrossed.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
-        <Image x:Key="Microphone" Source="/Server;component/Resources/Microphone.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
-        <Image x:Key="MicrophoneCrossed" Source="/Server;component/Resources/MicrophoneCrossed.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
+        <Image x:Key="Minimize" Source="/Server;component/Resources/Minimize.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
+        <Image x:Key="Deploy" Source="/Server;component/Resources/Deploy.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
+        <Image x:Key="DeployTwo" Source="/Server;component/Resources/DeployTwo.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
+        <Image x:Key="Close" Source="/Server;component/Resources/Close.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
+        <Image x:Key="Settings" Source="/Server;component/Resources/Settings.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
+        <Image x:Key="ConnectionTwo" Source="/Server;component/Resources/ConnectionTwo.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
+        <Image x:Key="Speaker" Source="/Server;component/Resources/Speaker.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
+        <Image x:Key="SpeakerCrossed" Source="/Server;component/Resources/SpeakerCrossed.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
+        <Image x:Key="Microphone" Source="/Server;component/Resources/Microphone.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
+        <Image x:Key="MicrophoneCrossed" Source="/Server;component/Resources/MicrophoneCrossed.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
     </Window.Resources>
-    <Grid Margin="5">
-        <Grid.Resources>
-            <Style TargetType="Slider">
-                <Setter Property="Margin" Value="4"/>
-            </Style>
-            <Style TargetType="TextBlock">
-                <Setter Property="Margin" Value="4"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="TextAlignment" Value="Center"/>
-            </Style>
-        </Grid.Resources>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid Background="LightPink">
-            <Button x:Name="Disconnect" Click="Disconnect_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderThickness="0">
-                <StaticResource ResourceKey="ConnectionTwo"/>
-            </Button>
-        </Grid>
-        <Grid Grid.Row="1" Background="LightGoldenrodYellow">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition Height="auto"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Button x:Name="OutputMuteStatus" Click="OutputMuteStatus_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderThickness="0">
-                <DynamicResource ResourceKey="Speaker"/>
-            </Button>
-            <Slider x:Name="InputVolume" Grid.Row="1" Maximum="1.0" Value="1.0" ValueChanged="InputVolume_ValueChanged"/>
-        </Grid>
-        <Grid Grid.Row="2" Background="LightGoldenrodYellow">
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-            <Button x:Name="InputMuteStatus" Click="InputMuteStatus_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderThickness="0">
-                <DynamicResource ResourceKey="Microphone"/>
-            </Button>
-            <Slider x:Name="OutputVolume" Grid.Row="1" Maximum="1.0" Value="1.0" ValueChanged="OutputVolume_ValueChanged"/>
-        </Grid>
+    <Border BorderBrush="MediumPurple" BorderThickness="2">
+        <Grid>
+            <Grid.Resources>
+                <LinearGradientBrush x:Key="HorizontalBrush" StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="Black" Offset="1.0" />
+                </LinearGradientBrush>
+                <Style x:Key="SliderThumbStyle" TargetType="Thumb">
+                    <Setter Property="SnapsToDevicePixels" Value="true"/>
+                    <Setter Property="OverridesDefaultStyle" Value="false"/>
+                    <Setter Property="Height" Value="20"/>
+                    <Setter Property="Width" Value="15"/>
+                    <Setter Property="SnapsToDevicePixels" Value="true"/>
+                    <Setter Property="OverridesDefaultStyle" Value="true"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Thumb}">
+                                <Rectangle Fill="Azure" Stroke="Black" Height="18" Width="8" StrokeThickness="1" Margin="0" RadiusX="15" RadiusY="2"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <Style TargetType="Slider">
+                    <Setter Property="Margin" Value="4"/>
+                    <Setter Property="OverridesDefaultStyle" Value="true"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Width" Value="30"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Slider">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" Name="row" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*" Name="column" />
+                                        <ColumnDefinition Width="auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Name="PART_Border" 
+                            BorderBrush="Black" BorderThickness="1" 
+                            Padding="1.5"
+                            CornerRadius="4" 
+                            Grid.Row="1" Grid.Column="1"
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}"
+                            Background="{StaticResource HorizontalBrush}"
+                            HorizontalAlignment="Stretch"  
+                            VerticalAlignment="Center" />
+                                    <Track Name="PART_Track" 
+                               HorizontalAlignment="Stretch" 
+                               VerticalAlignment="Center"   
+                               Grid.Row="1" Grid.Column="1"
+                               Width="{TemplateBinding Width}" 
+                               Height="{TemplateBinding Height}">
+                                        <Track.Thumb>
+                                            <Thumb Style="{StaticResource SliderThumbStyle}" />
+                                        </Track.Thumb>
+                                    </Track>
+                                </Grid>
 
-        <Grid Grid.Column="1" Background="LightPink">
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="2"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                </Style>
+            </Grid.Resources>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button x:Name="Settings" Click="Settings_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderThickness="0">
-                <StaticResource ResourceKey="Settings"/>
-            </Button>
-            <TextBlock Grid.Column="1" x:Name="ClientStatus"/>
-            <TextBlock Grid.Column="2" x:Name="Username"/>
-            <TextBlock Grid.Column="3" x:Name="ConnectionTimeSpan"/>
-            <Grid Grid.Column="4" HorizontalAlignment="Right">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Background="LightPink">
+                <Button x:Name="Disconnect" Click="Disconnect_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderThickness="0">
+                    <StaticResource ResourceKey="ConnectionTwo"/>
+                </Button>
+            </Grid>
+            <Grid Grid.Row="1" Background="LightGoldenrodYellow">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Button x:Name="OutputMuteStatus" Click="OutputMuteStatus_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderThickness="0">
+                    <DynamicResource ResourceKey="Speaker"/>
+                </Button>
+                <Slider x:Name="InputVolume" Grid.Row="1" Maximum="1.0" Value="1.0" ValueChanged="InputVolume_ValueChanged"/>
+            </Grid>
+            <Grid Grid.Row="2" Background="LightGoldenrodYellow">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Button x:Name="InputMuteStatus" Click="InputMuteStatus_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderThickness="0">
+                    <DynamicResource ResourceKey="Microphone"/>
+                </Button>
+                <Slider x:Name="OutputVolume" Grid.Row="1" Maximum="1.0" Value="1.0" ValueChanged="OutputVolume_ValueChanged"/>
+            </Grid>
+
+            <Grid Grid.Column="1" Background="LightPink">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="Minimize" Click="Minimize_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderThickness="0">
-                    <StaticResource ResourceKey="Minimize"/>
+                <Button x:Name="Settings" Click="Settings_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderThickness="0">
+                    <StaticResource ResourceKey="Settings"/>
                 </Button>
-                <Button x:Name="Deploy" Grid.Column="1" Click="Deploy_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderThickness="0">
-                    <DynamicResource ResourceKey="Deploy"/>
-                </Button>
-                <Button x:Name="CloseButton" Grid.Column="2" Click="Close_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderThickness="0">
-                    <StaticResource ResourceKey="Close"/>
-                </Button>
+                <TextBlock Grid.Column="1" x:Name="ClientStatus"/>
+                <TextBlock Grid.Column="2" x:Name="Username"/>
+                <TextBlock Grid.Column="3" x:Name="ConnectionTimeSpan"/>
+                <Grid Grid.Column="4" HorizontalAlignment="Right">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="Minimize" Click="Minimize_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderThickness="0">
+                        <StaticResource ResourceKey="Minimize"/>
+                    </Button>
+                    <Button x:Name="Deploy" Grid.Column="1" Click="Deploy_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderThickness="0">
+                        <DynamicResource ResourceKey="Deploy"/>
+                    </Button>
+                    <Button x:Name="CloseButton" Grid.Column="2" Click="Close_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderThickness="0">
+                        <StaticResource ResourceKey="Close"/>
+                    </Button>
+                </Grid>
             </Grid>
+            
+            <Grid Grid.Row="1" Grid.Column="1" Background="LightGoldenrodYellow">
+                <Grid Background="Black" Margin="4" />
+            </Grid>
+            <Grid Grid.Row="2" Grid.Column="1" Background="LightGoldenrodYellow">
+                <notlocal:SpectrumControl x:Name="InputSpectrumControl" Margin="4"/>
+            </Grid>
+            
         </Grid>
-
-        <Grid Grid.Row="1" Grid.Column="1">
-            <notlocal:SpectrumControl x:Name="OutputSpectrumControl"/>
-        </Grid>
-        <Grid Grid.Row="2" Grid.Column="1">
-            <notlocal:SpectrumControl x:Name="InputSpectrumControl"/>
-        </Grid>
-    </Grid>
+    </Border>
 </Window>

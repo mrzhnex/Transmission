@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
+using Core.Main;
 using LiveCharts.Geared;
 
 namespace Core.Application
 {
-    public class Spectrum : INotifyPropertyChanged
+    public class Spectrum
     {
-        private int KeepValues { get; set; } = 4500;
+        private int KeepValues { get; set; } = 10000;
+        public GearedValues<double> Values { get; set; } = new GearedValues<double>().WithQuality(Quality.Low);
+        private List<double> PreValues { get; set; } = new List<double>();
 
         public Spectrum()
         {
-            Task.Run(Update);
+            new Thread(Update).Start();
         }
 
         public void SetKeepValues(int KeepValues)
@@ -21,26 +21,14 @@ namespace Core.Application
             this.KeepValues = KeepValues;
         }
 
-        public GearedValues<int> Values { get; set; } = new GearedValues<int>().WithQuality(Quality.Low);
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName = null)
+        private void Update()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public List<int> PreValues { get; set; } = new List<int>();
-
-        public void Update()
-        {
-            int length = 10;
-            while (true)
+            int length = 70;
+            while (Manage.Logger.ActiveLog)
             {
                 if (PreValues.Count < length)
                     continue;
                 Thread.Sleep(1);
-
                 if (Values.Count > KeepValues - length)
                 {
                     for (int i = 0; i < length; i++)
@@ -53,38 +41,25 @@ namespace Core.Application
             }
         }
 
-        public void ProcessData(List<byte> list, bool silent = false)
+        public unsafe void ProcessData(byte[] input, bool silent = false)
         {
-            byte[] buffer;
-            List<int> Amp = new List<int>();
-            int volume = 0;
-            bool end = false;
-
-            while (!end)
+            var bufferA = new double[input.Length / 4];
+            fixed (byte* pSource = input)
+            fixed (double* pBufferA = bufferA)
             {
-                for (int i = 0; i < 16; i++)
+                var pLen = pSource + input.Length;
+                double* pA = pBufferA;
+                for (var pS = pSource; pS < pLen; pS += 4, pA++)
                 {
-                    if (list.Count >= 4)
-                    {
-                        buffer = list.GetRange(0, 4).ToArray();
-                        list.RemoveRange(0, 4);
-                        if (volume < BitConverter.ToInt16(buffer, 0))
-                            volume = BitConverter.ToInt16(buffer, 0);
-                    }
+                    if (silent)
+                        *pA = *(short*)pS / 100000;
                     else
-                    {
-                        end = true;
-                        break;
-                    }
+                        *pA = *(short*)pS / 200;
+                    if (*pA < 0)
+                        *pA = 0;
+                    PreValues.Add(*pA);
                 }
-                if (silent)
-                    volume /= 100000;
-                else
-                    volume /= 100;
-                Amp.Add(volume);
-                volume = 0;
             }
-            PreValues.AddRange(Amp);
         }
     }
 }

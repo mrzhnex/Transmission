@@ -2,40 +2,44 @@
 using Core.Events;
 using Core.Handlers;
 using Core.Main;
-using Core.Server;
-using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Threading;
 
 namespace Server
 {
-    public partial class ClientWindow : Window, IEventHandlerClientUpdate
+    public partial class ClientWindow : Window, IEventHandlerSpectrumUpdate, IEventHandlerClientUpdate
     {
         public Spectrum InputSpectrum { get; set; } = new Spectrum();
-        public Spectrum OutputSpectrum { get; set; } = new Spectrum();
 
-        private int Id { get; set; } = 0;
+        public int Id { get; set; } = 0;
 
         public ClientWindow(int Id)
         {
             this.Id = Id;
             InitializeComponent();
 
-            Binding binding = new Binding
+            BindingOperations.SetBinding(Username, TextBlock.TextProperty, new Binding
             {
                 Source = Manage.ServerSession.Clients.FirstOrDefault(x => x.ConnectionInfo.Id == Id).ConnectionInfo,
                 Mode = BindingMode.TwoWay,
                 Path = new PropertyPath(nameof(Username))
-            };
-
-            BindingOperations.SetBinding(Username, TextBlock.TextProperty, binding);
-
-            Manage.Application.AddEventHandlers(this);
+            });
+            BindingOperations.SetBinding(ClientStatus, TextBlock.TextProperty, new Binding
+            {
+                Source = Manage.ServerSession.Clients.FirstOrDefault(x => x.ConnectionInfo.Id == Id).ConnectionInfo,
+                Mode = BindingMode.TwoWay,
+                Path = new PropertyPath(nameof(ClientStatus))
+            });
+            BindingOperations.SetBinding(ConnectionTimeSpan, TextBlock.TextProperty, new Binding
+            {
+                Source = Manage.ServerSession.Clients.FirstOrDefault(x => x.ConnectionInfo.Id == Id).ConnectionInfo,
+                Mode = BindingMode.TwoWay,
+                Path = new PropertyPath(nameof(ConnectionTimeSpan))
+            });
             InputSpectrum = (Spectrum)InputSpectrumControl.DataContext;
-            OutputSpectrum = (Spectrum)OutputSpectrumControl.DataContext;
+            Manage.Application.AddEventHandlers(this);
         }
 
         #region Client
@@ -95,20 +99,31 @@ namespace Server
             DragMove();
         }
 
-        public void OnClientUpdate(ClientUpdateEvent clientUpdateEvent)
-        {
-
-        }
-
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (MainWindow.MainWindowInstance.OpenedClients.Contains(Id))
-                MainWindow.MainWindowInstance.OpenedClients.Remove(Id);
+            if (MainWindow.MainWindowInstance.ClientWindows.FirstOrDefault(x => x.Id == Id) != default)
+                MainWindow.MainWindowInstance.ClientWindows.Remove(MainWindow.MainWindowInstance.ClientWindows.FirstOrDefault(x => x.Id == Id));
         }
 
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        public void OnSpectrumUpdate(SpectrumUpdateEvent spectrumUpdateEvent)
+        {
+            if (Id == spectrumUpdateEvent.Id)
+            {
+                InputSpectrum.ProcessData(spectrumUpdateEvent.Data, spectrumUpdateEvent.Silent);
+            }
+        }
+
+        public void OnClientUpdate(ClientUpdateEvent clientUpdateEvent)
+        {
+            if (Id == clientUpdateEvent.ConnectionInfo.Id)
+            {
+                Manage.ServerSession.Clients.FirstOrDefault(x => x.ConnectionInfo.Id == Id).ConnectionInfo.UpdateConnectionTimeSpan();
+            }
         }
     }
 }

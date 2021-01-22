@@ -1,6 +1,7 @@
 ﻿using Core.Server;
 using System.Windows;
 using System.Windows.Controls;
+using System.Linq;
 
 namespace Server
 {
@@ -14,10 +15,10 @@ namespace Server
         private void UserControl_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             ConnectionInfo connectionInfo = (ConnectionInfo)DataContext;
-            if (MainWindow.MainWindowInstance.OpenedClients.Contains(connectionInfo.Id))
+            if (MainWindow.MainWindowInstance.ClientWindows.FirstOrDefault(x => x.Id == connectionInfo.Id) != default)
                 return;
-            MainWindow.MainWindowInstance.OpenedClients.Add(connectionInfo.Id);
             ClientWindow clientWindow = new ClientWindow(connectionInfo.Id);
+            MainWindow.MainWindowInstance.ClientWindows.Add(clientWindow);
             clientWindow.Show();
         }
 

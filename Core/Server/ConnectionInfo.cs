@@ -9,6 +9,7 @@ namespace Core.Server
     public class ConnectionInfo : INotifyPropertyChanged
     {
         public static ConnectionInfo Default = new ConnectionInfo(-1, "Default", TimeSpan.Zero);
+
         #region static
         public bool IsVerified { get; set; } = false;
         public int Id { get; private set; } = 0;
@@ -25,16 +26,25 @@ namespace Core.Server
             set
             {
                 username = value;
-                OnPropertyChanged("Username");
+                OnPropertyChanged(nameof(Username));
             }
         }
-        private string username;
+        private string username = string.Empty;
         #endregion
 
         #region server decision
         public bool OutputServerMuteStatus { get; private set; } = false;
         public bool InputServerMuteStatus { get; private set; } = false;
-        public ClientStatus ClientStatus { get; private set; } = ClientStatus.Listener;
+        public ClientStatus ClientStatus
+        {
+            get { return clientStatus; }
+            set
+            {
+                clientStatus = value;
+                OnPropertyChanged(nameof(ClientStatus));
+            }
+        }
+        private ClientStatus clientStatus = ClientStatus.Listener;
         public string SessionName { get; private set; } = string.Empty;
         public string ServerName { get; private set; } = string.Empty;
         public TimeSpan SessionStartTimeSpan { get; private set; } = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
@@ -42,15 +52,14 @@ namespace Core.Server
         #endregion
         public TimeSpan ConnectionTimeSpan
         {
-            get
-            {
-                return ConnectionDateTime(DateTime.Now);
-            }
+            get { return connectionTimeSpan; }
             set
             {
-                OnPropertyChanged("ConnectionTimeSpan");
+                connectionTimeSpan = value;
+                OnPropertyChanged(nameof(ConnectionTimeSpan));
             }
         }
+        private TimeSpan connectionTimeSpan = TimeSpan.Zero;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -89,6 +98,11 @@ namespace Core.Server
         public void SetClientStatus(ClientStatus ClientStatus)
         {
             this.ClientStatus = ClientStatus;
+        }
+
+        public void UpdateConnectionTimeSpan()
+        {
+            ConnectionTimeSpan = ConnectionDateTime(DateTime.Now);
         }
 
         private TimeSpan ConnectionDateTime(DateTime dateTime)

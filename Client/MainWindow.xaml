@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         AllowsTransparency="true"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="220" MinWidth="840" Height="0" Width="0">
+        WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="200" MinWidth="840" Height="0" Width="0">
     <Window.Resources>
         <Image x:Key="Minimize" Source="/Client;component/Resources/Minimize.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
         <Image x:Key="Deploy" Source="/Client;component/Resources/Deploy.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
@@ -113,7 +113,6 @@
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -147,36 +146,36 @@
             </Border>
             <Grid Grid.Column="1" Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"></ColumnDefinition>
-                    <ColumnDefinition Width="auto"></ColumnDefinition>
-                    <ColumnDefinition Width="auto"></ColumnDefinition>
-                    <ColumnDefinition Width="auto"></ColumnDefinition>
-                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="0.9*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.1*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Grid>
+                <Grid HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition MinWidth="90"></ColumnDefinition>
-                        <ColumnDefinition MinWidth="90"></ColumnDefinition>
-                        <ColumnDefinition MinWidth="90"></ColumnDefinition>
-                        <ColumnDefinition MinWidth="90"></ColumnDefinition>
-                        <ColumnDefinition MinWidth="90"></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Border BorderBrush="DarkGray" BorderThickness="0 0 0.6 0.6">
-                        <TextBlock x:Name="ServerName" Text="сервер"/>
+                    <Border BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
+                        <TextBlock x:Name="ServerName" Text="сервер" Margin="16 0 16 0"/>
                     </Border>
-                    <Border Grid.Column="1" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0.6">
-                        <Button x:Name="Clients" Click="Clients_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <Border Grid.Column="1" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
+                        <Button x:Name="Clients" Click="Clients_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Margin="16 0 16 0">
                             <TextBlock Text="абоненты"/>
                         </Button>
                     </Border>
-                    <Border Grid.Column="2" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0.6">
-                        <TextBox x:Name="ClientName" Text="имя" TextChanged="ClientName_TextChanged" BorderThickness="0"/>
+                    <Border Grid.Column="2" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
+                        <TextBox x:Name="ClientName" Text="имя" TextChanged="ClientName_TextChanged" BorderThickness="0" Margin="16 0 16 0"/>
                     </Border>
-                    <Border BorderBrush="DarkGray" Grid.Column="3" BorderThickness="0 0 0.6 0.6">
-                        <TextBlock x:Name="Status" Text="статус"/>
+                    <Border BorderBrush="DarkGray" Grid.Column="3" BorderThickness="0 0 0.6 0">
+                        <TextBlock x:Name="Status" Text="статус" Margin="16 0 16 0"/>
                     </Border>
-                    <Border BorderBrush="DarkGray" Grid.Column="4" BorderThickness="0 0 0.6 0.6">
-                        <TextBlock x:Name="SessionName" Text="сессия"/>
+                    <Border BorderBrush="DarkGray" Grid.Column="4" BorderThickness="0 0 0 0">
+                        <TextBlock x:Name="SessionName" Text="сессия" Margin="16 0 16 0"/>
                     </Border>
                 </Grid>
                 <Border Grid.Column="1" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0.6" Background="PaleTurquoise">
@@ -216,9 +215,9 @@
                 <Border Grid.Column="2" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0.6" Background="PaleGreen">
                     <Grid HorizontalAlignment="Center" Margin="6 0 6 0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <TextBlock x:Name="SessionTime" Text="00:00:00" ToolTip="начало сессии"/>
                         <TextBlock Grid.Column="1" Text="-"/>
@@ -226,7 +225,7 @@
                     </Grid>
                 </Border>
                 <Border Grid.Column="3" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0.6">
-                    <Button x:Name="Settings" Click="Settings_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="настройки">
+                    <Button x:Name="Settings" Click="Settings_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="настройки" HorizontalAlignment="Center">
                         <StaticResource ResourceKey="Settings"/>
                     </Button>
                 </Border>
@@ -267,21 +266,15 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <local:SpectrumControl x:Name="OutputSpectrumControl"/>
+                <local:SpectrumControl x:Name="OutputSpectrumControl" Margin="4"/>
             </Grid>
 
             <Grid Grid.Row="3" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <local:SpectrumControl x:Name="InputSpectrumControl"/>
+                <local:SpectrumControl x:Name="InputSpectrumControl" Margin="4"/>
             </Grid>
-
-            <Border Grid.Row="4" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
-                <Grid Background="LightGoldenrodYellow">
-
-                </Grid>
-            </Border>
         </Grid>
     </Border>
 </Window>

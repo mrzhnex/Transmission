@@ -6,7 +6,7 @@ namespace Core.Application
     [Serializable]
     public class ClientSettings
     {
-        public string ClientName { get; set; } = "Client Name";
+        public string ClientName { get; set; } = "имя";
         public int RecordSaveTime { get; set; } = 10;
         public bool OutputMuteStatus { get; set; } = false;
         public bool InputMuteStatus { get; set; } = false;

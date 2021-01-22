@@ -23,7 +23,7 @@ namespace Server
 
         public ConnectionInfo DragConnectionInfo { get; set; } = null;
 
-        public List<int> OpenedClients { get; set; } = new List<int>();
+        public List<ClientWindow> ClientWindows { get; set; } = new List<ClientWindow>();
 
         public bool IsSettingsWindowOpened { get; set; } = false;
         public bool IsHelpWindowOpened { get; set; } = false;
@@ -164,7 +164,10 @@ namespace Server
             Open.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { Open.Content = FindResource("Connection"); }));
             SessionTime.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { SessionTime.Text = "00:00:00"; }));
             CurrentTime.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { CurrentTime.Text = "00:00:00"; }));
-
+            foreach (ClientWindow clientWindow in ClientWindows)
+            {
+                clientWindow.Close();
+            }
         }
         public void OnClientDisconnect(ClientDisconnectEvent clientDisconnectEvent)
         {
@@ -174,6 +177,11 @@ namespace Server
                 System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { SpeakersConnectionInfos.Remove(SpeakersConnectionInfos.Where(x => x.Id == clientDisconnectEvent.ConnectionInfo.Id).FirstOrDefault()); }));
             if (ModeratorsConnectionInfos.Where(x => x.Id == clientDisconnectEvent.ConnectionInfo.Id).FirstOrDefault() != default)
                 System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { ModeratorsConnectionInfos.Remove(ModeratorsConnectionInfos.Where(x => x.Id == clientDisconnectEvent.ConnectionInfo.Id).FirstOrDefault()); }));
+
+            if (ClientWindows.FirstOrDefault(x => x.Id == clientDisconnectEvent.ConnectionInfo.Id) != default)
+            {
+                ClientWindows.FirstOrDefault(x => x.Id == clientDisconnectEvent.ConnectionInfo.Id).Dispatcher.Invoke(new Action(() => ClientWindows.FirstOrDefault(x => x.Id == clientDisconnectEvent.ConnectionInfo.Id).Close()));
+            }
         }
         public void UpdateServerInfo(List<Client> clients)
         {

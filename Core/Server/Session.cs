@@ -311,6 +311,7 @@ namespace Core.Server
                     continue;
                 client.AddAudio(data);
             }
+            Manage.EventManager.ExecuteEvent<IEventHandlerSpectrumUpdate>(new SpectrumUpdateEvent(sender.ConnectionInfo.Id, data, sender.ConnectionInfo.InputServerMuteStatus));
         }
         #endregion
 
