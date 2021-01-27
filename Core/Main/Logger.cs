@@ -16,7 +16,7 @@ namespace Core.Main
         private List<string> ApplicationLogs { get; set; } = new List<string>();
         private List<string> ClientLogs { get; set; } = new List<string>();
         private List<string> ServerLogs { get; set; } = new List<string>();
-        internal bool ActiveLog { get; set; } = true;
+        public bool ActiveLog { get; set; } = true;
         public bool ShouldLog { get; set; } = true;
         #endregion
 

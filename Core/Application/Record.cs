@@ -2,6 +2,7 @@
 using NAudio.Wave;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 
 namespace Core.Application
@@ -15,10 +16,12 @@ namespace Core.Application
         private Server.Client Client { get; set; }
         private string Name { get; set; } = string.Empty;
         private bool Active { get; set; } = true;
+        private bool IsClient { get; set; } = false;
 
-        public Record(string Name, Server.Client Client, bool IsRecording = false)
+        public Record(string Name, Server.Client Client, bool IsClient, bool IsRecording)
         {
             this.Client = Client;
+            this.IsClient = IsClient;
             this.Name = Name;
             this.IsRecording = IsRecording;
         }
@@ -57,10 +60,19 @@ namespace Core.Application
             if (RecordingAudio.Count > 0)
             {
                 Manage.Logger.Add("Trying to save a record", LogType.Application, LogLevel.Debug);
-                WaveFileWriter waveFileWriter = new WaveFileWriter($"{GetStartTime()} - {GetEndTime()}_{Name}.wav", Manage.DefaultInformation.WaveFormat);
-                waveFileWriter.WriteData(RecordingAudio.ToArray(), 0, RecordingAudio.ToArray().Length);
-                waveFileWriter.Close();
-                Manage.Logger.Add("The record was saved", LogType.Application, LogLevel.Info);
+                try
+                {
+                    string fileFullName = Path.Combine(IsClient ? Manage.ApplicationManager.Current.ClientSettings.RecordSaveFolder : Manage.ApplicationManager.Current.ServerSettings.RecordSaveFolder, $"{GetStartTime()} - {GetEndTime()}_{Name}.wav");
+                    WaveFileWriter waveFileWriter = new WaveFileWriter(fileFullName, Manage.DefaultInformation.WaveFormat);
+                    waveFileWriter.WriteData(RecordingAudio.ToArray(), 0, RecordingAudio.ToArray().Length);
+                    waveFileWriter.Close();
+                    RecordingAudio = new List<byte>();
+                    Manage.Logger.Add($"The record was saved at {fileFullName}", LogType.Application, LogLevel.Info);
+                }
+                catch (Exception ex)
+                {
+                    Manage.Logger.Add($"Catch an exception {ex.Message} while saving record data", LogType.Application, LogLevel.Error);
+                }
             }
             else
             {

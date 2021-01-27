@@ -1,5 +1,6 @@
 ﻿using Core.Localization;
 using Core.Main;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -94,9 +95,30 @@ namespace Server
             Manage.ApplicationManager.Current.ServerSettings.Password = (sender as TextBox).Text;
         }
 
-        private void RecordSaveFolder_TextChanged(object sender, TextChangedEventArgs e)
+        private void RecordSaveFolder_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            CommonOpenFileDialog dlg = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true,
+                InitialDirectory = Manage.Logger.LogsFolder,
 
+                AddToMostRecentlyUsedList = false,
+                AllowNonFileSystemItems = false,
+                DefaultDirectory = Manage.Logger.LogsFolder,
+                EnsureFileExists = true,
+                EnsurePathExists = true,
+                EnsureReadOnly = false,
+                EnsureValidNames = true,
+                Multiselect = false,
+                ShowPlacesList = true
+            };
+
+            if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                string folder = dlg.FileName;
+                throw new System.Exception(folder);
+                // Do something with selected folder string
+            }
         }
     }
 }

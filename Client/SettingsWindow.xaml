@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
+        AllowsTransparency="true"
         Closing="Window_Closing"
-        Title="Transmission" WindowStyle="None" ResizeMode="NoResize" MinHeight="130" MinWidth="160" Width="0" Height="0">
+        Title="Transmission" WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="160" MinWidth="400" Width="0" Height="0" MaxHeight="200">
     <Window.Resources>
         <Image x:Key="Minimize" Source="/Client;component/Resources/Minimize.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
         <Image x:Key="Deploy" Source="/Client;component/Resources/Deploy.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
@@ -18,14 +19,18 @@
             <Grid.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="Margin" Value="4"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
                 </Style>
             </Grid.Resources>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -50,17 +55,23 @@
                 </Button>
             </Grid>
 
-            <TextBlock Grid.Row="1" Text="язык"/>
-            <ComboBox x:Name="Languages" Grid.Column="1" Grid.Row="1" SelectionChanged="Languages_SelectionChanged"/>
+            <TextBlock Grid.Row="1" Text="папка для сохранения"/>
+            <TextBlock x:Name="RecordSaveFolder" Grid.Row="1" Grid.Column="1" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"/>
 
-            <TextBlock Grid.Row="2" Text="тема"/>
-            <ComboBox x:Name="Themes" Grid.Column="1" Grid.Row="2"/>
+            <TextBlock Grid.Row="2" Text="файл для воспроизведения"/>
+            <TextBlock x:Name="PlayAudioFile" Grid.Row="2" Grid.Column="1" MouseLeftButtonDown="PlayAudioFile_MouseLeftButtonDown"/>
+            
+            <TextBlock Grid.Row="3" Text="язык"/>
+            <ComboBox x:Name="Languages" Grid.Column="1" Grid.Row="3" SelectionChanged="Languages_SelectionChanged"/>
 
-            <TextBlock Grid.Row="3" Text="динамик"/>
-            <ComboBox x:Name="OutputType" Grid.Column="1" Grid.Row="3"/>
+            <TextBlock Grid.Row="4" Text="тема"/>
+            <ComboBox x:Name="Themes" Grid.Column="1" Grid.Row="4"/>
 
-            <TextBlock Grid.Row="4" Text="микрофон"/>
-            <ComboBox x:Name="InputType" Grid.Column="1" Grid.Row="4"/>
+            <TextBlock Grid.Row="5" Text="динамик"/>
+            <ComboBox x:Name="OutputType" Grid.Column="1" Grid.Row="5"/>
+
+            <TextBlock Grid.Row="6" Text="микрофон"/>
+            <ComboBox x:Name="InputType" Grid.Column="1" Grid.Row="6"/>
         </Grid>
     </Border>
 </Window>

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "4U3k1xpTyRxF2evIvcE+/LCiTokMnX97y6hoAhyfoyBhjbRxBfGxMhGPBmo94qMoAGp8UrVC97A/B/Wqf4WmAw==",
+  "dgSpecHash": "bOlpC7YL9ix9bIrYLL+0XwzYYpo+llxER9t3RY1EGYePtQhw2yGF8wk96tnF4FJHdCVfqU6lbpeoOj3Iz8Zq3A==",
   "success": true,
   "projectFilePath": "C:\\Users\\Табула\\Desktop\\Transmission\\Client\\Client.csproj",
   "expectedPackageFiles": [
@@ -96,7 +96,9 @@
     "C:\\Users\\Табула\\.nuget\\packages\\system.threading.timer\\4.3.0\\system.threading.timer.4.3.0.nupkg.sha512",
     "C:\\Users\\Табула\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\Табула\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512"
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
+    "C:\\Users\\Табула\\.nuget\\packages\\windowsapicodepack-core\\1.1.1\\windowsapicodepack-core.1.1.1.nupkg.sha512",
+    "C:\\Users\\Табула\\.nuget\\packages\\windowsapicodepack-shell\\1.1.1\\windowsapicodepack-shell.1.1.1.nupkg.sha512"
   ],
   "logs": [
     {
@@ -125,6 +127,26 @@
       "warningLevel": 1,
       "message": "Пакет \"LiveCharts.Wpf 0.9.7\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\", а не целевой платформы проекта \".NETCoreApp,Version=v3.1\". Этот пакет может быть не полностью совместим с вашим проектом.",
       "libraryId": "LiveCharts.Wpf",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Пакет \"WindowsAPICodePack-Core 1.1.1\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\", а не целевой платформы проекта \".NETCoreApp,Version=v3.1\". Этот пакет может быть не полностью совместим с вашим проектом.",
+      "libraryId": "WindowsAPICodePack-Core",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Пакет \"WindowsAPICodePack-Shell 1.1.1\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\", а не целевой платформы проекта \".NETCoreApp,Version=v3.1\". Этот пакет может быть не полностью совместим с вашим проектом.",
+      "libraryId": "WindowsAPICodePack-Shell",
       "targetGraphs": [
         ".NETCoreApp,Version=v3.1"
       ]

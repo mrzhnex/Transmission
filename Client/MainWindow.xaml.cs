@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Threading;
 using Core.Application;
 using Core.Events;
@@ -19,7 +20,7 @@ namespace Client
         public bool IsConnectWindowOpened { get; set; } = false;
         public bool IsHelpWindowOpened { get; set; } = false;
         public bool IsSettingsWindowOpened { get; set; } = false;
-        public Core.Server.Client Client { get; set; } = new Core.Server.Client(new IPEndPoint(IPAddress.Any, 0), 0, nameof(Client), new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second), nameof(Client), nameof(Client), false);
+        public Core.Server.Client Client { get; set; } = new Core.Server.Client(new IPEndPoint(IPAddress.Any, 0), 0, nameof(Client), new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second), nameof(Client), nameof(Client), true, false);
         public Spectrum InputSpectrum { get; set; } = new Spectrum(); 
         public Spectrum OutputSpectrum { get; set; } = new Spectrum();
         public MainWindow()
@@ -46,6 +47,7 @@ namespace Client
             {
                 InputMuteStatus.Content = FindResource("MicrophoneCrossed");
             }
+            Manage.Application.LoadAudioData(Manage.ApplicationManager.Current.ClientSettings.PlayAudioFile);
         }
         #endregion
 
@@ -110,14 +112,28 @@ namespace Client
         }
         private void PlayPrevious_Click(object sender, RoutedEventArgs e)
         {
-
+            Manage.Application.PreviousStep();
         }
         private void PlayNext_Click(object sender, RoutedEventArgs e)
         {
-
+            Manage.Application.NextStep();
         }
         private void Play_Click(object sender, RoutedEventArgs e)
         {
+            if (!Manage.Application.IsAudioLoaded)
+                return;
+            Manage.Application.SwitchIsPlayingAudio();
+            if (Manage.Application.IsPlayingAudio)
+            {
+                Play.Content = FindResource("Pause2");
+                Manage.Logger.Add($"Start playing audio file {Manage.ApplicationManager.Current.ClientSettings.PlayAudioFile}", LogType.Client, LogLevel.Info);
+            }
+            else
+            {
+                Play.Content = FindResource("Play");
+                Manage.Logger.Add($"Stop playing audio file {Manage.ApplicationManager.Current.ClientSettings.PlayAudioFile}", LogType.Client, LogLevel.Info);
+            }
+            
 
         }
         private void Clients_Click(object sender, RoutedEventArgs e)

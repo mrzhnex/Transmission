@@ -18,8 +18,8 @@ namespace Core.Server
         #endregion
 
         #region client decision
-        public bool OutputClientMuteStatus { get; set; } = false;
-        public bool InputClientMuteStatus { get; set; } = false;
+        public bool OutputMuteStatus { get; set; } = false;
+        public bool InputMuteStatus { get; set; } = false;
         public string Username
         {
             get { return username; }
@@ -33,8 +33,6 @@ namespace Core.Server
         #endregion
 
         #region server decision
-        public bool OutputServerMuteStatus { get; private set; } = false;
-        public bool InputServerMuteStatus { get; private set; } = false;
         public ClientStatus ClientStatus
         {
             get { return clientStatus; }
@@ -83,18 +81,6 @@ namespace Core.Server
 
         public ConnectionInfo() { }
 
-        public void SetOutputServerMuteStatus(bool OutputServerMuteStatus)
-        {
-            this.OutputServerMuteStatus = OutputServerMuteStatus;
-            Manage.Logger.Add($"Set {nameof(OutputServerMuteStatus)} to {OutputServerMuteStatus} for {Id}", LogType.Server, LogLevel.Debug);
-        }
-        public void SetInputServerMuteStatus(bool InputServerMuteStatus)
-        {
-            this.InputServerMuteStatus = InputServerMuteStatus;
-            Manage.Logger.Add($"Set {nameof(InputServerMuteStatus)} to {InputServerMuteStatus} for {Id}", LogType.Server, LogLevel.Debug);
-        }
-
-
         public void SetClientStatus(ClientStatus ClientStatus)
         {
             this.ClientStatus = ClientStatus;
@@ -128,8 +114,8 @@ namespace Core.Server
         {
             Data = new object[]
             {
-                Username, OutputServerMuteStatus, InputServerMuteStatus, OutputClientMuteStatus, InputClientMuteStatus,
-                SessionName, ClientStatus, VerificationMessage, ServerName, Id, SessionStartTimeSpan
+                Username, OutputMuteStatus, InputMuteStatus, SessionName, 
+                ClientStatus, VerificationMessage, ServerName, Id, SessionStartTimeSpan
             };
         }
 
@@ -149,19 +135,15 @@ namespace Core.Server
         public void DecomposeClient(byte[] data)
         {
             object[] temp = new Regex(@"\W\B").Replace(Encoding.ASCII.GetString(data), string.Empty).Split(Manage.DefaultInformation.SplitSymbol);
-            if (bool.TryParse(temp[1].ToString(), out bool OutputServerMuteStatus))
-                this.OutputServerMuteStatus = OutputServerMuteStatus;
-            if (bool.TryParse(temp[2].ToString(), out bool InputServerMuteStatus))
-                this.InputServerMuteStatus = InputServerMuteStatus;
-            if (temp[5].ToString() != null && temp[5].ToString().Length > 0)
-                SessionName = temp[5].ToString();
-            if (Enum.TryParse(temp[6].ToString(), out ClientStatus ClientStatus))
+            if (temp[3].ToString() != null && temp[5].ToString().Length > 0)
+                SessionName = temp[3].ToString();
+            if (Enum.TryParse(temp[4].ToString(), out ClientStatus ClientStatus))
                 this.ClientStatus = ClientStatus;
-            if (temp[7].ToString() != null && temp[7].ToString().Length > 0)
-                VerificationMessage = temp[7].ToString();
-            if (temp[8].ToString() != null && temp[8].ToString().Length > 0)
-                ServerName = temp[8].ToString();
-            if (temp[10].ToString() != null && TimeSpan.TryParse(temp[10].ToString(), out TimeSpan SessionStartTimeSpan))
+            if (temp[5].ToString() != null && temp[5].ToString().Length > 0)
+                VerificationMessage = temp[5].ToString();
+            if (temp[6].ToString() != null && temp[6].ToString().Length > 0)
+                ServerName = temp[6].ToString();
+            if (temp[8].ToString() != null && TimeSpan.TryParse(temp[8].ToString(), out TimeSpan SessionStartTimeSpan))
                 this.SessionStartTimeSpan = SessionStartTimeSpan;
             UpdateData();
         }
@@ -171,10 +153,10 @@ namespace Core.Server
             object[] temp = new Regex(@"\W\B").Replace(Encoding.ASCII.GetString(data), string.Empty).Split(Manage.DefaultInformation.SplitSymbol);
             if (temp[0].ToString() != null && temp[0].ToString().Length > 0)
                 Username = temp[0].ToString();
-            if (bool.TryParse(temp[3].ToString(), out bool OutputClientMuteStatus))
-                this.OutputClientMuteStatus = OutputClientMuteStatus;
-            if (bool.TryParse(temp[4].ToString(), out bool InputClientMuteStatus))
-                this.InputClientMuteStatus = InputClientMuteStatus;
+            if (bool.TryParse(temp[1].ToString(), out bool OutputMuteStatus))
+                this.OutputMuteStatus = OutputMuteStatus;
+            if (bool.TryParse(temp[2].ToString(), out bool InputMuteStatus))
+                this.InputMuteStatus = InputMuteStatus;
             UpdateData();
         }
     }

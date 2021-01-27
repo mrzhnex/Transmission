@@ -38,7 +38,7 @@ namespace Core.Server
         private bool ModeratorsOutputMuteStatus { get; set; } = false;
         private bool ModeratorsInputMuteStatus { get; set; } = false;
 
-        public Client Server { get; set; } = new Client(new IPEndPoint(IPAddress.Any, 0), 0, nameof(Server), new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second), nameof(Name), nameof(ServerName), false);
+        public Client Server { get; set; } = new Client(new IPEndPoint(IPAddress.Any, 0), 0, nameof(Server), new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second), nameof(Name), nameof(ServerName), false, false);
 
         public Session(int Port, string Name, string Password, bool StartServerAnyway = false)
         {
@@ -106,7 +106,7 @@ namespace Core.Server
             {
                 if (client.ConnectionInfo.ClientStatus == clientsInputMuteStatusChangedEvent.ClientStatus)
                 {
-                    client.ConnectionInfo.InputClientMuteStatus = clientsInputMuteStatusChangedEvent.InputMuteStatus;
+                    client.ConnectionInfo.InputMuteStatus = clientsInputMuteStatusChangedEvent.InputMuteStatus;
                 }
             }
         }
@@ -128,34 +128,13 @@ namespace Core.Server
             {
                 if (client.ConnectionInfo.ClientStatus == clientsOutputMuteStatusChangedEvent.ClientStatus)
                 {
-                    client.ConnectionInfo.OutputClientMuteStatus = clientsOutputMuteStatusChangedEvent.OutputMuteStatus;
+                    client.ConnectionInfo.OutputMuteStatus = clientsOutputMuteStatusChangedEvent.OutputMuteStatus;
                 }
             }
         }
         #endregion
 
         #region Methods
-        public void DragDropSetMuteStatus(int clientId)
-        {
-            if (Clients.FirstOrDefault(x => x.ConnectionInfo.Id == clientId) != default)
-            {
-                switch (Clients.FirstOrDefault(x => x.ConnectionInfo.Id == clientId).ConnectionInfo.ClientStatus)
-                {
-                    case ClientStatus.Listener:
-                        Clients.FirstOrDefault(x => x.ConnectionInfo.Id == clientId).ConnectionInfo.SetInputServerMuteStatus(ListenersInputMuteStatus);
-                        Clients.FirstOrDefault(x => x.ConnectionInfo.Id == clientId).ConnectionInfo.SetOutputServerMuteStatus(ListenersOutputMuteStatus);
-                        break;
-                    case ClientStatus.Speaker:
-                        Clients.FirstOrDefault(x => x.ConnectionInfo.Id == clientId).ConnectionInfo.SetInputServerMuteStatus(SpeakersInputMuteStatus);
-                        Clients.FirstOrDefault(x => x.ConnectionInfo.Id == clientId).ConnectionInfo.SetOutputServerMuteStatus(SpeakersOutputMuteStatus);
-                        break;
-                    case ClientStatus.Moderator:
-                        Clients.FirstOrDefault(x => x.ConnectionInfo.Id == clientId).ConnectionInfo.SetInputServerMuteStatus(ModeratorsInputMuteStatus);
-                        Clients.FirstOrDefault(x => x.ConnectionInfo.Id == clientId).ConnectionInfo.SetOutputServerMuteStatus(ModeratorsOutputMuteStatus);
-                        break;
-                }
-            }
-        }
         private void Open()
         {
             while (Manage.ServerSession == null) { }
@@ -253,17 +232,6 @@ namespace Core.Server
         #endregion
 
         #region Client
-        public void SetClientOutputMuteStatus(int clientId, bool outputMuteStatus)
-        {
-            Clients.FirstOrDefault(x => x.ConnectionInfo.Id == clientId).ConnectionInfo.SetOutputServerMuteStatus(outputMuteStatus);
-        }
-
-        public void SetClientInputMuteStatus(int clientId, bool inputMuteStatus)
-        {
-            Clients.FirstOrDefault(x => x.ConnectionInfo.Id == clientId).ConnectionInfo.SetInputServerMuteStatus(inputMuteStatus);
-        }
-
-
         private void DisconnectAllClients(string reason)
         {
             foreach (Client client in Clients.ToList())
@@ -281,7 +249,7 @@ namespace Core.Server
         }
         private void ConnectClient(IPEndPoint iPEndPoint)
         {
-            Client client = new Client(iPEndPoint, Clients.Count + DisconnectedClients.Count, "Username", Server.ConnectionInfo.SessionStartTimeSpan, Name, ServerName);
+            Client client = new Client(iPEndPoint, Clients.Count + DisconnectedClients.Count, "Username", Server.ConnectionInfo.SessionStartTimeSpan, Name, ServerName, false, false);
             Clients.Add(client);
             SendData(Encoding.ASCII.GetBytes(Password), client.Socket);
             Manage.Logger.Add($"The user {client.Socket} has connected to the server. Create new {nameof(client.ConnectionInfo.Key)} {Manage.GetStringFromBuffer(client.ConnectionInfo.Key())}", LogType.Server, LogLevel.Info);
@@ -299,7 +267,7 @@ namespace Core.Server
         }
         private void AddAudio(byte[] data, Client sender)
         {
-            if (sender.ConnectionInfo.InputServerMuteStatus)
+            if (sender.ConnectionInfo.ClientStatus == ClientStatus.Listener)
                 return;
             if (Server.Record.IsRecording)
             {
@@ -307,11 +275,11 @@ namespace Core.Server
             }
             foreach (Client client in Clients)
             {
-                if (client.ConnectionInfo.OutputServerMuteStatus || (sender.Socket.Address.Equals(client.Socket.Address) && sender.Socket.Port == client.Socket.Port))
+                if (sender.Socket.Address.Equals(client.Socket.Address) && sender.Socket.Port == client.Socket.Port)
                     continue;
                 client.AddAudio(data);
             }
-            Manage.EventManager.ExecuteEvent<IEventHandlerSpectrumUpdate>(new SpectrumUpdateEvent(sender.ConnectionInfo.Id, data, sender.ConnectionInfo.InputServerMuteStatus));
+            Manage.EventManager.ExecuteEvent<IEventHandlerSpectrumUpdate>(new SpectrumUpdateEvent(sender.ConnectionInfo.Id, data));
         }
         #endregion
 

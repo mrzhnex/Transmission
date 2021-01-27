@@ -12,6 +12,8 @@ namespace Core.Application
         public bool InputMuteStatus { get; set; } = false;
         public float InputVolumeValue { get; set; } = 1.0f;
         public float OutputVolumeValue { get; set; } = 1.0f;
+        public string RecordSaveFolder { get; set; } = string.Empty;
+        public string PlayAudioFile { get; set; } = string.Empty;
 
         [XmlIgnore]
         public static ClientSettings Default { get; set; } = new ClientSettings();

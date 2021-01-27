@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using Core.Main;
 using LiveCharts.Geared;
 
@@ -24,24 +26,39 @@ namespace Core.Application
         private void Update()
         {
             int length = 70;
+            
             while (Manage.Logger.ActiveLog)
             {
-                if (PreValues.Count < length)
-                    continue;
-                Thread.Sleep(1);
-                if (Values.Count > KeepValues - length)
+                lock (PreValues)
                 {
-                    for (int i = 0; i < length; i++)
+                    if (PreValues.Count < length)
+                        continue;
+                    Thread.Sleep(1);
+                    if (Values.Count > KeepValues - length)
                     {
-                        Values.RemoveAt(0);
+                        for (int i = 0; i < length; i++)
+                        {
+                            Values.RemoveAt(0);
+                        }
                     }
+                    Values.AddRange(PreValues.GetRange(0, length));
+                    PreValues.RemoveRange(0, length);
                 }
-                Values.AddRange(PreValues.GetRange(0, length));
-                PreValues.RemoveRange(0, length);
             }
         }
 
-        public unsafe void ProcessData(byte[] input, bool silent = false)
+        public void ProcessData(byte[] input, bool silent = false)
+        {
+            Task.Run(new Action(() => CoreProcessData(input, silent)));
+        }
+
+        public void ClearPreValues()
+        {
+            lock (PreValues)
+                PreValues.Clear();
+        }
+
+        private unsafe void CoreProcessData(byte[] input, bool silent = false)
         {
             var bufferA = new double[input.Length / 4];
             fixed (byte* pSource = input)

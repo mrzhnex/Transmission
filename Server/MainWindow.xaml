@@ -24,10 +24,10 @@
         <Image x:Key="PlayNext" Source="/Server;component/Resources/PlayNext.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0" />
         <Image x:Key="PlayPrevious" Source="/Server;component/Resources/PlayPrevious.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0" />
 
-        <Image x:Key="Speaker" Source="/Server;component/Resources/Speaker.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
-        <Image x:Key="SpeakerCrossed" Source="/Server;component/Resources/SpeakerCrossed.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
-        <Image x:Key="Microphone" Source="/Server;component/Resources/Microphone.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
-        <Image x:Key="MicrophoneCrossed" Source="/Server;component/Resources/MicrophoneCrossed.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
+        <BitmapImage x:Key="Speaker" UriSource="/Server;component/Resources/Speaker.png" RenderOptions.BitmapScalingMode="HighQuality" />
+        <BitmapImage x:Key="SpeakerCrossed" UriSource="/Server;component/Resources/SpeakerCrossed.png" RenderOptions.BitmapScalingMode="HighQuality" />
+        <BitmapImage x:Key="Microphone" UriSource="/Server;component/Resources/Microphone.png" RenderOptions.BitmapScalingMode="HighQuality" />
+        <BitmapImage x:Key="MicrophoneCrossed" UriSource="/Server;component/Resources/MicrophoneCrossed.png" RenderOptions.BitmapScalingMode="HighQuality" />
 
         <Image x:Key="Speaker2" Source="/Server;component/Resources/Speaker.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
         <Image x:Key="SpeakerCrossed2" Source="/Server;component/Resources/SpeakerCrossed.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
@@ -286,13 +286,9 @@
                         <ColumnDefinition Width="auto"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="ListenersOutputMuteStatus" Click="ListenersOutputMuteStatus_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="динамик">
-                        <DynamicResource ResourceKey="Speaker"/>
-                    </Button>
+                    <Image Source="{DynamicResource Speaker}" Width="20" Height="20" Margin="6"/>
                     <TextBlock x:Name="ListenersField" Grid.Column="1" Text="слушатели"/>
-                    <Button x:Name="ListenersInputMuteStatus" Grid.Column="2" Click="ListenersInputMuteStatus_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="микрофон">
-                        <DynamicResource ResourceKey="Microphone"/>
-                    </Button>
+                    <Image Source="{DynamicResource MicrophoneCrossed}" Grid.Column="2" Width="20" Height="20" Margin="6"/>
                 </Grid>
             </Border>
 

@@ -1,5 +1,6 @@
 ﻿using Core.Localization;
 using Core.Main;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,6 +22,8 @@ namespace Client
             OutputType.SelectedItem = "вид 1";
             InputType.SelectedItem = "вид 1";
             Themes.SelectedValue = "тема 1";
+            RecordSaveFolder.Text = Manage.ApplicationManager.Current.ClientSettings.RecordSaveFolder == string.Empty ? Manage.Logger.LogsFolder : Manage.ApplicationManager.Current.ClientSettings.RecordSaveFolder;
+            PlayAudioFile.Text = Manage.ApplicationManager.Current.ClientSettings.PlayAudioFile == string.Empty ? Manage.Logger.LogsFolder : Manage.ApplicationManager.Current.ClientSettings.PlayAudioFile;
         }
 
         private void Languages_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -69,6 +72,57 @@ namespace Client
         private void Grid_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             DragMove();
+        }
+
+        private void TextBlock_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            CommonOpenFileDialog commonOpenFileDialog = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true,
+                InitialDirectory = Manage.Logger.LogsFolder,
+
+                AddToMostRecentlyUsedList = false,
+                AllowNonFileSystemItems = false,
+                DefaultDirectory = Manage.Logger.LogsFolder,
+                EnsureFileExists = true,
+                EnsurePathExists = true,
+                EnsureReadOnly = false,
+                EnsureValidNames = true,
+                Multiselect = false,
+                ShowPlacesList = true
+            };
+
+            if (commonOpenFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                Manage.ApplicationManager.Current.ClientSettings.RecordSaveFolder = commonOpenFileDialog.FileName;
+                RecordSaveFolder.Text = Manage.ApplicationManager.Current.ClientSettings.RecordSaveFolder;
+            }
+        }
+
+        private void PlayAudioFile_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            CommonOpenFileDialog commonOpenFileDialog = new CommonOpenFileDialog
+            {
+                IsFolderPicker = false,
+                InitialDirectory = Manage.Logger.LogsFolder,
+                
+                AddToMostRecentlyUsedList = false,
+                AllowNonFileSystemItems = false,
+                DefaultDirectory = Manage.Logger.LogsFolder,
+                EnsureFileExists = true,
+                EnsurePathExists = true,
+                EnsureReadOnly = false,
+                EnsureValidNames = true,
+                Multiselect = false,
+                ShowPlacesList = true
+            };
+
+            if (commonOpenFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                Manage.ApplicationManager.Current.ClientSettings.PlayAudioFile = commonOpenFileDialog.FileName;
+                PlayAudioFile.Text = Manage.ApplicationManager.Current.ClientSettings.PlayAudioFile;
+                Manage.Application.LoadAudioData(Manage.ApplicationManager.Current.ClientSettings.PlayAudioFile);
+            }
         }
     }
 }

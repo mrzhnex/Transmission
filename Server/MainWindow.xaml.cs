@@ -250,7 +250,6 @@ namespace Server
             RemoveDragConnectionInfoFromList();
             DragConnectionInfo.SetClientStatus(ClientStatus.Moderator);
             ModeratorsConnectionInfos.Add(DragConnectionInfo);
-            Manage.ServerSession.DragDropSetMuteStatus(DragConnectionInfo.Id);
             DragConnectionInfo = null;
             RefreshLists();
         }
@@ -259,7 +258,6 @@ namespace Server
             RemoveDragConnectionInfoFromList();
             DragConnectionInfo.SetClientStatus(ClientStatus.Speaker);
             SpeakersConnectionInfos.Add(DragConnectionInfo);
-            Manage.ServerSession.DragDropSetMuteStatus(DragConnectionInfo.Id);
             DragConnectionInfo = null;
             RefreshLists();
         }
@@ -268,7 +266,6 @@ namespace Server
             RemoveDragConnectionInfoFromList();
             DragConnectionInfo.SetClientStatus(ClientStatus.Listener);
             ListenersConnectionInfos.Add(DragConnectionInfo);
-            Manage.ServerSession.DragDropSetMuteStatus(DragConnectionInfo.Id);
             DragConnectionInfo = null;
             RefreshLists();
         }
@@ -327,6 +324,8 @@ namespace Server
                 Manage.EventManager.ExecuteEvent<IEventHandlerClientsInputMuteStatusChanged>(new ClientsInputMuteStatusChangedEvent(false, ClientStatus.Speaker));
             }
         }
+
+        /*
         private void ListenersOutputMuteStatus_Click(object sender, RoutedEventArgs e)
         {
             if (ListenersOutputMuteStatus.Content == FindResource("Speaker"))
@@ -353,6 +352,7 @@ namespace Server
                 Manage.EventManager.ExecuteEvent<IEventHandlerClientsInputMuteStatusChanged>(new ClientsInputMuteStatusChangedEvent(false, ClientStatus.Listener));
             }
         }
+        */
         #endregion
     }
 }

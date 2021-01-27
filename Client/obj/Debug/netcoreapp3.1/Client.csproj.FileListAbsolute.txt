@@ -76,3 +76,5 @@ C:\Users\Табула\Desktop\Transmission\Client\obj\Debug\netcoreapp3.1\Client
 C:\Users\Табула\Desktop\Transmission\Client\obj\Debug\netcoreapp3.1\Client.dll
 C:\Users\Табула\Desktop\Transmission\Client\obj\Debug\netcoreapp3.1\Client.pdb
 C:\Users\Табула\Desktop\Transmission\Client\obj\Debug\netcoreapp3.1\Client.genruntimeconfig.cache
+C:\Users\Табула\Desktop\Transmission\Client\bin\Debug\netcoreapp3.1\Microsoft.WindowsAPICodePack.dll
+C:\Users\Табула\Desktop\Transmission\Client\bin\Debug\netcoreapp3.1\Microsoft.WindowsAPICodePack.Shell.dll

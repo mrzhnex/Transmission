@@ -54,7 +54,7 @@ namespace Server {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Server;component/spectrumcontrol.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Server;V1.0.0.0;component/spectrumcontrol.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\SpectrumControl.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

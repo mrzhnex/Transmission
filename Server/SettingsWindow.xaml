@@ -60,7 +60,7 @@
             <TextBox x:Name="ServerPasswordField" Grid.Column="1" Grid.Row="2" TextChanged="ServerPasswordField_TextChanged"/>
 
             <TextBlock Grid.Row="3" Text="папка для сохранения"/>
-            <TextBox x:Name="RecordSaveFolder" Grid.Column="1" Grid.Row="3" Text="по умолчанию" TextChanged="RecordSaveFolder_TextChanged"/>
+            <TextBlock x:Name="RecordSaveFolder" Grid.Column="1" Grid.Row="3" MouseLeftButtonDown="RecordSaveFolder_MouseLeftButtonDown"/>
 
             <TextBlock Grid.Row="4" Text="язык"/>
             <ComboBox x:Name="Languages" Grid.Column="1" Grid.Row="4" SelectionChanged="Languages_SelectionChanged"/>

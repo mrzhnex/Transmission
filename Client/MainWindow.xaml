@@ -27,6 +27,7 @@
         <Image x:Key="PlayPrevious" Source="/Client;component/Resources/PlayPrevious.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0"/>
         <Image x:Key="Help" Source="/Client;component/Resources/Help.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
         <Image x:Key="Clients" Source="/Client;component/Resources/Clients.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
+        <Image x:Key="Pause2" Source="/Client;component/Resources/Pause.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0"/>
     </Window.Resources>
     <Border BorderBrush="MediumPurple" BorderThickness="2">
         <Grid>
@@ -105,6 +106,9 @@
                     <Setter Property="HorizontalAlignment" Value="Center"/>
                 </Style>
                 <Style TargetType="Button">
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Style>
+                <Style TargetType="RepeatButton">
                     <Setter Property="BorderThickness" Value="0"/>
                 </Style>
             </Grid.Resources>
@@ -198,15 +202,15 @@
                         <Button x:Name="RecordPause" Grid.Column="2" Click="RecordPause_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="пауза">
                             <DynamicResource ResourceKey="Pause"/>
                         </Button>
-                        <Button x:Name="PlayPrevious" Grid.Column="3" Click="PlayPrevious_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="предыдущий">
+                        <RepeatButton x:Name="PlayPrevious" Grid.Column="3" Click="PlayPrevious_Click" Background="PaleTurquoise" ToolTip="предыдущий" Delay="200" Interval="100">
                             <StaticResource ResourceKey="PlayPrevious"/>
-                        </Button>
+                        </RepeatButton>
                         <Button x:Name="Play" Grid.Column="4" Click="Play_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="воспроизвести">
                             <DynamicResource ResourceKey="Play"/>
                         </Button>
-                        <Button x:Name="PlayNext" Grid.Column="5" Click="PlayNext_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="следующий">
+                        <RepeatButton x:Name="PlayNext" Grid.Column="5" Click="PlayNext_Click" Background="PaleTurquoise" ToolTip="следующий" Delay="200" Interval="100">
                             <StaticResource ResourceKey="PlayNext"/>
-                        </Button>
+                        </RepeatButton>
                         <Grid Grid.Column="6" Margin="4">
                             
                         </Grid>

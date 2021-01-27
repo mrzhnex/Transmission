@@ -34,10 +34,10 @@
         <Image x:Key="Close" Source="/Server;component/Resources/Close.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
         <Image x:Key="Settings" Source="/Server;component/Resources/Settings.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
         <Image x:Key="ConnectionTwo" Source="/Server;component/Resources/ConnectionTwo.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
-        <Image x:Key="Speaker" Source="/Server;component/Resources/Speaker.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
-        <Image x:Key="SpeakerCrossed" Source="/Server;component/Resources/SpeakerCrossed.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
-        <Image x:Key="Microphone" Source="/Server;component/Resources/Microphone.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
-        <Image x:Key="MicrophoneCrossed" Source="/Server;component/Resources/MicrophoneCrossed.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
+        <BitmapImage x:Key="Speaker" UriSource="/Server;component/Resources/Speaker.png" RenderOptions.BitmapScalingMode="HighQuality" />
+        <BitmapImage x:Key="SpeakerCrossed" UriSource="/Server;component/Resources/SpeakerCrossed.png" RenderOptions.BitmapScalingMode="HighQuality" />
+        <BitmapImage x:Key="Microphone" UriSource="/Server;component/Resources/Microphone.png" RenderOptions.BitmapScalingMode="HighQuality" />
+        <BitmapImage x:Key="MicrophoneCrossed" UriSource="/Server;component/Resources/MicrophoneCrossed.png" RenderOptions.BitmapScalingMode="HighQuality" />
     </Window.Resources>
     <Border BorderBrush="MediumPurple" BorderThickness="2">
         <Grid>
@@ -127,12 +127,10 @@
             </Grid>
             <Grid Grid.Row="1" Background="LightGoldenrodYellow">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"></RowDefinition>
-                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <Button x:Name="OutputMuteStatus" Click="OutputMuteStatus_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderThickness="0">
-                    <DynamicResource ResourceKey="Speaker"/>
-                </Button>
+                <Image Source="{DynamicResource Speaker}" Width="16" Height="16"/>
                 <Slider x:Name="InputVolume" Grid.Row="1" Maximum="1.0" Value="1.0" ValueChanged="InputVolume_ValueChanged"/>
             </Grid>
             <Grid Grid.Row="2" Background="LightGoldenrodYellow">
@@ -140,9 +138,7 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <Button x:Name="InputMuteStatus" Click="InputMuteStatus_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderThickness="0">
-                    <DynamicResource ResourceKey="Microphone"/>
-                </Button>
+                <Image Source="{DynamicResource Microphone}" Width="16" Height="16"/>
                 <Slider x:Name="OutputVolume" Grid.Row="1" Maximum="1.0" Value="1.0" ValueChanged="OutputVolume_ValueChanged"/>
             </Grid>
 

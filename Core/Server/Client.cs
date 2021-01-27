@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 using Core.Application;
 using Core.Main;
 
@@ -14,14 +16,19 @@ namespace Core.Server
         public ConnectionInfo ConnectionInfo { get; private set; }
         public Record Record { get; private set; }
 
-        public Client(IPEndPoint Socket, int Id, string Username, TimeSpan SessionStartTimeSpan, string SessionName, string ServerName, bool IsRecording = false)
+        public Client(IPEndPoint Socket, int Id, string Username, TimeSpan SessionStartTimeSpan, string SessionName, string ServerName, bool IsClient, bool IsRecording)
         {
             this.Socket = Socket;
-            Record = new Record(SessionName, this, IsRecording);
+            Record = new Record(SessionName, this, IsClient, IsRecording);
             ConnectionInfo = new ConnectionInfo(Id, Username, SessionStartTimeSpan, Manage.DefaultInformation.VerificationMessage + Id.ToString(), SessionName, ServerName);
         }
 
         public void AddAudio(byte[] data)
+        {
+            Task.Run(new Action(() => AddAudioCore(data)));
+        }
+
+        private void AddAudioCore(byte[] data)
         {
             for (int i = 0; i < data.Length; i++)
             {
