@@ -23,6 +23,7 @@
         <Image x:Key="Record" Source="/Server;component/Resources/Record.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0" />
         <Image x:Key="PlayNext" Source="/Server;component/Resources/PlayNext.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0" />
         <Image x:Key="PlayPrevious" Source="/Server;component/Resources/PlayPrevious.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0" />
+        <Image x:Key="Pause2" Source="/Server;component/Resources/Pause.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0"/>
 
         <BitmapImage x:Key="Speaker" UriSource="/Server;component/Resources/Speaker.png" RenderOptions.BitmapScalingMode="HighQuality" />
         <BitmapImage x:Key="SpeakerCrossed" UriSource="/Server;component/Resources/SpeakerCrossed.png" RenderOptions.BitmapScalingMode="HighQuality" />
@@ -118,6 +119,9 @@
                 <Style TargetType="Button">
                     <Setter Property="BorderThickness" Value="0"/>
                 </Style>
+                <Style TargetType="RepeatButton">
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Style>
             </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -192,15 +196,15 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Button x:Name="PlayPrevious" Click="PlayPrevious_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="предыдущий">
+                        <RepeatButton x:Name="PlayPrevious" Click="PlayPrevious_Click" Background="NavajoWhite" ToolTip="предыдущий">
                             <StaticResource ResourceKey="PlayPrevious"/>
-                        </Button>
+                        </RepeatButton>
                         <Button x:Name="Play" Grid.Column="1" Click="Play_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="воспроизвести">
                             <StaticResource ResourceKey="Play"/>
                         </Button>
-                        <Button x:Name="PlayNext" Grid.Column="2" Click="PlayNext_Click"  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="следующий">
+                        <RepeatButton x:Name="PlayNext" Grid.Column="2" Click="PlayNext_Click" Background="NavajoWhite" ToolTip="следующий">
                             <StaticResource ResourceKey="PlayNext"/>
-                        </Button>
+                        </RepeatButton>
                         <Slider x:Name="OutputVolume" Grid.Column="3" Maximum="1.0" Value="1.0" ValueChanged="OutputVolume_ValueChanged" ToolTip="уровень"/>
                     </Grid>
                 </Grid>
@@ -304,33 +308,48 @@
                 </ListBox>
             </Grid>
             <Grid Grid.Column="1" Grid.Row="3">
-                <ListBox x:Name="Moderators" Drop="Moderators_Drop" AllowDrop="True" BorderThickness="0 0 0.6 0">
+                <ListBox x:Name="Moderators" Drop="Moderators_Drop" AllowDrop="True" BorderThickness="0 0 0.6 0" HorizontalContentAlignment="Stretch">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="DarkGray" BorderThickness="0 0 0 0.6">
-                                <local:ClientControl x:Name="ClientControl" HorizontalAlignment="Center" />
+                                <Grid Margin="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <local:ClientControl x:Name="ClientControl"/>
+                                </Grid>
                             </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </Grid>
             <Grid Grid.Column="2" Grid.Row="3">
-                <ListBox x:Name="Speakers" Drop="Speakers_Drop" AllowDrop="true" BorderThickness="0 0 0.6 0">
+                <ListBox x:Name="Speakers" Drop="Speakers_Drop" AllowDrop="true" BorderThickness="0 0 0.6 0" HorizontalContentAlignment="Stretch">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="DarkGray" BorderThickness="0 0 0 0.6">
-                                <local:ClientControl x:Name="ClientControl" HorizontalAlignment="Center"/>
+                                <Grid Margin="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <local:ClientControl x:Name="ClientControl"/>
+                                </Grid>
                             </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </Grid>
             <Grid Grid.Column="3" Grid.Row="3">
-                <ListBox x:Name="Listeners" Drop="Listeners_Drop" AllowDrop="true" BorderThickness="0 0 0.6 0">
+                <ListBox x:Name="Listeners" Drop="Listeners_Drop" AllowDrop="true" BorderThickness="0 0 0.6 0" HorizontalContentAlignment="Stretch">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="DarkGray" BorderThickness="0 0 0 0.6">
-                                <local:ClientControl x:Name="ClientControl" HorizontalAlignment="Center"/>
+                                <Grid Margin="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <local:ClientControl x:Name="ClientControl"/>
+                                </Grid>
                             </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

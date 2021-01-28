@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -22,10 +21,10 @@ namespace Core.Client
         private Socket ListeningSocket { get; set; } = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
         private ConnectionInfo ConnectionInfo { get; set; }
         private int ConnectTimeout { get; set; } = 3000;
-        private byte[] ServerKey { get; set; } = new byte[0];
+        private string ServerKey { get; set; } = string.Empty;
         public string Username { get; set; } = string.Empty;
         public TimeSpan ConnectTimeSpan { get; set; } = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-        public Session(IPAddress iPAddress, string Username, int port, byte[] Serverkey)
+        public Session(IPAddress iPAddress, string Username, int port, string Serverkey)
         {
             Manage.EventManager.AddEventHandlers(this);
             ServerKey = Serverkey;
@@ -41,8 +40,8 @@ namespace Core.Client
             ConnectedThread.Start();
             ConnectionThread.Start();
             CheckConnectThread.Start();
-            SendData(Serverkey);
-            Manage.Logger.Add($"Send {nameof(ServerKey)} {Manage.GetStringFromBuffer(ServerKey)} to the server {ServerIpEndPoint}", LogType.Client, LogLevel.Info);
+            SendData(Manage.GetDataFromString(Serverkey));
+            Manage.Logger.Add($"Send {nameof(ServerKey)} {ServerKey} to the server {ServerIpEndPoint}", LogType.Client, LogLevel.Info);
         }
         
         public void SetUsername(string Username)
@@ -79,7 +78,7 @@ namespace Core.Client
             Manage.EventManager.ExecuteEvent<IEventHandlerConnect>(new ConnectEvent(ip));
             Manage.Logger.Add($"The server {ServerIpEndPoint} allowed the connection by {key}", LogType.Client, LogLevel.Info);
             ConnectTimeSpan = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-            ConnectionInfo = new ConnectionInfo(0, Username, ConnectTimeSpan);
+            ConnectionInfo = new ConnectionInfo(0, Username, ConnectTimeSpan, IPAddress.Loopback);
             ClientStage = ClientStage.Connected;
         }
         public void Disconnect(string reason)
@@ -128,9 +127,9 @@ namespace Core.Client
                     {
                         Disconnect(Encoding.ASCII.GetString(data).Replace(Manage.DefaultInformation.DisconnectMessage, string.Empty));
                     }
-                    else if (ServerKey.SequenceEqual(data))
+                    else if (Manage.GetStringFromData(Manage.ParseKeyFromString(ServerKey)) == Manage.GetStringFromData(data))
                     {
-                        Connect((remoteIp as IPEndPoint).ToString(), Manage.GetStringFromBuffer(data));
+                        Connect((remoteIp as IPEndPoint).ToString(), Manage.GetStringFromData(data));
                     }
                     else
                     {
@@ -167,7 +166,7 @@ namespace Core.Client
                     }
                     else if (ConnectionInfo.IsVerificationMessage(data))
                     {
-                        Manage.Logger.Add($"Send {nameof(ConnectionInfo.Key)} {Manage.GetStringFromBuffer(data)} to the server {ServerIpEndPoint}", LogType.Client, LogLevel.Trace);
+                        Manage.Logger.Add($"Send {nameof(ConnectionInfo.Key)} {Manage.GetStringFromData(data)} to the server {ServerIpEndPoint}", LogType.Client, LogLevel.Trace);
                         ConnectionInfo.DecomposeClient(data);
                         SendData(ConnectionInfo.Key());
                         Manage.EventManager.ExecuteEvent<IEventHandlerClientUpdate>(new ClientUpdateEvent(ConnectionInfo));

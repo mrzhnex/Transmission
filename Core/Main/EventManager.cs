@@ -1,5 +1,4 @@
-﻿using Core.Events;
-using Core.Handlers;
+﻿using Core.Handlers;
 using System;
 using System.Collections.Generic;
 
@@ -7,15 +6,15 @@ namespace Core.Main
 {
     public class EventManager
     {
-        private Dictionary<Type, List<IEventHandler>> EventMeta { get; set; } = new Dictionary<Type, List<IEventHandler>>();
+		private Dictionary<Type, List<IEventHandler>> Events { get; set; } = new Dictionary<Type, List<IEventHandler>>();
 
 		internal EventManager() { }
 
-		public void ExecuteEvent<T>(Event ev) where T : IEventHandler
+		public void ExecuteEvent<T>(Events.Event ev) where T : IEventHandler
         {
-			if (!EventMeta.ContainsKey(typeof(T)))
+			if (!Events.ContainsKey(typeof(T)))
 				return;
-            foreach (IEventHandler eventHandler in EventMeta[typeof(T)])
+            foreach (IEventHandler eventHandler in Events[typeof(T)])
             {
                 ev.ExecuteHandler(eventHandler);
             }
@@ -30,15 +29,16 @@ namespace Core.Main
 				}
 			}
 		}
-		private void AddEventHandler(Type eventType, IEventHandler handler)
+		private void AddEventHandler(Type type, IEventHandler handler)
 		{
-			if (!EventMeta.ContainsKey(eventType))
+			if (Events.ContainsKey(type))
+            {
+
+				Events[type].Add(handler);
+			}
+            else
 			{
-				EventMeta.Add(eventType, new List<IEventHandler>
-				{
-					handler
-				});
-				return;
+				Events.Add(type, new List<IEventHandler> { handler });
 			}
 		}
 	}

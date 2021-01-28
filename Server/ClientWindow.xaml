@@ -148,6 +148,7 @@
                     <ColumnDefinition Width="auto"></ColumnDefinition>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Button x:Name="Settings" Click="Settings_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderThickness="0">
@@ -156,7 +157,8 @@
                 <TextBlock Grid.Column="1" x:Name="ClientStatus"/>
                 <TextBlock Grid.Column="2" x:Name="Username"/>
                 <TextBlock Grid.Column="3" x:Name="ConnectionTimeSpan"/>
-                <Grid Grid.Column="4" HorizontalAlignment="Right">
+                <TextBlock Grid.Column="4" x:Name="Ip"/>
+                <Grid Grid.Column="5" HorizontalAlignment="Right">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"></ColumnDefinition>
                         <ColumnDefinition Width="auto"></ColumnDefinition>

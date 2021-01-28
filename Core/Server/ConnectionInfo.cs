@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using Core.Main;
@@ -8,13 +9,14 @@ namespace Core.Server
 {
     public class ConnectionInfo : INotifyPropertyChanged
     {
-        public static ConnectionInfo Default = new ConnectionInfo(-1, "Default", TimeSpan.Zero);
+        public static ConnectionInfo Default = new ConnectionInfo(-1, "Default", TimeSpan.Zero, IPAddress.Loopback);
 
         #region static
         public bool IsVerified { get; set; } = false;
         public int Id { get; private set; } = 0;
         private DateTime ConnectDateTime { get; set; } = DateTime.Now;
         public string VerificationMessage { get; private set; } = Manage.DefaultInformation.VerificationMessage;
+        public string Ip { get; set; } = string.Empty;
         #endregion
 
         #region client decision
@@ -67,7 +69,7 @@ namespace Core.Server
         }
         public object[] Data { get; private set; } = new object[] { };
 
-        public ConnectionInfo(int Id, string Username, TimeSpan SessionStartTimeSpan, string VerificationMessage = "", string SessionName = "", string ServerName = "")
+        public ConnectionInfo(int Id, string Username, TimeSpan SessionStartTimeSpan, IPAddress iPAddress, string VerificationMessage = "", string SessionName = "", string ServerName = "")
         {
             this.Id = Id;
             this.Username = Username;
@@ -75,6 +77,7 @@ namespace Core.Server
             this.VerificationMessage = VerificationMessage;
             this.SessionName = SessionName;
             this.ServerName = ServerName;
+            Ip = iPAddress.ToString();
             ConnectionTimeSpan = new TimeSpan(0, 0, 0);
             UpdateData();
         }

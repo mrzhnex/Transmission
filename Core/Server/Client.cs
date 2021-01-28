@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
 using Core.Application;
 using Core.Main;
@@ -20,7 +19,7 @@ namespace Core.Server
         {
             this.Socket = Socket;
             Record = new Record(SessionName, this, IsClient, IsRecording);
-            ConnectionInfo = new ConnectionInfo(Id, Username, SessionStartTimeSpan, Manage.DefaultInformation.VerificationMessage + Id.ToString(), SessionName, ServerName);
+            ConnectionInfo = new ConnectionInfo(Id, Username, SessionStartTimeSpan, Socket.Address, Manage.DefaultInformation.VerificationMessage + Id.ToString(), SessionName, ServerName);
         }
 
         public void AddAudio(byte[] data)

@@ -1,5 +1,4 @@
 ﻿using Core.Main;
-using System.Linq;
 using System.Net;
 using System.Windows;
 
@@ -34,18 +33,8 @@ namespace Client
                 Manage.Logger.Add("Некорректный порт сервера!", LogType.Application, LogLevel.Warn);
                 return;
             }
-            byte[] key = new byte[Manage.DefaultInformation.DataLength];
-            char[] array = PasswordField.Text.ToArray();
-            for (int i = 0; i < array.Length; i++)
-            {
-                if (!byte.TryParse(array[i].ToString(), out key[i]))
-                {
-                    Manage.Logger.Add("Некорректный ключ!", LogType.Application, LogLevel.Warn);
-                    return;
-                }
-            }
             Manage.Logger.Add($"Попытка подключиться к {IpAddressField.Text}", LogType.Application, LogLevel.Info);
-            Manage.ClientSession = new Core.Client.Session(iPAddress, Manage.ApplicationManager.Current.ClientSettings.ClientName, port, key);
+            Manage.ClientSession = new Core.Client.Session(iPAddress, Manage.ApplicationManager.Current.ClientSettings.ClientName, port, PasswordField.Text);
             Close();
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

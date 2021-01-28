@@ -12,7 +12,7 @@ using Core.Server;
 
 namespace Server
 {
-    public partial class MainWindow : Window, IEventHandlerOpen, IEventHandlerClose, IEventHandlerClientDisconnect
+    public partial class MainWindow : Window, IEventHandlerOpen, IEventHandlerClose, IEventHandlerClientDisconnect, IEventHandlerSettingsLoaded
     {
         #region Main
         public static MainWindow MainWindowInstance { get; private set; }
@@ -103,15 +103,27 @@ namespace Server
         }
         private void PlayPrevious_Click(object sender, RoutedEventArgs e)
         {
-
+            Manage.Application.PreviousStep();
         }
         private void Play_Click(object sender, RoutedEventArgs e)
         {
-
+            if (!Manage.Application.IsAudioLoaded)
+                return;
+            Manage.Application.SwitchIsPlayingAudio();
+            if (Manage.Application.IsPlayingAudio)
+            {
+                Play.Content = FindResource("Pause2");
+                Manage.Logger.Add($"Start playing audio file {Manage.ApplicationManager.Current.ClientSettings.PlayAudioFile}", LogType.Client, LogLevel.Info);
+            }
+            else
+            {
+                Play.Content = FindResource("Play");
+                Manage.Logger.Add($"Stop playing audio file {Manage.ApplicationManager.Current.ClientSettings.PlayAudioFile}", LogType.Client, LogLevel.Info);
+            }
         }
         private void PlayNext_Click(object sender, RoutedEventArgs e)
         {
-
+            Manage.Application.NextStep();
         }
         private void Minimize_Click(object sender, RoutedEventArgs e)
         {
@@ -153,6 +165,10 @@ namespace Server
         #endregion
 
         #region Client-Server
+        public void OnSettingsLoaded(SettingsLoadedEvent settingsLoadedEvent)
+        {
+            Manage.Application.LoadAudioData(Manage.ApplicationManager.Current.ServerSettings.PlayAudioFile);
+        }
         public void OnOpen(OpenEvent openEvent)
         {
             SessionTime.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { SessionTime.Text = $"{Manage.ServerSession.Server.ConnectionInfo.SessionStartTimeSpan}"; }));
@@ -183,6 +199,9 @@ namespace Server
                 ClientWindows.FirstOrDefault(x => x.Id == clientDisconnectEvent.ConnectionInfo.Id).Dispatcher.Invoke(new Action(() => ClientWindows.FirstOrDefault(x => x.Id == clientDisconnectEvent.ConnectionInfo.Id).Close()));
             }
         }
+        #endregion
+
+        #region Helper
         public void UpdateServerInfo(List<Client> clients)
         {
             foreach (Client client in clients)
@@ -217,9 +236,6 @@ namespace Server
             }
             RefreshLists();
         }
-        #endregion
-
-        #region Helper
         private void RemoveDragConnectionInfoFromList()
         {
             switch (DragConnectionInfo.ClientStatus)

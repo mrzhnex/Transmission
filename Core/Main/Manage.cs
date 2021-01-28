@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Core.Localization;
 using Core.Server;
 
@@ -16,7 +16,8 @@ namespace Core.Main
         public static Client.Session ClientSession { get; set; }
         public static Session ServerSession { get; set; }
         public static Application Application { get; set; }
-        public static string GetStringFromBuffer(byte[] data)
+
+        public static string GetStringFromData(byte[] data)
         {
             string result = string.Empty;
             int zerocount = 0;
@@ -36,9 +37,23 @@ namespace Core.Main
                     result += data[i];
                 }
             }
-            if (zerocount > 10)
+            if (zerocount > 100)
             {
                 result = result + "+0x" + zerocount;
+            }
+            return result;
+        }
+        public static byte[] GetDataFromString(string key)
+        {
+            return Encoding.ASCII.GetBytes(key);
+        }
+        public static byte[] ParseKeyFromString(string key)
+        {
+            byte[] result = new byte[Manage.DefaultInformation.DataLength];
+            byte[] data = GetDataFromString(key);
+            for (int i = 0; i < data.Length; i++)
+            {
+                result[i] = data[i];
             }
             return result;
         }

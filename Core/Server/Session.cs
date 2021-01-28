@@ -12,7 +12,7 @@ using System.Threading;
 
 namespace Core.Server
 {
-    public class Session : IEventHandlerClientsInputMuteStatusChanged, IEventHandlerClientsOutputMuteStatusChanged
+    public class Session : IEventHandlerClientsInputMuteStatusChanged, IEventHandlerClientsOutputMuteStatusChanged, IEventHandlerInput
     {
         private bool ShouldRedirectPort { get; set; } = true;
         private ServerStage ServerStage { get; set; } = ServerStage.Starting;
@@ -40,11 +40,12 @@ namespace Core.Server
 
         public Client Server { get; set; } = new Client(new IPEndPoint(IPAddress.Any, 0), 0, nameof(Server), new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second), nameof(Name), nameof(ServerName), false, false);
 
-        public Session(int Port, string Name, string Password, bool StartServerAnyway = false)
+        public Session(int Port, string ServerName, string Password, bool StartServerAnyway = false)
         {
             Manage.Logger.Add("The server is starting...", LogType.Server, LogLevel.Debug);
             this.Port = Port;
             this.Password = Password;
+            this.ServerName = ServerName;
             NatUtility.DeviceFound += DeviceFound;
             NatUtility.StartDiscovery();
             ListeningThread = new Thread(new ThreadStart(Listening));
@@ -55,6 +56,7 @@ namespace Core.Server
             });
             SendingThread = new Thread(SendingData);
             Manage.Application.AddEventHandlers(this);
+            Server.ConnectionInfo.SetClientStatus(ClientStatus.Moderator);
             Thread.Sleep(1000);
             if (NatDevice == null)
             {
@@ -88,6 +90,10 @@ namespace Core.Server
         }
 
         #region Events
+        public void OnInput(InputEvent inputEvent)
+        {
+            AddAudio(inputEvent.Data, Server);
+        }
         public void OnClientsInputMuteStatusChanged(ClientsInputMuteStatusChangedEvent clientsInputMuteStatusChangedEvent)
         {
             switch (clientsInputMuteStatusChangedEvent.ClientStatus)
@@ -193,13 +199,8 @@ namespace Core.Server
         }
         private bool IsKey(byte[] data)
         {
-            if (Password.Length > data.Length)
+            if (Manage.GetStringFromData(Manage.ParseKeyFromString(Password)) != Manage.GetStringFromData(data))
                 return false;
-            for (int i = 0; i < Password.Length; i++)
-            {
-                if (Password[i] != data[i])
-                    return false;
-            }
             return true;
         }
         private Client GetClientBySocket(IPEndPoint socket)
@@ -252,7 +253,7 @@ namespace Core.Server
             Client client = new Client(iPEndPoint, Clients.Count + DisconnectedClients.Count, "Username", Server.ConnectionInfo.SessionStartTimeSpan, Name, ServerName, false, false);
             Clients.Add(client);
             SendData(Encoding.ASCII.GetBytes(Password), client.Socket);
-            Manage.Logger.Add($"The user {client.Socket} has connected to the server. Create new {nameof(client.ConnectionInfo.Key)} {Manage.GetStringFromBuffer(client.ConnectionInfo.Key())}", LogType.Server, LogLevel.Info);
+            Manage.Logger.Add($"The user {client.Socket} has connected to the server. Create new {nameof(client.ConnectionInfo.Key)} {Manage.GetStringFromData(client.ConnectionInfo.Key())}", LogType.Server, LogLevel.Info);
 
             new Thread(delegate ()
             {
@@ -360,7 +361,7 @@ namespace Core.Server
                     }
                     else
                     {
-                        BlockClient(iPEndPoint, $"by wrong {nameof(Password)} {Manage.GetStringFromBuffer(data)}");
+                        BlockClient(iPEndPoint, $"by wrong {nameof(Password)} {Manage.GetStringFromData(data)}");
                     }
                 }
             }

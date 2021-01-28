@@ -11,6 +11,7 @@ namespace Core.Application
         public int Port { get; set; } = 5555;
         public string SaveFolder { get; set; } = string.Empty;
         public string RecordSaveFolder { get; set; } = string.Empty;
+        public string PlayAudioFile { get; set; } = string.Empty;
         [XmlIgnore]
         public static ServerSettings Default { get; set; } = new ServerSettings();
         public ServerSettings() { }

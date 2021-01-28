@@ -2,11 +2,11 @@
 using Core.Handlers;
 using Core.Main;
 using NAudio.Wave;
-using System.Threading;
+using System;
 
 namespace Client
 {
-    public class Application : Core.Main.Application, IEventHandlerLog, IEventHandlerOutput, IEventHandlerNextStep, IEventHandlerPreviousStep
+    public class Application : Core.Main.Application, IEventHandlerOutput, IEventHandlerNextStep, IEventHandlerPreviousStep, IEventHandlerInput
     {
         private WaveIn WaveIn { get; set; } = new WaveIn()
         {
@@ -17,10 +17,6 @@ namespace Client
         private BufferedWaveProvider BufferedWaveProvider { get; set; } = new BufferedWaveProvider(Manage.DefaultInformation.WaveFormat);
         private BufferedWaveProvider BufferedWaveProviderAudio { get; set; } = new BufferedWaveProvider(Manage.DefaultInformation.WaveFormat);
 
-        public Application()
-        {
-            new Thread(AudioPlay).Start();
-        }
 
         #region Override
         protected override void PrepareOutput()
@@ -61,56 +57,22 @@ namespace Client
 
         private void Input(object sender, WaveInEventArgs e)
         {
-            Manage.EventManager.ExecuteEvent<IEventHandlerInput>(new InputEvent(e.Buffer));
-            MainWindow.MainWindowInstance.Client.AddAudio(e.Buffer);
-            MainWindow.MainWindowInstance.InputSpectrum.ProcessData(e.Buffer, Manage.ApplicationManager.Current.ClientSettings.InputMuteStatus);
-        }
-
-        public void OnLog(LogEvent logEvent)
-        {
-            if (logEvent.LogLevel < LogLevel.Info)
-                return;
+            if (!IsPlayingAudio)
+            {
+                Manage.EventManager.ExecuteEvent<IEventHandlerInput>(new InputEvent(e.Buffer));
+            }
         }
 
         public void OnOutput(OutputEvent outputEvent)
         {
-            BufferedWaveProvider.AddSamples(outputEvent.Data, 0, outputEvent.Data.Length);
-            MainWindow.MainWindowInstance.Client.AddAudio(outputEvent.Data);
-            MainWindow.MainWindowInstance.OutputSpectrum.ProcessData(outputEvent.Data, Manage.ApplicationManager.Current.ClientSettings.OutputMuteStatus);
-        }
-
-        private void AudioPlay()
-        {
-            byte[] data;
-            while (Manage.Logger.ActiveLog)
+            if (IsPlayingAudio)
             {
-                if (CanOutput() && IsPlayingAudio)
-                {
-                    if (AudioData.Count <= Length + Index && BufferedWaveProviderAudio.BufferedDuration.TotalSeconds == 0.0)
-                    {
-                        SetIndexToZero();
-                        SetLengthToDefault();
-                        IsPlayingAudio = false;
-                        MainWindow.MainWindowInstance.Play.Dispatcher.Invoke(new System.Action(() => MainWindow.MainWindowInstance.Play.Content = MainWindow.MainWindowInstance.FindResource("Play")));
-                        Manage.Logger.Add($"{nameof(IsPlayingAudio)} now is {IsPlayingAudio}", LogType.Client, LogLevel.Debug);
-                        continue;
-                    }
-                    if (AudioData.Count <= Length + Index || BufferedWaveProviderAudio.BufferedDuration.TotalSeconds > 0.1)
-                        continue;
-
-                    NextStep();
-
-                    data = AudioData.GetRange(Index, Length).ToArray();
-                    BufferedWaveProviderAudio.AddSamples(data, 0, data.Length);
-                    MainWindow.MainWindowInstance.Client.AddAudio(data);
-                    MainWindow.MainWindowInstance.OutputSpectrum.ProcessData(data, Manage.ApplicationManager.Current.ClientSettings.OutputMuteStatus);
-                }
-                else
-                {
-                    if (BufferedWaveProviderAudio.BufferedDuration.TotalSeconds > 0.1)
-                        BufferedWaveProviderAudio.ClearBuffer();
-                }
+                BufferedWaveProviderAudio.AddSamples(outputEvent.Data, 0, outputEvent.Data.Length);
+                MainWindow.MainWindowInstance.Client.AddAudio(outputEvent.Data);
             }
+            else
+                BufferedWaveProvider.AddSamples(outputEvent.Data, 0, outputEvent.Data.Length);
+            MainWindow.MainWindowInstance.OutputSpectrum.ProcessData(outputEvent.Data, Manage.ApplicationManager.Current.ClientSettings.OutputMuteStatus);
         }
 
         public void OnNextStep(NextStepEvent nextStepEvent)
@@ -123,6 +85,27 @@ namespace Client
         public void OnPreviousStep(PreviousStepEvent previousStepEvent)
         {
             MainWindow.MainWindowInstance.OutputSpectrum.ClearPreValues();
+        }
+
+        protected override TimeSpan BufferedDuration()
+        {
+            return BufferedWaveProviderAudio.BufferedDuration;
+        }
+
+        protected override void ClearBuffer()
+        {
+            BufferedWaveProviderAudio.ClearBuffer();
+        }
+
+        public void OnInput(InputEvent inputEvent)
+        {
+            MainWindow.MainWindowInstance.Client.AddAudio(inputEvent.Data);
+            MainWindow.MainWindowInstance.InputSpectrum.ProcessData(inputEvent.Data, Manage.ApplicationManager.Current.ClientSettings.InputMuteStatus);
+        }
+
+        protected override void AudioPlaybackStopped()
+        {
+            MainWindow.MainWindowInstance.Play.Dispatcher.Invoke(new Action(() => MainWindow.MainWindowInstance.Play.Content = MainWindow.MainWindowInstance.FindResource("Play")));
         }
     }
 }

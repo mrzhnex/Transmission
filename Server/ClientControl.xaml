@@ -6,48 +6,21 @@
         mc:Ignorable="d"
         DataContext="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}}"
         MouseLeftButtonDown="UserControl_MouseLeftButtonDown"
-        MouseDoubleClick="UserControl_MouseDoubleClick"
-        d:DesignHeight="100" d:DesignWidth="200">
+        MouseDoubleClick="UserControl_MouseDoubleClick">
     <UserControl.Resources>
-        <Style x:Key="NonDefaultMouseOverEffect" TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="True" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Name="border" BorderThickness="0" BorderBrush="Black" Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Opacity" Value="0.8" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Image x:Key="Minimize" Source="/Server;component/Resources/Minimize.png" Height="12" Width="12" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
-        <Image x:Key="Deploy" Source="/Server;component/Resources/Deploy.png" Height="12" Width="12" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
-        <Image x:Key="DeployTwo" Source="/Server;component/Resources/DeployTwo.png" Height="12" Width="12" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
-        <Image x:Key="Close" Source="/Server;component/Resources/Close.png" Height="12" Width="12" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
-        <Image x:Key="Settings" Source="/Server;component/Resources/Settings.png" Height="12" Width="12" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
-        <Image x:Key="ConnectionTwo" Source="/Server;component/Resources/ConnectionTwo.png" Height="12" Width="12" RenderOptions.BitmapScalingMode="HighQuality" Margin="4" />
-        <BitmapImage x:Key="Speaker" UriSource="/Server;component/Resources/Speaker.png" RenderOptions.BitmapScalingMode="HighQuality" />
-        <BitmapImage x:Key="SpeakerCrossed" UriSource="/Server;component/Resources/SpeakerCrossed.png" RenderOptions.BitmapScalingMode="HighQuality" />
-        <BitmapImage x:Key="Microphone" UriSource="/Server;component/Resources/Microphone.png" RenderOptions.BitmapScalingMode="HighQuality" />
-        <BitmapImage x:Key="MicrophoneCrossed" UriSource="/Server;component/Resources/MicrophoneCrossed.png" RenderOptions.BitmapScalingMode="HighQuality" />
+        <BitmapImage x:Key="ConnectionTwo" UriSource="/Server;component/Resources/ConnectionTwo.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+        <BitmapImage x:Key="Speaker" UriSource="/Server;component/Resources/Speaker.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+        <BitmapImage x:Key="SpeakerCrossed" UriSource="/Server;component/Resources/SpeakerCrossed.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+        <BitmapImage x:Key="Microphone" UriSource="/Server;component/Resources/Microphone.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+        <BitmapImage x:Key="MicrophoneCrossed" UriSource="/Server;component/Resources/MicrophoneCrossed.png" RenderOptions.BitmapScalingMode="HighQuality"/>
     </UserControl.Resources>
     <Border BorderBrush="MediumPurple" BorderThickness="2">
         <Grid>
             <Grid.Resources>
                 <Style TargetType="TextBlock">
-                    <Setter Property="FontSize" Value="8"/>
+                    <Setter Property="Margin" Value="2"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
                     <Setter Property="HorizontalAlignment" Value="Center"/>
-                </Style>
-                <Style TargetType="Slider">
-                    <Setter Property="Margin" Value="2"/>
                 </Style>
             </Grid.Resources>
             <Grid.ColumnDefinitions>
@@ -60,35 +33,31 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid Background="LightPink">
-                <Button x:Name="Disconnect" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderThickness="0">
-                    <StaticResource ResourceKey="ConnectionTwo"/>
-                </Button>
+                <Image Source="{StaticResource ConnectionTwo}" Width="12" Height="12" Margin="2"/>
             </Grid>
             <Grid Grid.Row="1" Background="LightGoldenrodYellow">
-                <Image Source="{DynamicResource Speaker}" Width="12" Height="12"/>
+                <Image Source="{DynamicResource Speaker}" Width="12" Height="12" Margin="2"/>
             </Grid>
             <Grid Grid.Row="2" Background="LightGoldenrodYellow">
-                <Image Source="{DynamicResource Microphone}" Width="12" Height="12"/>
+                <Image Source="{DynamicResource Microphone}" Width="12" Height="12" Margin="2"/>
             </Grid>
 
             <Grid Grid.Column="1" Background="LightPink">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"></ColumnDefinition>
-                    <ColumnDefinition Width="auto"></ColumnDefinition>
-                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="Settings" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderThickness="0">
-                    <StaticResource ResourceKey="Settings"/>
-                </Button>
-                <TextBlock Grid.Column="1" Text="{Binding Path=Username}"/>
-                <TextBlock Grid.Column="2" Text="{Binding Path=ConnectionTimeSpan}"/>
+                <TextBlock Text="{Binding Path=Username}"/>
+                <TextBlock Grid.Column="1" Text="{Binding Path=ConnectionTimeSpan}"/>
+                <TextBlock Grid.Column="2" Text="{Binding Path=Ip}"/>
             </Grid>
 
             <Grid Grid.Row="1" Grid.Column="1" Background="LightGoldenrodYellow">
-                <Grid Background="Black" Margin="4" />
+                <Grid Background="Black" Margin="2" />
             </Grid>
             <Grid Grid.Row="2" Grid.Column="1" Background="LightGoldenrodYellow">
-                <Grid Background="Black" Margin="4" />
+                <Grid Background="Black" Margin="2" />
             </Grid>
         </Grid>
     </Border>

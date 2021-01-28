@@ -1,13 +1,14 @@
 ﻿using Core.Events;
 using Core.Handlers;
 using NAudio.Wave;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
 namespace Core.Main
 {
-    public abstract class Application : IEventHandlerInputMuteStatusChanged, IEventHandlerOutputMuteStatusChanged, IEventHandlerShutdown, IEventHandlerInputVolumeChanged, IEventHandlerOutputVolumeChanged
+    public abstract class Application : IEventHandlerInputMuteStatusChanged, IEventHandlerOutputMuteStatusChanged, IEventHandlerShutdown, IEventHandlerInputVolumeChanged, IEventHandlerOutputVolumeChanged, IEventHandlerLog, IEventHandlerClientUpdate
     {
         protected internal bool IsInputPrepared { get; set; } = false;
         protected internal bool IsOutputPrepared { get; set; } = false;
@@ -20,16 +21,14 @@ namespace Core.Main
         protected internal List<byte> AudioData { get; set; } = new List<byte>();
         public bool IsPlayingAudio { get; protected set; } = false;
         public bool IsAudioLoaded { get; set; } = false;
-        protected internal int Length { get; set; } = 100000;
-        protected internal int DefaultLength { get; private set; } = 100000;
+        protected internal int Length { get; set; } = Manage.DefaultInformation.DataLength;
         protected internal int Index { get; set; } = 0;
-        private Thread Thread { get; set; }
 
         #region Main
         public Application()
         {
-            Thread = new Thread(OutputThread);
-            Thread.Start();
+            new Thread(OutputThread).Start();
+            new Thread(AudioPlay).Start();
             Manage.EventManager.AddEventHandlers(this);
         }
         public void AddEventHandlers(IEventHandler eventHandler)
@@ -86,6 +85,8 @@ namespace Core.Main
         }
         public void LoadAudioData(string audioFilePath)
         {
+            if (audioFilePath == null || audioFilePath == string.Empty || audioFilePath.Length == 0)
+                return;
             WaveFileReader waveFileReader = new WaveFileReader(audioFilePath);
             byte[] data = new byte[waveFileReader.Length];
             waveFileReader.Read(data, 0, data.Length);
@@ -112,7 +113,7 @@ namespace Core.Main
                 return;
             bool IsPlayingAudio = this.IsPlayingAudio;
             this.IsPlayingAudio = false;
-            if (Length != DefaultLength)
+            if (Length != Manage.DefaultInformation.DataLength)
                 SetLengthToDefault();
             Index -= Length;
             if (Index < 0)
@@ -123,13 +124,50 @@ namespace Core.Main
         }
         public void SetLengthToDefault()
         {
-            Length = DefaultLength;
+            Length = Manage.DefaultInformation.DataLength;
             Manage.Logger.Add($"Set {nameof(Length)} to {Length}", LogType.Application, LogLevel.Debug);
         }
         public void SetIndexToZero()
         {
             Index = 0;
             Manage.Logger.Add($"Set {nameof(Index)} to {Index}", LogType.Application, LogLevel.Debug);
+        }
+        protected internal abstract TimeSpan BufferedDuration();
+        protected internal abstract void ClearBuffer();
+        protected internal abstract void AudioPlaybackStopped();
+        private void AudioPlay()
+        {
+            byte[] data;
+            while (Manage.Logger.ActiveLog)
+            {
+                if (IsPlayingAudio)
+                {
+                    if (AudioData.Count <= Length + Index && BufferedDuration().TotalSeconds == 0.0)
+                    {
+                        SetIndexToZero();
+                        SetLengthToDefault();
+                        IsPlayingAudio = false;
+                        AudioPlaybackStopped();
+                        Manage.Logger.Add($"{nameof(IsPlayingAudio)} now is {IsPlayingAudio}", LogType.Client, LogLevel.Debug);
+                        continue;
+                    }
+                    if (AudioData.Count <= Length + Index || BufferedDuration().TotalSeconds > 0.1)
+                        continue;
+
+                    NextStep();
+
+                    data = AudioData.GetRange(Index, Length).ToArray();
+
+                    Manage.EventManager.ExecuteEvent<IEventHandlerInput>(new InputEvent(data));
+                    Manage.EventManager.ExecuteEvent<IEventHandlerOutput>(new OutputEvent(data));
+
+                }
+                else
+                {
+                    if (BufferedDuration().TotalSeconds > 0.1)
+                        ClearBuffer();
+                }
+            }
         }
         #endregion
 
@@ -149,10 +187,15 @@ namespace Core.Main
             Manage.Logger.ActiveLog = false;
             Manage.Logger.SaveAllLogs();
         }
+        public void OnClientUpdate(ClientUpdateEvent clientUpdateEvent)
+        {
+            Manage.ServerSession.Clients.FirstOrDefault(x => x.ConnectionInfo.Id == clientUpdateEvent.ConnectionInfo.Id).ConnectionInfo.UpdateConnectionTimeSpan();
+        }
         public void OnInputMuteStatusChanged(InputMuteStatusChangedEvent inputMuteStatusChangedEvent) { }
         public void OnOutputMuteStatusChanged(OutputMuteStatusChangedEvent outputMuteStatusChangedEvent) { }
         public void OnInputVolumeChanged(InputVolumeChangedEvent inputVolumeChangedEvent) { }
         public void OnOutputVolumeChanged(OutputVolumeChangedEvent outputVolumeChangedEvent) { }
+        public void OnLog(LogEvent logEvent) { }
         #endregion
     }
 }

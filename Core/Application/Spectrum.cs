@@ -29,11 +29,11 @@ namespace Core.Application
             
             while (Manage.Logger.ActiveLog)
             {
+                Thread.Sleep(1);
                 lock (PreValues)
                 {
                     if (PreValues.Count < length)
                         continue;
-                    Thread.Sleep(1);
                     if (Values.Count > KeepValues - length)
                     {
                         for (int i = 0; i < length; i++)

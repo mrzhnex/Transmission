@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Threading;
 using Core.Application;
 using Core.Events;
@@ -114,10 +113,6 @@ namespace Client
         {
             Manage.Application.PreviousStep();
         }
-        private void PlayNext_Click(object sender, RoutedEventArgs e)
-        {
-            Manage.Application.NextStep();
-        }
         private void Play_Click(object sender, RoutedEventArgs e)
         {
             if (!Manage.Application.IsAudioLoaded)
@@ -133,8 +128,10 @@ namespace Client
                 Play.Content = FindResource("Play");
                 Manage.Logger.Add($"Stop playing audio file {Manage.ApplicationManager.Current.ClientSettings.PlayAudioFile}", LogType.Client, LogLevel.Info);
             }
-            
-
+        }
+        private void PlayNext_Click(object sender, RoutedEventArgs e)
+        {
+            Manage.Application.NextStep();
         }
         private void Clients_Click(object sender, RoutedEventArgs e)
         {
