@@ -6,7 +6,9 @@ namespace Core.Server
     public class Information
     {
         public string ApplicationName { get; set; } = "Transmission";
-        public string SessionName { get; set; } = "Session";
+        public string SessionName { get; set; } = "сессия";
+        public string DefaultFileName { get; set; } = "не выбран";
+        public string DefaultFontFamily { get; set; } = "Arial";
         public int DataLength { get; set; } = 8820;
         public Protocol Protocol { get; set; } = Protocol.Udp;
         public string DisconnectMessage { get; set; } = nameof(DisconnectMessage);

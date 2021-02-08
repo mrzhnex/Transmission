@@ -4,10 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Server"
+        xmlns:theme="clr-namespace:Core.Application;assembly=Core"
         mc:Ignorable="d"
         AllowsTransparency="true"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="250" MinWidth="800" Height="0" Width="0">
+        WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="250" MinWidth="900" Height="0" Width="0">
     <Window.Resources>
         <Image x:Key="Minimize" Source="/Server;component/Resources/Minimize.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
         <Image x:Key="Deploy" Source="/Server;component/Resources/Deploy.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
@@ -44,8 +45,23 @@
         <Image x:Key="SpeakerCrossed4" Source="/Server;component/Resources/SpeakerCrossed.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
         <Image x:Key="Microphone4" Source="/Server;component/Resources/Microphone.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
         <Image x:Key="MicrophoneCrossed4" Source="/Server;component/Resources/MicrophoneCrossed.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
+        <Style x:Key="MenuButton" TargetType="RepeatButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Grid>
+                            <Border Name="MenuBorder" SnapsToDevicePixels="True" BorderBrush="Black" Background="{TemplateBinding Background}" BorderThickness="0" >
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
-    <Border BorderBrush="MediumPurple" BorderThickness="2">
+    <Border BorderBrush="{Binding Source={x:Static theme:ServerSettings.Theme}, Path=FourthColor}" BorderThickness="2">
         <Grid>
             <Grid.Resources>
                 <LinearGradientBrush x:Key="HorizontalBrush" StartPoint="0,0" EndPoint="1,0">
@@ -136,7 +152,7 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <Grid Grid.ColumnSpan="5" Background="Thistle" MouseLeftButtonDown="ProgramName_MouseLeftButtonDown">
+            <Grid Grid.ColumnSpan="5" Background="{Binding Source={x:Static theme:ServerSettings.Theme}, Path=FirstColor}" MouseLeftButtonDown="ProgramName_MouseLeftButtonDown">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -156,7 +172,7 @@
             </Grid>
 
             <Border Grid.Row="1" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
-                <Grid Background="NavajoWhite">
+                <Grid Background="{Binding Source={x:Static theme:ServerSettings.Theme}, Path=ThirdColor}">
                     <Grid Margin="10 0 10 0" HorizontalAlignment="Center">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -170,7 +186,7 @@
                 </Grid>
             </Border>
             <Border Grid.Column="1" Grid.Row="1" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
-                <Grid Background="NavajoWhite">
+                <Grid Background="{Binding Source={x:Static theme:ServerSettings.Theme}, Path=ThirdColor}">
                     <Grid Margin="20 0 20 0" HorizontalAlignment="Center">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -188,7 +204,7 @@
                 </Grid>
             </Border>
             <Border Grid.Column="2" Grid.Row="1" BorderBrush="DarkGray" BorderThickness="0 0 0.6 0">
-                <Grid Background="NavajoWhite">
+                <Grid Background="{Binding Source={x:Static theme:ServerSettings.Theme}, Path=ThirdColor}">
                     <Grid Margin="20 0 20 0" HorizontalAlignment="Center">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -196,20 +212,20 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <RepeatButton x:Name="PlayPrevious" Click="PlayPrevious_Click" Background="NavajoWhite" ToolTip="предыдущий">
+                        <RepeatButton x:Name="PlayPrevious" Click="PlayPrevious_Click" Style="{StaticResource MenuButton}" ToolTip="предыдущий" Delay="20" Interval="20">
                             <StaticResource ResourceKey="PlayPrevious"/>
                         </RepeatButton>
                         <Button x:Name="Play" Grid.Column="1" Click="Play_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="воспроизвести">
-                            <StaticResource ResourceKey="Play"/>
+                            <DynamicResource ResourceKey="Play"/>
                         </Button>
-                        <RepeatButton x:Name="PlayNext" Grid.Column="2" Click="PlayNext_Click" Background="NavajoWhite" ToolTip="следующий">
+                        <RepeatButton x:Name="PlayNext" Grid.Column="2" Click="PlayNext_Click" Style="{StaticResource MenuButton}" ToolTip="следующий" Delay="20" Interval="20">
                             <StaticResource ResourceKey="PlayNext"/>
                         </RepeatButton>
                         <Slider x:Name="OutputVolume" Grid.Column="3" Maximum="1.0" Value="1.0" ValueChanged="OutputVolume_ValueChanged" ToolTip="уровень"/>
                     </Grid>
                 </Grid>
             </Border>
-            <Grid Grid.Column="3" Grid.Row="1" Background="NavajoWhite">
+            <Grid Grid.Column="3" Grid.Row="1" Background="{Binding Source={x:Static theme:ServerSettings.Theme}, Path=ThirdColor}">
                 <Grid Margin="0 0 0 0" HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -235,7 +251,7 @@
                 </Grid>
             </Grid>
 
-            <Border Grid.Row="2" BorderBrush="DarkGray" Background="PaleTurquoise" BorderThickness="0 0 0.6 0">
+            <Border Grid.Row="2" BorderBrush="DarkGray" Background="{Binding Source={x:Static theme:ServerSettings.Theme}, Path=SecondColor}" BorderThickness="0 0 0.6 0">
                 <Grid HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -251,7 +267,7 @@
                     </Button>
                 </Grid>
             </Border>
-            <Border Grid.Column="1" Grid.Row="2" BorderBrush="DarkGray" Background="PaleTurquoise" BorderThickness="0 0 0.6 0">
+            <Border Grid.Column="1" Grid.Row="2" BorderBrush="DarkGray" Background="{Binding Source={x:Static theme:ServerSettings.Theme}, Path=SecondColor}" BorderThickness="0 0 0.6 0">
                 <Grid HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -267,7 +283,7 @@
                     </Button>
                 </Grid>
             </Border>
-            <Border Grid.Column="2" Grid.Row="2" BorderBrush="DarkGray" Background="PaleTurquoise" BorderThickness="0 0 0.6 0">
+            <Border Grid.Column="2" Grid.Row="2" BorderBrush="DarkGray" Background="{Binding Source={x:Static theme:ServerSettings.Theme}, Path=SecondColor}" BorderThickness="0 0 0.6 0">
                 <Grid HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -283,7 +299,7 @@
                     </Button>
                 </Grid>
             </Border>
-            <Border Grid.Column="3" Grid.Row="2" Background="PaleTurquoise" BorderThickness="0">
+            <Border Grid.Column="3" Grid.Row="2" Background="{Binding Source={x:Static theme:ServerSettings.Theme}, Path=SecondColor}" BorderThickness="0">
                 <Grid HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>

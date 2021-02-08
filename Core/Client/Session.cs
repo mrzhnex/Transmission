@@ -123,9 +123,9 @@ namespace Core.Client
                         Disconnect(ex.Message);
                         break;
                     }
-                    if (Encoding.ASCII.GetString(data).Contains(Manage.DefaultInformation.DisconnectMessage))
+                    if (Encoding.UTF8.GetString(data).Contains(Manage.DefaultInformation.DisconnectMessage))
                     {
-                        Disconnect(Encoding.ASCII.GetString(data).Replace(Manage.DefaultInformation.DisconnectMessage, string.Empty));
+                        Disconnect(Encoding.UTF8.GetString(data).Replace(Manage.DefaultInformation.DisconnectMessage, string.Empty));
                     }
                     else if (Manage.GetStringFromData(Manage.ParseKeyFromString(ServerKey)) == Manage.GetStringFromData(data))
                     {
@@ -160,14 +160,14 @@ namespace Core.Client
                         Disconnect(ex.Message);
                         break;
                     }
-                    if (Encoding.ASCII.GetString(data).Contains(Manage.DefaultInformation.DisconnectMessage))
+                    if (Encoding.UTF8.GetString(data).Contains(Manage.DefaultInformation.DisconnectMessage))
                     {
-                        Disconnect(Encoding.ASCII.GetString(data).Replace(Manage.DefaultInformation.DisconnectMessage, string.Empty));
+                        Disconnect(Encoding.UTF8.GetString(data).Replace(Manage.DefaultInformation.DisconnectMessage, string.Empty));
                     }
                     else if (ConnectionInfo.IsVerificationMessage(data))
                     {
-                        Manage.Logger.Add($"Send {nameof(ConnectionInfo.Key)} {Manage.GetStringFromData(data)} to the server {ServerIpEndPoint}", LogType.Client, LogLevel.Trace);
                         ConnectionInfo.DecomposeClient(data);
+                        Manage.Logger.Add($"Send {nameof(ConnectionInfo.Key)} {Manage.GetStringFromData(data)} to the server {ServerIpEndPoint}", LogType.Client, LogLevel.Trace);
                         SendData(ConnectionInfo.Key());
                         Manage.EventManager.ExecuteEvent<IEventHandlerClientUpdate>(new ClientUpdateEvent(ConnectionInfo));
                     }

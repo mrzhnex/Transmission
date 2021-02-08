@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Threading;
 using Core.Application;
 using Core.Events;
@@ -11,8 +12,8 @@ using Core.Main;
 
 namespace Client
 {
-    public partial class MainWindow : Window, IEventHandlerConnect, IEventHandlerDisconnect,
-                IEventHandlerInputFound, IEventHandlerOutputFound, IEventHandlerInputNotFound, IEventHandlerOutputNotFound, IEventHandlerSettingsLoaded, IEventHandlerClientUpdate
+    public partial class MainWindow : Window, IEventHandlerConnect, IEventHandlerDisconnect, IEventHandlerFontFamilyChanged,
+        IEventHandlerInputFound, IEventHandlerOutputFound, IEventHandlerInputNotFound, IEventHandlerOutputNotFound, IEventHandlerSettingsLoaded, IEventHandlerClientUpdate
     {
         #region Main
         public static MainWindow MainWindowInstance { get; set; }
@@ -22,9 +23,12 @@ namespace Client
         public Core.Server.Client Client { get; set; } = new Core.Server.Client(new IPEndPoint(IPAddress.Any, 0), 0, nameof(Client), new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second), nameof(Client), nameof(Client), true, false);
         public Spectrum InputSpectrum { get; set; } = new Spectrum(); 
         public Spectrum OutputSpectrum { get; set; } = new Spectrum();
+
+        public Theme Theme { get; set; } = Theme.Default;
         public MainWindow()
         {
             InitializeComponent();
+            
             MainWindowInstance = this;
             Manage.Application = new Application();
             Manage.Application.AddEventHandlers(this); 
@@ -47,6 +51,8 @@ namespace Client
                 InputMuteStatus.Content = FindResource("MicrophoneCrossed");
             }
             Manage.Application.LoadAudioData(Manage.ApplicationManager.Current.ClientSettings.PlayAudioFile);
+            Manage.ApplicationManager.Current.ClientSettings.ThemeType = settingsLoadedEvent.Settings.ClientSettings.ThemeType;
+            Manage.EventManager.ExecuteEvent<IEventHandlerFontFamilyChanged>(new FontFamilyChangedEvent(settingsLoadedEvent.Settings.ClientSettings.FontFamily));
         }
         #endregion
 
@@ -75,7 +81,8 @@ namespace Client
                     IsConnectWindowOpened = true;
                     ConnectWindow connectWindow = new ConnectWindow
                     {
-                        Owner = this
+                        Owner = this,
+                        FontFamily = FontFamily
                     };
                     connectWindow.Show();
                 }
@@ -92,7 +99,8 @@ namespace Client
                 IsSettingsWindowOpened = true;
                 SettingsWindow settingsWindow = new SettingsWindow
                 {
-                    Owner = this
+                    Owner = this,
+                    FontFamily = FontFamily
                 };
                 settingsWindow.Show();
             }
@@ -104,7 +112,8 @@ namespace Client
                 IsHelpWindowOpened = true;
                 HelpWindow helpWindow = new HelpWindow
                 {
-                    Owner = this
+                    Owner = this,
+                    FontFamily = FontFamily
                 };
                 helpWindow.Show();
             }
@@ -250,6 +259,10 @@ namespace Client
         #endregion
 
         #region Device
+        public void OnFontFamilyChanged(FontFamilyChangedEvent fontFamilyChangedEvent)
+        {
+            FontFamily = new FontFamily(fontFamilyChangedEvent.FontFamilyName);
+        }
         public void OnInputFound(InputFoundEvent inputFoundEvent)
         {
             InputMuteStatus.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { InputMuteStatus.IsEnabled = true; }));

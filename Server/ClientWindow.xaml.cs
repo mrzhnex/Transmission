@@ -6,10 +6,11 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace Server
 {
-    public partial class ClientWindow : Window, IEventHandlerSpectrumUpdate
+    public partial class ClientWindow : Window, IEventHandlerSpectrumUpdate, IEventHandlerFontFamilyChanged
     {
         public Spectrum InputSpectrum { get; set; } = new Spectrum();
 
@@ -19,6 +20,7 @@ namespace Server
         {
             this.Id = Id;
             InitializeComponent();
+            Manage.Application.AddEventHandlers(this);
             foreach (TextBlock textBlock in new TextBlock[] { Username, ClientStatus, ConnectionTimeSpan, Ip })
             {
                 SetBinding(textBlock);
@@ -107,6 +109,11 @@ namespace Server
             {
                 InputSpectrum.ProcessData(spectrumUpdateEvent.Data, spectrumUpdateEvent.Silent);
             }
+        }
+
+        public void OnFontFamilyChanged(FontFamilyChangedEvent fontFamilyChangedEvent)
+        {
+            FontFamily = new FontFamily(fontFamilyChangedEvent.FontFamilyName);
         }
         #endregion
     }

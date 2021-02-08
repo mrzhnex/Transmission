@@ -2,8 +2,10 @@
 using Core.Handlers;
 using Core.Main;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
+using System.Windows.Media;
 
 namespace Core.Application
 {
@@ -11,6 +13,27 @@ namespace Core.Application
     {
         public Settings Current { get; set; } = Settings.Default;
         private XmlSerializer XmlSerializer { get; set; } = new XmlSerializer(typeof(Settings));
+        public static Dictionary<ThemeType, Theme> Themes { get; set; } = new Dictionary<ThemeType, Theme>()
+        {
+            { ThemeType.Default, new Theme()
+            {
+                FirstColor = new SolidColorBrush(System.Drawing.Color.Thistle.ToMediaColor()),
+                SecondColor = new SolidColorBrush(System.Drawing.Color.PaleTurquoise.ToMediaColor()),
+                ThirdColor = new SolidColorBrush(System.Drawing.Color.PaleGreen.ToMediaColor()),
+                FourthColor = new SolidColorBrush(System.Drawing.Color.MediumPurple.ToMediaColor())
+            } },
+            { ThemeType.DefaultTwo,  new Theme() {
+                FirstColor = new SolidColorBrush(System.Drawing.Color.Thistle.ToMediaColor()),
+                SecondColor = new SolidColorBrush(System.Drawing.Color.PaleTurquoise.ToMediaColor()),
+                ThirdColor = new SolidColorBrush(System.Drawing.Color.NavajoWhite.ToMediaColor()),
+                FourthColor =new SolidColorBrush(System.Drawing.Color.MediumPurple.ToMediaColor()) } },
+            { ThemeType.Windows,  new Theme() {
+                FirstColor = new SolidColorBrush(System.Drawing.Color.CornflowerBlue.ToMediaColor()),
+                SecondColor = new SolidColorBrush(System.Drawing.Color.PaleGoldenrod.ToMediaColor()),
+                ThirdColor = new SolidColorBrush(System.Drawing.Color.LightSkyBlue.ToMediaColor()),
+                FourthColor =new SolidColorBrush(System.Drawing.Color.DeepSkyBlue.ToMediaColor()) } }
+        };
+
 
         public void Load()
         {

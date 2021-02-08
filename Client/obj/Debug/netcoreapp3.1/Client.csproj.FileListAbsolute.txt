@@ -46,9 +46,16 @@ C:\Users\Табула\Desktop\Transmission\Client\bin\Debug\netcoreapp3.1\Client
 C:\Users\Табула\Desktop\Transmission\Client\bin\Debug\netcoreapp3.1\LiveCharts.dll
 C:\Users\Табула\Desktop\Transmission\Client\bin\Debug\netcoreapp3.1\LiveCharts.Geared.dll
 C:\Users\Табула\Desktop\Transmission\Client\bin\Debug\netcoreapp3.1\LiveCharts.Wpf.dll
+C:\Users\Табула\Desktop\Transmission\Client\bin\Debug\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
 C:\Users\Табула\Desktop\Transmission\Client\bin\Debug\netcoreapp3.1\Mono.Nat.dll
 C:\Users\Табула\Desktop\Transmission\Client\bin\Debug\netcoreapp3.1\NAudio.dll
 C:\Users\Табула\Desktop\Transmission\Client\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\Табула\Desktop\Transmission\Client\bin\Debug\netcoreapp3.1\System.Drawing.Common.dll
+C:\Users\Табула\Desktop\Transmission\Client\bin\Debug\netcoreapp3.1\Microsoft.WindowsAPICodePack.dll
+C:\Users\Табула\Desktop\Transmission\Client\bin\Debug\netcoreapp3.1\Microsoft.WindowsAPICodePack.Shell.dll
+C:\Users\Табула\Desktop\Transmission\Client\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\Табула\Desktop\Transmission\Client\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\Табула\Desktop\Transmission\Client\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
 C:\Users\Табула\Desktop\Transmission\Client\bin\Debug\netcoreapp3.1\Core.dll
 C:\Users\Табула\Desktop\Transmission\Client\bin\Debug\netcoreapp3.1\Core.pdb
 C:\Users\Табула\Desktop\Transmission\Client\obj\Debug\netcoreapp3.1\Client.csprojAssemblyReference.cache
@@ -76,5 +83,3 @@ C:\Users\Табула\Desktop\Transmission\Client\obj\Debug\netcoreapp3.1\Client
 C:\Users\Табула\Desktop\Transmission\Client\obj\Debug\netcoreapp3.1\Client.dll
 C:\Users\Табула\Desktop\Transmission\Client\obj\Debug\netcoreapp3.1\Client.pdb
 C:\Users\Табула\Desktop\Transmission\Client\obj\Debug\netcoreapp3.1\Client.genruntimeconfig.cache
-C:\Users\Табула\Desktop\Transmission\Client\bin\Debug\netcoreapp3.1\Microsoft.WindowsAPICodePack.dll
-C:\Users\Табула\Desktop\Transmission\Client\bin\Debug\netcoreapp3.1\Microsoft.WindowsAPICodePack.Shell.dll

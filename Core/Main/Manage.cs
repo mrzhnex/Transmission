@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Core.Localization;
 using Core.Server;
 
 namespace Core.Main
@@ -12,7 +11,7 @@ namespace Core.Main
         public static EventManager EventManager { get; private set; } = new EventManager();
         public static Logger Logger { get; private set; } = new Logger();
         public static Core.Application.Manager ApplicationManager { get; private set; } = new Core.Application.Manager();
-        public static Manager LocalizationManager { get; private set; } = new Manager();
+        public static Localization.Manager LocalizationManager { get; private set; } = new Localization.Manager();
         public static Client.Session ClientSession { get; set; }
         public static Session ServerSession { get; set; }
         public static Application Application { get; set; }
@@ -43,9 +42,14 @@ namespace Core.Main
             }
             return result;
         }
+        public static System.Windows.Media.Color ToMediaColor(this System.Drawing.Color color)
+        {
+            return System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B);
+        }
+
         public static byte[] GetDataFromString(string key)
         {
-            return Encoding.ASCII.GetBytes(key);
+            return Encoding.UTF8.GetBytes(key);
         }
         public static byte[] ParseKeyFromString(string key)
         {

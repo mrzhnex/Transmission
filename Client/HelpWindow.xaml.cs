@@ -1,12 +1,16 @@
-﻿using System.Windows;
+﻿using Core.Events;
+using Core.Handlers;
+using Core.Main;
+using System.Windows;
 
 namespace Client
 {
-    public partial class HelpWindow : Window
+    public partial class HelpWindow : Window, IEventHandlerFontFamilyChanged
     {
         public HelpWindow()
         {
             InitializeComponent();
+            Manage.Application.AddEventHandlers(this);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -41,6 +45,11 @@ namespace Client
         private void Grid_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             DragMove();
+        }
+
+        public void OnFontFamilyChanged(FontFamilyChangedEvent fontFamilyChangedEvent)
+        {
+            FontFamily = new System.Windows.Media.FontFamily(fontFamilyChangedEvent.FontFamilyName);
         }
     }
 }

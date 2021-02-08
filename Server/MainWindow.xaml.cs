@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Threading;
 using Core.Events;
 using Core.Handlers;
@@ -12,7 +13,7 @@ using Core.Server;
 
 namespace Server
 {
-    public partial class MainWindow : Window, IEventHandlerOpen, IEventHandlerClose, IEventHandlerClientDisconnect, IEventHandlerSettingsLoaded
+    public partial class MainWindow : Window, IEventHandlerOpen, IEventHandlerClose, IEventHandlerClientDisconnect, IEventHandlerSettingsLoaded, IEventHandlerFontFamilyChanged
     {
         #region Main
         public static MainWindow MainWindowInstance { get; private set; }
@@ -53,7 +54,8 @@ namespace Server
                 IsSettingsWindowOpened = true;
                 SettingsWindow settingsWindow = new SettingsWindow
                 {
-                    Owner = this
+                    Owner = this,
+                    FontFamily = FontFamily
                 };
                 settingsWindow.Show();
             }
@@ -76,7 +78,8 @@ namespace Server
                 IsHelpWindowOpened = true;
                 HelpWindow helpWindow = new HelpWindow
                 {
-                    Owner = this
+                    Owner = this,
+                    FontFamily = FontFamily
                 };
                 helpWindow.Show();
             }
@@ -113,12 +116,12 @@ namespace Server
             if (Manage.Application.IsPlayingAudio)
             {
                 Play.Content = FindResource("Pause2");
-                Manage.Logger.Add($"Start playing audio file {Manage.ApplicationManager.Current.ClientSettings.PlayAudioFile}", LogType.Client, LogLevel.Info);
+                Manage.Logger.Add($"Start playing audio file {Manage.ApplicationManager.Current.ServerSettings.PlayAudioFile}", LogType.Application, LogLevel.Info);
             }
             else
             {
                 Play.Content = FindResource("Play");
-                Manage.Logger.Add($"Stop playing audio file {Manage.ApplicationManager.Current.ClientSettings.PlayAudioFile}", LogType.Client, LogLevel.Info);
+                Manage.Logger.Add($"Stop playing audio file {Manage.ApplicationManager.Current.ServerSettings.PlayAudioFile}", LogType.Application, LogLevel.Info);
             }
         }
         private void PlayNext_Click(object sender, RoutedEventArgs e)
@@ -167,7 +170,9 @@ namespace Server
         #region Client-Server
         public void OnSettingsLoaded(SettingsLoadedEvent settingsLoadedEvent)
         {
+            Manage.ApplicationManager.Current.ServerSettings.ThemeType = settingsLoadedEvent.Settings.ServerSettings.ThemeType;
             Manage.Application.LoadAudioData(Manage.ApplicationManager.Current.ServerSettings.PlayAudioFile);
+            Manage.EventManager.ExecuteEvent<IEventHandlerFontFamilyChanged>(new FontFamilyChangedEvent(settingsLoadedEvent.Settings.ServerSettings.FontFamily));
         }
         public void OnOpen(OpenEvent openEvent)
         {
@@ -339,6 +344,11 @@ namespace Server
                 SpeakersInputMuteStatus.Content = FindResource("Microphone2");
                 Manage.EventManager.ExecuteEvent<IEventHandlerClientsInputMuteStatusChanged>(new ClientsInputMuteStatusChangedEvent(false, ClientStatus.Speaker));
             }
+        }
+
+        public void OnFontFamilyChanged(FontFamilyChangedEvent fontFamilyChangedEvent)
+        {
+            FontFamily = new FontFamily(fontFamilyChangedEvent.FontFamilyName);
         }
 
         /*

@@ -169,7 +169,7 @@ namespace Core.Server
             Manage.Logger.Add($"The server closed by {reason}", LogType.Server, LogLevel.Info);
             Manage.ServerSession = null;
         }
-        private void SendData(byte[] data, IPEndPoint socket)
+        private void SendData(byte[] data, IPEndPoint socket, bool showString = false, bool isKey = false)
         {
             if (data.Length < Manage.DefaultInformation.DataLength)
             {
@@ -183,7 +183,7 @@ namespace Core.Server
             try
             {
                 ListeningSocket.SendTo(data, socket);
-                Manage.Logger.Add($"Send {nameof(data)} {Manage.GetUlongFromBuffer(data)} to the client {socket}", LogType.Server, LogLevel.Trace);
+                Manage.Logger.Add($"Send {(isKey ? "Key" : nameof(data))} {(showString ? Manage.GetStringFromData(data) : Manage.GetUlongFromBuffer(data).ToString())} to the client {socket}", LogType.Server, LogLevel.Trace);
             }
             catch (SocketException ex)
             {
@@ -246,13 +246,13 @@ namespace Core.Server
             Clients.Remove(client);
             DisconnectedClients.Add(client);
             Manage.EventManager.ExecuteEvent<IEventHandlerClientDisconnect>(new ClientDisconnectEvent(client.ConnectionInfo));
-            SendData(Encoding.ASCII.GetBytes(Manage.DefaultInformation.DisconnectMessage + reason), client.Socket);
+            SendData(Encoding.UTF8.GetBytes(Manage.DefaultInformation.DisconnectMessage + reason), client.Socket);
         }
         private void ConnectClient(IPEndPoint iPEndPoint)
         {
             Client client = new Client(iPEndPoint, Clients.Count + DisconnectedClients.Count, "Username", Server.ConnectionInfo.SessionStartTimeSpan, Name, ServerName, false, false);
             Clients.Add(client);
-            SendData(Encoding.ASCII.GetBytes(Password), client.Socket);
+            SendData(Encoding.UTF8.GetBytes(Password), client.Socket);
             Manage.Logger.Add($"The user {client.Socket} has connected to the server. Create new {nameof(client.ConnectionInfo.Key)} {Manage.GetStringFromData(client.ConnectionInfo.Key())}", LogType.Server, LogLevel.Info);
 
             new Thread(delegate ()
@@ -276,8 +276,8 @@ namespace Core.Server
             }
             foreach (Client client in Clients)
             {
-                if (sender.Socket.Address.Equals(client.Socket.Address) && sender.Socket.Port == client.Socket.Port)
-                    continue;
+                //if (sender.Socket.Address.Equals(client.Socket.Address) && sender.Socket.Port == client.Socket.Port)
+                    //continue;
                 client.AddAudio(data);
             }
             Manage.EventManager.ExecuteEvent<IEventHandlerSpectrumUpdate>(new SpectrumUpdateEvent(sender.ConnectionInfo.Id, data));
@@ -310,7 +310,7 @@ namespace Core.Server
                     case VerificationStage.Validated:
                     case VerificationStage.NonValidated:
                         client.ConnectionInfo.IsVerified = false;
-                        SendData(client.ConnectionInfo.Key(), client.Socket);
+                        SendData(client.ConnectionInfo.Key(), client.Socket, true, true);
                         break;
                     case VerificationStage.Disconnected:
                         DisconnectClient(client, "The client failed verification or timeout");

@@ -6,7 +6,7 @@ using System;
 
 namespace Client
 {
-    public class Application : Core.Main.Application, IEventHandlerOutput, IEventHandlerNextStep, IEventHandlerPreviousStep, IEventHandlerInput
+    public class Application : Core.Main.Application, IEventHandlerOutput, IEventHandlerNextStep, IEventHandlerPreviousStep, IEventHandlerInput, IEventHandlerOutputMuteStatusChanged
     {
         private WaveIn WaveIn { get; set; } = new WaveIn()
         {
@@ -32,6 +32,7 @@ namespace Client
             WaveOutAudio.DesiredLatency = 80;
             WaveOutAudio.Init(BufferedWaveProviderAudio);
             WaveOutAudio.Play();
+            WaveOutAudio.Volume = Manage.ApplicationManager.Current.ClientSettings.OutputMuteStatus ? 0.0f : 1.0f;
 
             IsOutputPrepared = true;
         }
@@ -61,6 +62,14 @@ namespace Client
             {
                 Manage.EventManager.ExecuteEvent<IEventHandlerInput>(new InputEvent(e.Buffer));
             }
+        }
+
+        public override void OnOutputMuteStatusChanged(OutputMuteStatusChangedEvent outputMuteStatusChangedEvent)
+        {
+            if (outputMuteStatusChangedEvent.OutputMuteStatus)
+                WaveOutAudio.Volume = 0.0f;
+            else
+                WaveOutAudio.Volume = 1.0f;
         }
 
         public void OnOutput(OutputEvent outputEvent)

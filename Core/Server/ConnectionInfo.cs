@@ -69,7 +69,7 @@ namespace Core.Server
         }
         public object[] Data { get; private set; } = new object[] { };
 
-        public ConnectionInfo(int Id, string Username, TimeSpan SessionStartTimeSpan, IPAddress iPAddress, string VerificationMessage = "", string SessionName = "", string ServerName = "")
+        public ConnectionInfo(int Id, string Username, TimeSpan SessionStartTimeSpan, IPAddress iPAddress, string VerificationMessage = "", string SessionName = "SessionName", string ServerName = "ServerName")
         {
             this.Id = Id;
             this.Username = Username;
@@ -102,7 +102,7 @@ namespace Core.Server
 
         private bool IsVerificationData(byte[] data)
         {
-            object[] temp = new Regex(@"\W\B").Replace(Encoding.ASCII.GetString(data), string.Empty).Split(Manage.DefaultInformation.SplitSymbol);
+            object[] temp = new Regex(@"\W\B").Replace(Encoding.UTF8.GetString(data), string.Empty).Split(Manage.DefaultInformation.SplitSymbol);
             if (temp.Length != Data.Length)
                 return false;
             return true;
@@ -110,7 +110,7 @@ namespace Core.Server
 
         public bool IsVerificationMessage(byte[] data)
         {
-            return IsVerificationData(data) && Encoding.ASCII.GetString(data).Contains(VerificationMessage);
+            return IsVerificationData(data) && Encoding.UTF8.GetString(data).Contains(VerificationMessage);
         }
 
         private void UpdateData()
@@ -132,12 +132,12 @@ namespace Core.Server
                 else
                     key = key + Manage.DefaultInformation.SplitSymbol + Data[i];
             }
-            return Encoding.ASCII.GetBytes(key);
+            return Encoding.UTF8.GetBytes(key);
         }
 
         public void DecomposeClient(byte[] data)
         {
-            object[] temp = new Regex(@"\W\B").Replace(Encoding.ASCII.GetString(data), string.Empty).Split(Manage.DefaultInformation.SplitSymbol);
+            object[] temp = new Regex(@"\W\B").Replace(Encoding.UTF8.GetString(data), string.Empty).Split(Manage.DefaultInformation.SplitSymbol);
             if (temp[3].ToString() != null && temp[5].ToString().Length > 0)
                 SessionName = temp[3].ToString();
             if (Enum.TryParse(temp[4].ToString(), out ClientStatus ClientStatus))
@@ -153,7 +153,7 @@ namespace Core.Server
 
         public void DecomposeServer(byte[] data)
         {
-            object[] temp = new Regex(@"\W\B").Replace(Encoding.ASCII.GetString(data), string.Empty).Split(Manage.DefaultInformation.SplitSymbol);
+            object[] temp = new Regex(@"\W\B").Replace(Encoding.UTF8.GetString(data), string.Empty).Split(Manage.DefaultInformation.SplitSymbol);
             if (temp[0].ToString() != null && temp[0].ToString().Length > 0)
                 Username = temp[0].ToString();
             if (bool.TryParse(temp[1].ToString(), out bool OutputMuteStatus))

@@ -1,31 +1,62 @@
-﻿using Core.Localization;
+﻿using Core.Application;
+using Core.Events;
+using Core.Handlers;
+using Core.Localization;
 using Core.Main;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Server
 {
-    public partial class SettingsWindow : Window
+    public partial class SettingsWindow : Window, IEventHandlerFontFamilyChanged
     {
         public SettingsWindow()
         {
             InitializeComponent();
+            Manage.Application.AddEventHandlers(this);
             SetLanguageBinding();
+
+            foreach (KeyValuePair<ThemeType, Theme> keyValuePair in Core.Application.Manager.Themes)
+            {
+                Themes.Items.Add(keyValuePair.Key);
+            }
+
             ServerPortField.Text = Manage.ApplicationManager.Current.ServerSettings.Port.ToString();
             ServerPasswordField.Text = Manage.ApplicationManager.Current.ServerSettings.Password;
+
             for (int i = 1; i < 4; i++)
             {
-                OutputType.Items.Add($"вид {i}");
-                InputType.Items.Add($"вид {i}");
+                InputOutputType.Items.Add($"вид {i}");
             }
+            InputOutputType.SelectedItem = "вид 1";
             Sort.Items.Add($"имя");
             Sort.Items.Add($"IP");
             Sort.Items.Add($"время");
-            OutputType.SelectedItem = "вид 1";
-            InputType.SelectedItem = "вид 1";
             Sort.SelectedValue = "имя";
+
+            var installedFontCollection = new System.Drawing.Text.InstalledFontCollection();
+            foreach (System.Drawing.FontFamily fontFamily in installedFontCollection.Families)
+            {
+                FontFamily font = new FontFamily(fontFamily.Name);
+                if (font.Source == Manage.ApplicationManager.Current.ServerSettings.FontFamily)
+                {
+                    FontStyles.SelectedItem = font;
+                }
+            }
+
+            if (FontStyles.SelectedItem == null)
+            {
+                FontStyles.SelectedItem = new FontFamily(Manage.DefaultInformation.DefaultFontFamily);
+            }
+
+            Themes.SelectedItem = Manage.ApplicationManager.Current.ServerSettings.ThemeType;
+
+            RecordSaveFolder.Text = Manage.ApplicationManager.Current.ServerSettings.RecordSaveFolder == string.Empty ? Manage.Logger.LogsFolder : Manage.ApplicationManager.Current.ServerSettings.RecordSaveFolder;
+            PlayAudioFile.Text = Manage.ApplicationManager.Current.ServerSettings.PlayAudioFile == string.Empty ? Manage.DefaultInformation.DefaultFileName : Manage.ApplicationManager.Current.ServerSettings.PlayAudioFile;
         }
         private void Languages_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -97,7 +128,7 @@ namespace Server
 
         private void RecordSaveFolder_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            CommonOpenFileDialog dlg = new CommonOpenFileDialog
+            CommonOpenFileDialog commonOpenFileDialog = new CommonOpenFileDialog
             {
                 IsFolderPicker = true,
                 InitialDirectory = Manage.Logger.LogsFolder,
@@ -112,13 +143,56 @@ namespace Server
                 Multiselect = false,
                 ShowPlacesList = true
             };
-
-            if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
+            if (commonOpenFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                string folder = dlg.FileName;
-                throw new System.Exception(folder);
-                // Do something with selected folder string
+                Manage.ApplicationManager.Current.ServerSettings.RecordSaveFolder = commonOpenFileDialog.FileName;
+                RecordSaveFolder.Text = Manage.ApplicationManager.Current.ServerSettings.RecordSaveFolder;
             }
+        }
+
+        private void PlayAudioFile_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            CommonOpenFileDialog commonOpenFileDialog = new CommonOpenFileDialog
+            {
+                IsFolderPicker = false,
+                InitialDirectory = Manage.Logger.LogsFolder,
+
+                AddToMostRecentlyUsedList = false,
+                AllowNonFileSystemItems = false,
+                DefaultDirectory = Manage.Logger.LogsFolder,
+                EnsureFileExists = true,
+                EnsurePathExists = true,
+                EnsureReadOnly = false,
+                EnsureValidNames = true,
+                Multiselect = false,
+                ShowPlacesList = true
+            };
+            if (commonOpenFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                Manage.ApplicationManager.Current.ServerSettings.PlayAudioFile = commonOpenFileDialog.FileName;
+                PlayAudioFile.Text = Manage.ApplicationManager.Current.ServerSettings.PlayAudioFile;
+                Manage.Application.LoadAudioData(Manage.ApplicationManager.Current.ServerSettings.PlayAudioFile);
+            }
+        }
+
+        private void Themes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            ThemeType themeType = (ThemeType)comboBox.SelectedItem;
+            Manage.ApplicationManager.Current.ServerSettings.ThemeType = themeType;
+        }
+
+        private void FontStyles_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            FontFamily fontFamily = (FontFamily)comboBox.SelectedItem;
+            Manage.ApplicationManager.Current.ServerSettings.FontFamily = fontFamily.Source;
+            Manage.EventManager.ExecuteEvent<IEventHandlerFontFamilyChanged>(new FontFamilyChangedEvent(fontFamily.Source));
+        }
+
+        public void OnFontFamilyChanged(FontFamilyChangedEvent fontFamilyChangedEvent)
+        {
+            FontFamily = new FontFamily(fontFamilyChangedEvent.FontFamilyName);
         }
     }
 }

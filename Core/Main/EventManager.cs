@@ -33,11 +33,12 @@ namespace Core.Main
 		{
 			if (Events.ContainsKey(type))
             {
-
+				Manage.Logger.Add($"Join handler {handler} with type {type.Name}", LogType.Application, LogLevel.Info);
 				Events[type].Add(handler);
 			}
             else
 			{
+				Manage.Logger.Add($"Add handler {handler} with type {type.Name}", LogType.Application, LogLevel.Info);
 				Events.Add(type, new List<IEventHandler> { handler });
 			}
 		}

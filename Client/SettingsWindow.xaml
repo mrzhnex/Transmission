@@ -4,22 +4,23 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
+        xmlns:theme="clr-namespace:Core.Application;assembly=Core"
         WindowStartupLocation="CenterOwner"
         AllowsTransparency="true"
         Closing="Window_Closing"
-        Title="Transmission" WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="160" MinWidth="400" Width="0" Height="0" MaxHeight="200">
+        Title="Transmission" WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="180" MinWidth="400" Width="0" Height="0" MaxHeight="180">
     <Window.Resources>
         <Image x:Key="Minimize" Source="/Client;component/Resources/Minimize.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
         <Image x:Key="Deploy" Source="/Client;component/Resources/Deploy.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
         <Image x:Key="DeployTwo" Source="/Client;component/Resources/DeployTwo.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
         <Image x:Key="Close" Source="/Client;component/Resources/Close.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
     </Window.Resources>
-    <Border BorderBrush="MediumPurple" BorderThickness="2">
+    <Border BorderBrush="{Binding Source={x:Static theme:ClientSettings.Theme}, Path=FourthColor}" BorderThickness="2">
         <Grid>
             <Grid.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="Margin" Value="4"/>
-                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
                 </Style>
             </Grid.Resources>
@@ -36,7 +37,7 @@
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Grid Background="Thistle" Grid.ColumnSpan="2" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+            <Grid Background="{Binding Source={x:Static theme:ClientSettings.Theme}, Path=FirstColor}" Grid.ColumnSpan="2" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -56,7 +57,7 @@
             </Grid>
 
             <TextBlock Grid.Row="1" Text="папка для сохранения"/>
-            <TextBlock x:Name="RecordSaveFolder" Grid.Row="1" Grid.Column="1" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"/>
+            <TextBlock x:Name="RecordSaveFolder" Grid.Row="1" Grid.Column="1" MouseLeftButtonDown="RecordSaveFolder_MouseLeftButtonDown"/>
 
             <TextBlock Grid.Row="2" Text="файл для воспроизведения"/>
             <TextBlock x:Name="PlayAudioFile" Grid.Row="2" Grid.Column="1" MouseLeftButtonDown="PlayAudioFile_MouseLeftButtonDown"/>
@@ -65,13 +66,19 @@
             <ComboBox x:Name="Languages" Grid.Column="1" Grid.Row="3" SelectionChanged="Languages_SelectionChanged"/>
 
             <TextBlock Grid.Row="4" Text="тема"/>
-            <ComboBox x:Name="Themes" Grid.Column="1" Grid.Row="4"/>
+            <ComboBox x:Name="Themes" Grid.Column="1" Grid.Row="4" SelectionChanged="Themes_SelectionChanged"/>
 
-            <TextBlock Grid.Row="5" Text="динамик"/>
-            <ComboBox x:Name="OutputType" Grid.Column="1" Grid.Row="5"/>
+            <TextBlock Grid.Row="5" Text="тип значков"/>
+            <ComboBox x:Name="InputOutputType" Grid.Column="1" Grid.Row="5"/>
 
-            <TextBlock Grid.Row="6" Text="микрофон"/>
-            <ComboBox x:Name="InputType" Grid.Column="1" Grid.Row="6"/>
+            <TextBlock Grid.Row="6" Text="шрифт"/>
+            <ComboBox x:Name="FontStyles" Grid.Column="1" Grid.Row="6" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" FontSize="14" SelectionChanged="FontStyles_SelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock FontFamily="{Binding .}" Text="{Binding Source}" ToolTip="{Binding Source}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </Grid>
     </Border>
 </Window>

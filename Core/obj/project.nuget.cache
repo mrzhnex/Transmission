@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ZzX/J5je7I89n5UbShLOQcvENiX2obgF4UU04lYiumkyrmYI9G2G5zyxKCSeqcnyoLfM4nMusXZPYozXr0NPMw==",
+  "dgSpecHash": "2MtLkCZOlig2d7VJCLL3jcVHh4kOl7JwMe7w8HrSvFFoC6dsbR56tHrtP+8U6eYR46Rk1O6hkphUb1DLJxFpsA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Табула\\Desktop\\Transmission\\Core\\Core.csproj",
   "expectedPackageFiles": [
@@ -13,6 +13,7 @@
     "C:\\Users\\Табула\\.nuget\\packages\\naudio\\1.10.0\\naudio.1.10.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
     "C:\\Users\\Табула\\.nuget\\packages\\system.buffers\\4.5.0\\system.buffers.4.5.0.nupkg.sha512",
+    "C:\\Users\\Табула\\.nuget\\packages\\system.drawing.common\\5.0.0\\system.drawing.common.5.0.0.nupkg.sha512",
     "C:\\Users\\Табула\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
     "C:\\Users\\Табула\\.nuget\\packages\\system.numerics.vectors\\4.4.0\\system.numerics.vectors.4.4.0.nupkg.sha512",
     "C:\\Users\\Табула\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.5.2\\system.runtime.compilerservices.unsafe.4.5.2.nupkg.sha512",

@@ -12,7 +12,7 @@ namespace Core.Events
         }
         public override void ExecuteHandler(IEventHandler handler)
         {
-            if (Manage.ApplicationManager.Current.ClientSettings.OutputMuteStatus)
+            if (Manage.ApplicationManager.Current.ClientSettings.OutputMuteStatus && !Manage.Application.IsPlayingAudio)
                 return;
             ((IEventHandlerOutput)handler).OnOutput(this);
         }

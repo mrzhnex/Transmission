@@ -2,14 +2,22 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Linq;
+using Core.Handlers;
+using Core.Events;
+using System.Windows.Media;
 
 namespace Server
 {
-    public partial class ClientControl : UserControl
+    public partial class ClientControl : UserControl, IEventHandlerFontFamilyChanged
     {
         public ClientControl()
         {
             InitializeComponent();
+        }
+
+        public void OnFontFamilyChanged(FontFamilyChangedEvent fontFamilyChangedEvent)
+        {
+            FontFamily = new FontFamily(fontFamilyChangedEvent.FontFamilyName);
         }
 
         private void UserControl_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)

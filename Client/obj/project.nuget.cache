@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "bOlpC7YL9ix9bIrYLL+0XwzYYpo+llxER9t3RY1EGYePtQhw2yGF8wk96tnF4FJHdCVfqU6lbpeoOj3Iz8Zq3A==",
+  "dgSpecHash": "QVjx0T0y6/BeylDTxVBONynL2Oi3hziwH+9UCT1zqkcM8YOkv5GoDNK6C8y2Mb5PYDMkzl9587nfH28xBaTKJg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Табула\\Desktop\\Transmission\\Client\\Client.csproj",
   "expectedPackageFiles": [
@@ -8,10 +8,11 @@
     "C:\\Users\\Табула\\.nuget\\packages\\livecharts.geared\\1.2.9\\livecharts.geared.1.2.9.nupkg.sha512",
     "C:\\Users\\Табула\\.nuget\\packages\\livecharts.wpf\\0.9.7\\livecharts.wpf.0.9.7.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.csharp\\4.3.0\\microsoft.csharp.4.3.0.nupkg.sha512",
-    "C:\\Users\\Табула\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
+    "C:\\Users\\Табула\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
     "C:\\Users\\Табула\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\Табула\\.nuget\\packages\\microsoft.win32.primitives\\4.3.0\\microsoft.win32.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\Табула\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
+    "C:\\Users\\Табула\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\Табула\\.nuget\\packages\\mono.nat\\2.0.2\\mono.nat.2.0.2.nupkg.sha512",
     "C:\\Users\\Табула\\.nuget\\packages\\naudio\\1.10.0\\naudio.1.10.0.nupkg.sha512",
     "C:\\Users\\Табула\\.nuget\\packages\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
@@ -46,6 +47,7 @@
     "C:\\Users\\Табула\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.3.0\\system.diagnostics.diagnosticsource.4.3.0.nupkg.sha512",
     "C:\\Users\\Табула\\.nuget\\packages\\system.diagnostics.tools\\4.3.0\\system.diagnostics.tools.4.3.0.nupkg.sha512",
     "C:\\Users\\Табула\\.nuget\\packages\\system.diagnostics.tracing\\4.3.0\\system.diagnostics.tracing.4.3.0.nupkg.sha512",
+    "C:\\Users\\Табула\\.nuget\\packages\\system.drawing.common\\5.0.0\\system.drawing.common.5.0.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.dynamic.runtime\\4.3.0\\system.dynamic.runtime.4.3.0.nupkg.sha512",
     "C:\\Users\\Табула\\.nuget\\packages\\system.globalization\\4.3.0\\system.globalization.4.3.0.nupkg.sha512",
     "C:\\Users\\Табула\\.nuget\\packages\\system.globalization.calendars\\4.3.0\\system.globalization.calendars.4.3.0.nupkg.sha512",

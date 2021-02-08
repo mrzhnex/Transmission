@@ -85,7 +85,7 @@ namespace Core.Main
         }
         public void LoadAudioData(string audioFilePath)
         {
-            if (audioFilePath == null || audioFilePath == string.Empty || audioFilePath.Length == 0)
+            if (audioFilePath == null || audioFilePath == string.Empty || audioFilePath.Length == 0 || audioFilePath == Manage.DefaultInformation.DefaultFileName)
                 return;
             WaveFileReader waveFileReader = new WaveFileReader(audioFilePath);
             byte[] data = new byte[waveFileReader.Length];
@@ -135,11 +135,16 @@ namespace Core.Main
         protected internal abstract TimeSpan BufferedDuration();
         protected internal abstract void ClearBuffer();
         protected internal abstract void AudioPlaybackStopped();
+        protected internal virtual bool IsServer()
+        {
+            return false;
+        }
         private void AudioPlay()
         {
             byte[] data;
             while (Manage.Logger.ActiveLog)
             {
+                Thread.Sleep(1);
                 if (IsPlayingAudio)
                 {
                     if (AudioData.Count <= Length + Index && BufferedDuration().TotalSeconds == 0.0)
@@ -148,7 +153,7 @@ namespace Core.Main
                         SetLengthToDefault();
                         IsPlayingAudio = false;
                         AudioPlaybackStopped();
-                        Manage.Logger.Add($"{nameof(IsPlayingAudio)} now is {IsPlayingAudio}", LogType.Client, LogLevel.Debug);
+                        Manage.Logger.Add($"{nameof(IsPlayingAudio)} now is {IsPlayingAudio}", LogType.Application, LogLevel.Debug);
                         continue;
                     }
                     if (AudioData.Count <= Length + Index || BufferedDuration().TotalSeconds > 0.1)
@@ -158,13 +163,12 @@ namespace Core.Main
 
                     data = AudioData.GetRange(Index, Length).ToArray();
 
-                    Manage.EventManager.ExecuteEvent<IEventHandlerInput>(new InputEvent(data));
+                    Manage.EventManager.ExecuteEvent<IEventHandlerInput>(new InputEvent(data, IsServer()));
                     Manage.EventManager.ExecuteEvent<IEventHandlerOutput>(new OutputEvent(data));
-
                 }
                 else
                 {
-                    if (BufferedDuration().TotalSeconds > 0.1)
+                    if (BufferedDuration().TotalSeconds > 0.5)
                         ClearBuffer();
                 }
             }
@@ -189,10 +193,11 @@ namespace Core.Main
         }
         public void OnClientUpdate(ClientUpdateEvent clientUpdateEvent)
         {
-            Manage.ServerSession.Clients.FirstOrDefault(x => x.ConnectionInfo.Id == clientUpdateEvent.ConnectionInfo.Id).ConnectionInfo.UpdateConnectionTimeSpan();
+            if (Manage.ServerSession != null)
+                Manage.ServerSession.Clients.FirstOrDefault(x => x.ConnectionInfo.Id == clientUpdateEvent.ConnectionInfo.Id).ConnectionInfo.UpdateConnectionTimeSpan();
         }
         public void OnInputMuteStatusChanged(InputMuteStatusChangedEvent inputMuteStatusChangedEvent) { }
-        public void OnOutputMuteStatusChanged(OutputMuteStatusChangedEvent outputMuteStatusChangedEvent) { }
+        public virtual void OnOutputMuteStatusChanged(OutputMuteStatusChangedEvent outputMuteStatusChangedEvent) { }
         public void OnInputVolumeChanged(InputVolumeChangedEvent inputVolumeChangedEvent) { }
         public void OnOutputVolumeChanged(OutputVolumeChangedEvent outputVolumeChangedEvent) { }
         public void OnLog(LogEvent logEvent) { }

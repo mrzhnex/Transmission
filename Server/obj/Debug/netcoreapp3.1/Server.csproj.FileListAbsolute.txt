@@ -82,3 +82,8 @@ C:\Users\Табула\Desktop\Transmission\Server\obj\Debug\netcoreapp3.1\Server
 C:\Users\Табула\Desktop\Transmission\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
 C:\Users\Табула\Desktop\Transmission\Server\bin\Debug\netcoreapp3.1\Microsoft.WindowsAPICodePack.dll
 C:\Users\Табула\Desktop\Transmission\Server\bin\Debug\netcoreapp3.1\Microsoft.WindowsAPICodePack.Shell.dll
+C:\Users\Табула\Desktop\Transmission\Server\bin\Debug\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
+C:\Users\Табула\Desktop\Transmission\Server\bin\Debug\netcoreapp3.1\System.Drawing.Common.dll
+C:\Users\Табула\Desktop\Transmission\Server\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\Табула\Desktop\Transmission\Server\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\Табула\Desktop\Transmission\Server\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll

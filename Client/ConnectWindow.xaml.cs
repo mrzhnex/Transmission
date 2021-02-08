@@ -1,14 +1,17 @@
-﻿using Core.Main;
+﻿using Core.Events;
+using Core.Handlers;
+using Core.Main;
 using System.Net;
 using System.Windows;
 
 namespace Client
 {
-    public partial class ConnectWindow : Window
+    public partial class ConnectWindow : Window, IEventHandlerFontFamilyChanged
     {
         public ConnectWindow()
         {
             InitializeComponent();
+            Manage.Application.AddEventHandlers(this);
         }
 
         private void Connect_Click(object sender, RoutedEventArgs e)
@@ -69,6 +72,11 @@ namespace Client
         private void Grid_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             DragMove();
+        }
+
+        public void OnFontFamilyChanged(FontFamilyChangedEvent fontFamilyChangedEvent)
+        {
+            FontFamily = new System.Windows.Media.FontFamily(fontFamilyChangedEvent.FontFamilyName);
         }
     }
 }
