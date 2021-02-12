@@ -8,7 +8,8 @@ using System.Threading;
 
 namespace Core.Main
 {
-    public abstract class Application : IEventHandlerInputMuteStatusChanged, IEventHandlerOutputMuteStatusChanged, IEventHandlerShutdown, IEventHandlerInputVolumeChanged, IEventHandlerOutputVolumeChanged, IEventHandlerLog, IEventHandlerClientUpdate
+    public abstract class Application : IEventHandlerInputMuteStatusChanged, IEventHandlerOutputMuteStatusChanged, IEventHandlerShutdown, 
+        IEventHandlerInputVolumeChanged, IEventHandlerOutputVolumeChanged, IEventHandlerLog, IEventHandlerClientUpdate, IEventHandlerShouldLogChanged
     {
         protected internal bool IsInputPrepared { get; set; } = false;
         protected internal bool IsOutputPrepared { get; set; } = false;
@@ -201,6 +202,11 @@ namespace Core.Main
         public void OnInputVolumeChanged(InputVolumeChangedEvent inputVolumeChangedEvent) { }
         public void OnOutputVolumeChanged(OutputVolumeChangedEvent outputVolumeChangedEvent) { }
         public void OnLog(LogEvent logEvent) { }
+
+        public void OnShouldLogChanged(ShouldLogChangedEvent shouldLogChangedEvent)
+        {
+            Manage.Logger.ShouldLog = shouldLogChangedEvent.ShouldLog;
+        }
         #endregion
     }
 }

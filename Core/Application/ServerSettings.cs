@@ -1,6 +1,7 @@
 ﻿using Core.Main;
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace Core.Application
@@ -23,7 +24,7 @@ namespace Core.Application
                 Manage.Logger.Add($"Change {nameof(ThemeType)} from {themeType} to {value}", LogType.Application, LogLevel.Debug);
                 themeType = value;
                 OnPropertyChanged(nameof(ThemeType));
-                Theme.Change(Manager.Themes[value]);
+                Theme.Change(Manager.Themes[Manager.Themes.Keys.FirstOrDefault(x => x.ThemeType == value)]);
             }
         }
 

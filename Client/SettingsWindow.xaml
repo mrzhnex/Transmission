@@ -8,7 +8,7 @@
         WindowStartupLocation="CenterOwner"
         AllowsTransparency="true"
         Closing="Window_Closing"
-        Title="Transmission" WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="180" MinWidth="400" Width="0" Height="0" MaxHeight="180">
+        Title="Transmission" WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="200" MinWidth="600" Width="0" Height="0" MaxHeight="220">
     <Window.Resources>
         <Image x:Key="Minimize" Source="/Client;component/Resources/Minimize.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
         <Image x:Key="Deploy" Source="/Client;component/Resources/Deploy.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
@@ -26,6 +26,7 @@
             </Grid.Resources>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
@@ -78,6 +79,14 @@
                         <TextBlock FontFamily="{Binding .}" Text="{Binding Source}" ToolTip="{Binding Source}" />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <TextBlock Grid.Row="7" Text="журналирование"/>
+            <ComboBox x:Name="ShouldLog" Grid.Column="1" Grid.Row="7" SelectionChanged="ShouldLog_SelectionChanged">
+                <ComboBoxItem x:Name="true" Content="включено">
+                </ComboBoxItem>
+                <ComboBoxItem x:Name="false" Content="отключено">
+                </ComboBoxItem>
             </ComboBox>
         </Grid>
     </Border>

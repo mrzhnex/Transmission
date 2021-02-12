@@ -29,6 +29,11 @@ namespace Core.Localization
             Password = language.Password;
         }
 
+        public string Translate(string word)
+        {
+            return word;
+        }
+
         #region Upper strings
         public string Connect
         {
@@ -57,6 +62,15 @@ namespace Core.Localization
                 OnPropertyChanged(nameof(Password));
             }
         }
+        public string Monochrome
+        {
+            get { return monochrome; }
+            set
+            {
+                monochrome = value;
+                OnPropertyChanged(nameof(Monochrome));
+            }
+        }
 
         #endregion
 
@@ -64,6 +78,8 @@ namespace Core.Localization
         private string connect = "подключиться";
         private string server = "сервер";
         private string password = "пароль";
+
+        private string monochrome = "монохромный";
         #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;

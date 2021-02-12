@@ -20,6 +20,11 @@ namespace Core.Localization
             Current.CompareToNew(Languages.Last());
         }
 
+        public string Translate(string word)
+        {
+            return Current.Translate(word);
+        }
+
         public Language Load(string path)
         {
             using (FileStream fileStream = new FileStream(path, FileMode.OpenOrCreate))

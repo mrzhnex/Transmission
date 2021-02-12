@@ -4,6 +4,7 @@ using Core.Handlers;
 using Core.Localization;
 using Core.Main;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -20,10 +21,11 @@ namespace Server
             Manage.Application.AddEventHandlers(this);
             SetLanguageBinding();
 
-            foreach (KeyValuePair<ThemeType, Theme> keyValuePair in Core.Application.Manager.Themes)
+            foreach (KeyValuePair<ThemeDesignation, Theme> keyValuePair in Core.Application.Manager.Themes)
             {
-                Themes.Items.Add(keyValuePair.Key);
+                Themes.Items.Add(new ComboBoxItem() { Name = keyValuePair.Key.ThemeType.ToString(), Content = keyValuePair.Key.ThemeName });
             }
+
 
             ServerPortField.Text = Manage.ApplicationManager.Current.ServerSettings.Port.ToString();
             ServerPasswordField.Text = Manage.ApplicationManager.Current.ServerSettings.Password;
@@ -53,8 +55,11 @@ namespace Server
                 FontStyles.SelectedItem = new FontFamily(Manage.DefaultInformation.DefaultFontFamily);
             }
 
-            Themes.SelectedItem = Manage.ApplicationManager.Current.ServerSettings.ThemeType;
-
+            foreach (ComboBoxItem comboBoxItem in Themes.Items)
+            {
+                if ((ThemeType)Enum.Parse(typeof(ThemeType), comboBoxItem.Name) == Manage.ApplicationManager.Current.ServerSettings.ThemeType)
+                    Themes.SelectedItem = comboBoxItem;
+            }
             RecordSaveFolder.Text = Manage.ApplicationManager.Current.ServerSettings.RecordSaveFolder == string.Empty ? Manage.Logger.LogsFolder : Manage.ApplicationManager.Current.ServerSettings.RecordSaveFolder;
             PlayAudioFile.Text = Manage.ApplicationManager.Current.ServerSettings.PlayAudioFile == string.Empty ? Manage.DefaultInformation.DefaultFileName : Manage.ApplicationManager.Current.ServerSettings.PlayAudioFile;
         }
@@ -177,15 +182,12 @@ namespace Server
 
         private void Themes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ComboBox comboBox = (ComboBox)sender;
-            ThemeType themeType = (ThemeType)comboBox.SelectedItem;
-            Manage.ApplicationManager.Current.ServerSettings.ThemeType = themeType;
+            Manage.ApplicationManager.Current.ServerSettings.ThemeType = (ThemeType)Enum.Parse(typeof(ThemeType), (((ComboBox)sender).SelectedItem as ComboBoxItem).Name);
         }
 
         private void FontStyles_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ComboBox comboBox = (ComboBox)sender;
-            FontFamily fontFamily = (FontFamily)comboBox.SelectedItem;
+            FontFamily fontFamily = (FontFamily)((ComboBox)sender).SelectedItem;
             Manage.ApplicationManager.Current.ServerSettings.FontFamily = fontFamily.Source;
             Manage.EventManager.ExecuteEvent<IEventHandlerFontFamilyChanged>(new FontFamilyChangedEvent(fontFamily.Source));
         }

@@ -68,8 +68,6 @@ namespace Core.Main
         }
         internal void SaveAllLogs()
         {
-            if (!ShouldLog)
-                return;
             if (!IsUsedByAnotherProcess(GetApplicationLogsFullFileName()))
                 SaveApplicationLogs();
             if (!IsUsedByAnotherProcess(GetServerLogsFullFileName()))
