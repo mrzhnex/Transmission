@@ -11,7 +11,7 @@ using Core.Server;
 
 namespace Core.Client
 {
-    public class Session : IEventHandlerInput
+    public class Session : IEventHandlerInput, IEventHandlerUpdateClientStatus
     {
         private ClientStage ClientStage { get; set; } = ClientStage.Starting;
         public IPEndPoint ServerIpEndPoint { get; set; } = new IPEndPoint(IPAddress.Any, 0);
@@ -57,6 +57,10 @@ namespace Core.Client
                 Manage.Logger.Add($"Send {nameof(inputEvent.Data)} {Manage.GetUlongFromBuffer(inputEvent.Data)} to the server {ServerIpEndPoint}", LogType.Client, LogLevel.Trace);
                 SendData(inputEvent.Data);
             }
+        }
+        public void OnUpdateClientStatus(UpdateClientStatusEvent updateClientStatusEvent)
+        {
+            SendData(Manage.ClientInfoBehaviour.GetClientInfosData(updateClientStatusEvent.ClientInfo));
         }
 
         #region Methods
@@ -171,10 +175,14 @@ namespace Core.Client
                         SendData(ConnectionInfo.Key());
                         Manage.EventManager.ExecuteEvent<IEventHandlerClientUpdate>(new ClientUpdateEvent(ConnectionInfo));
                     }
+                    else if (Manage.ClientInfoBehaviour.IsClientInfosMessage(data))
+                    {
+                        Manage.EventManager.ExecuteEvent<IEventHandlerClientInfosUpdate>(new ClientInfosUpdateEvent(Manage.ClientInfoBehaviour.GetClientInfosFromData(data)));
+                    }
                     else
                     {
                         Manage.Logger.Add($"Listen {Manage.GetUlongFromBuffer(data)} from {remoteIp as IPEndPoint}", LogType.Client, LogLevel.Trace);
-                        Manage.EventManager.ExecuteEvent<IEventHandlerOutput>(new OutputEvent(data));
+                        Manage.Application.AddAudio(data);
                     }
                 }
             }

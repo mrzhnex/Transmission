@@ -32,7 +32,6 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -69,11 +68,8 @@
             <TextBlock Grid.Row="4" Text="тема"/>
             <ComboBox x:Name="Themes" Grid.Column="1" Grid.Row="4" SelectionChanged="Themes_SelectionChanged"/>
 
-            <TextBlock Grid.Row="5" Text="тип значков"/>
-            <ComboBox x:Name="InputOutputType" Grid.Column="1" Grid.Row="5"/>
-
-            <TextBlock Grid.Row="6" Text="шрифт"/>
-            <ComboBox x:Name="FontStyles" Grid.Column="1" Grid.Row="6" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" FontSize="14" SelectionChanged="FontStyles_SelectionChanged">
+            <TextBlock Grid.Row="5" Text="шрифт"/>
+            <ComboBox x:Name="FontStyles" Grid.Column="1" Grid.Row="5" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" FontSize="14" SelectionChanged="FontStyles_SelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock FontFamily="{Binding .}" Text="{Binding Source}" ToolTip="{Binding Source}" />
@@ -81,8 +77,8 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-            <TextBlock Grid.Row="7" Text="журналирование"/>
-            <ComboBox x:Name="ShouldLog" Grid.Column="1" Grid.Row="7" SelectionChanged="ShouldLog_SelectionChanged">
+            <TextBlock Grid.Row="6" Text="журналирование"/>
+            <ComboBox x:Name="ShouldLog" Grid.Column="1" Grid.Row="6" SelectionChanged="ShouldLog_SelectionChanged">
                 <ComboBoxItem x:Name="true" Content="включено">
                 </ComboBoxItem>
                 <ComboBoxItem x:Name="false" Content="отключено">

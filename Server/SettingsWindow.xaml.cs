@@ -27,26 +27,21 @@ namespace Server
             }
 
 
-            ServerPortField.Text = Manage.ApplicationManager.Current.ServerSettings.Port.ToString();
-            ServerPasswordField.Text = Manage.ApplicationManager.Current.ServerSettings.Password;
+            ServerPortField.Text = Manage.ApplicationManager.ServerSettings.Port.ToString();
+            ServerPasswordField.Text = Manage.ApplicationManager.ServerSettings.Password;
 
-            for (int i = 1; i < 4; i++)
-            {
-                InputOutputType.Items.Add($"вид {i}");
-            }
-            InputOutputType.SelectedItem = "вид 1";
             Sort.Items.Add($"имя");
             Sort.Items.Add($"IP");
             Sort.Items.Add($"время");
             Sort.SelectedValue = "имя";
 
-            var installedFontCollection = new System.Drawing.Text.InstalledFontCollection();
-            foreach (System.Drawing.FontFamily fontFamily in installedFontCollection.Families)
+            FontStyles.ItemsSource = Core.Application.Info.FontFamilies;
+
+            foreach (FontFamily fontFamily in Core.Application.Info.FontFamilies)
             {
-                FontFamily font = new FontFamily(fontFamily.Name);
-                if (font.Source == Manage.ApplicationManager.Current.ServerSettings.FontFamily)
+                if (fontFamily.Source == Manage.ApplicationManager.ServerSettings.FontFamily)
                 {
-                    FontStyles.SelectedItem = font;
+                    FontStyles.SelectedItem = fontFamily;
                 }
             }
 
@@ -55,13 +50,14 @@ namespace Server
                 FontStyles.SelectedItem = new FontFamily(Manage.DefaultInformation.DefaultFontFamily);
             }
 
+            ShouldMirroAudio.SelectedItem = Manage.ApplicationManager.ServerSettings.ShouldMirrorAudio ? ShouldMirroAudio.Items[0] : ShouldMirroAudio.Items[1];
             foreach (ComboBoxItem comboBoxItem in Themes.Items)
             {
-                if ((ThemeType)Enum.Parse(typeof(ThemeType), comboBoxItem.Name) == Manage.ApplicationManager.Current.ServerSettings.ThemeType)
+                if ((ThemeType)Enum.Parse(typeof(ThemeType), comboBoxItem.Name) == Manage.ApplicationManager.ServerSettings.ThemeType)
                     Themes.SelectedItem = comboBoxItem;
             }
-            RecordSaveFolder.Text = Manage.ApplicationManager.Current.ServerSettings.RecordSaveFolder == string.Empty ? Manage.Logger.LogsFolder : Manage.ApplicationManager.Current.ServerSettings.RecordSaveFolder;
-            PlayAudioFile.Text = Manage.ApplicationManager.Current.ServerSettings.PlayAudioFile == string.Empty ? Manage.DefaultInformation.DefaultFileName : Manage.ApplicationManager.Current.ServerSettings.PlayAudioFile;
+            RecordSaveFolder.Text = Manage.ApplicationManager.ServerSettings.RecordSaveFolder == string.Empty ? Manage.Logger.LogsFolder : Manage.ApplicationManager.ServerSettings.RecordSaveFolder;
+            PlayAudioFile.Text = Manage.ApplicationManager.ServerSettings.PlayAudioFile == string.Empty ? Manage.DefaultInformation.DefaultFileName : Manage.ApplicationManager.ServerSettings.PlayAudioFile;
         }
         private void Languages_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -84,7 +80,7 @@ namespace Server
                 Manage.Logger.Add($"Некорректный порт {(sender as TextBox).Text}", LogType.Application, LogLevel.Warn);
                 return;
             }
-            Manage.ApplicationManager.Current.ServerSettings.Port = port;
+            Manage.ApplicationManager.ServerSettings.Port = port;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -125,10 +121,10 @@ namespace Server
         {
             if ((sender as TextBox).Text == null)
             {
-                Manage.Logger.Add($"Некорректный порт {(sender as TextBox).Text}", LogType.Application, LogLevel.Warn);
+                Manage.Logger.Add($"Некорректный пароль {(sender as TextBox).Text}", LogType.Application, LogLevel.Warn);
                 return;
             }
-            Manage.ApplicationManager.Current.ServerSettings.Password = (sender as TextBox).Text;
+            Manage.ApplicationManager.ServerSettings.Password = (sender as TextBox).Text;
         }
 
         private void RecordSaveFolder_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -150,8 +146,8 @@ namespace Server
             };
             if (commonOpenFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                Manage.ApplicationManager.Current.ServerSettings.RecordSaveFolder = commonOpenFileDialog.FileName;
-                RecordSaveFolder.Text = Manage.ApplicationManager.Current.ServerSettings.RecordSaveFolder;
+                Manage.ApplicationManager.ServerSettings.RecordSaveFolder = commonOpenFileDialog.FileName;
+                RecordSaveFolder.Text = Manage.ApplicationManager.ServerSettings.RecordSaveFolder;
             }
         }
 
@@ -174,27 +170,32 @@ namespace Server
             };
             if (commonOpenFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                Manage.ApplicationManager.Current.ServerSettings.PlayAudioFile = commonOpenFileDialog.FileName;
-                PlayAudioFile.Text = Manage.ApplicationManager.Current.ServerSettings.PlayAudioFile;
-                Manage.Application.LoadAudioData(Manage.ApplicationManager.Current.ServerSettings.PlayAudioFile);
+                Manage.ApplicationManager.ServerSettings.PlayAudioFile = commonOpenFileDialog.FileName;
+                PlayAudioFile.Text = Manage.ApplicationManager.ServerSettings.PlayAudioFile;
+                Manage.Application.LoadAudioData(Manage.ApplicationManager.ServerSettings.PlayAudioFile);
             }
         }
 
         private void Themes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Manage.ApplicationManager.Current.ServerSettings.ThemeType = (ThemeType)Enum.Parse(typeof(ThemeType), (((ComboBox)sender).SelectedItem as ComboBoxItem).Name);
+            Manage.ApplicationManager.ServerSettings.ThemeType = (ThemeType)Enum.Parse(typeof(ThemeType), (((ComboBox)sender).SelectedItem as ComboBoxItem).Name);
         }
 
         private void FontStyles_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             FontFamily fontFamily = (FontFamily)((ComboBox)sender).SelectedItem;
-            Manage.ApplicationManager.Current.ServerSettings.FontFamily = fontFamily.Source;
+            Manage.ApplicationManager.ServerSettings.FontFamily = fontFamily.Source;
             Manage.EventManager.ExecuteEvent<IEventHandlerFontFamilyChanged>(new FontFamilyChangedEvent(fontFamily.Source));
         }
 
         public void OnFontFamilyChanged(FontFamilyChangedEvent fontFamilyChangedEvent)
         {
             FontFamily = new FontFamily(fontFamilyChangedEvent.FontFamilyName);
+        }
+
+        private void ShouldMirroAudio_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Manage.ApplicationManager.ServerSettings.ShouldMirrorAudio = bool.Parse((((ComboBox)sender).SelectedItem as ComboBoxItem).Name);
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Core.Application;
 using Core.Events;
 using Core.Handlers;
 using Core.Main;
@@ -17,7 +18,6 @@ namespace Server
     {
         #region Main
         public static MainWindow MainWindowInstance { get; private set; }
-        private ObservableCollection<ConnectionInfo> ServersConnectionInfos { get; set; } = new ObservableCollection<ConnectionInfo>();
         private ObservableCollection<ConnectionInfo> ModeratorsConnectionInfos { get; set; } = new ObservableCollection<ConnectionInfo>();
         private ObservableCollection<ConnectionInfo> SpeakersConnectionInfos { get; set; } = new ObservableCollection<ConnectionInfo>();
         private ObservableCollection<ConnectionInfo> ListenersConnectionInfos { get; set; } = new ObservableCollection<ConnectionInfo>();
@@ -39,7 +39,7 @@ namespace Server
             MainWindowInstance = this;
             Manage.Application = new Application();
             Manage.Application.AddEventHandlers(this);
-            Manage.ApplicationManager.Load();
+            Manage.ApplicationManager.ServerSettings.Load();
             Speakers.ItemsSource = SpeakersConnectionInfos;
             Listeners.ItemsSource = ListenersConnectionInfos;
             Moderators.ItemsSource = ModeratorsConnectionInfos;
@@ -68,7 +68,7 @@ namespace Server
             }
             else
             {
-                Manage.ServerSession = new Session(Manage.ApplicationManager.Current.ServerSettings.Port, Manage.DefaultInformation.SessionName, Manage.ApplicationManager.Current.ServerSettings.Password, true);
+                Manage.ServerSession = new Session(Manage.ApplicationManager.ServerSettings.Port, Manage.DefaultInformation.SessionName, Manage.ApplicationManager.ServerSettings.Password, true);
             }
         }
         private void Help_Click(object sender, RoutedEventArgs e)
@@ -86,22 +86,36 @@ namespace Server
         }
         private void Record_Click(object sender, RoutedEventArgs e)
         {
-            if (Manage.ServerSession != null)
+            if (Manage.ServerSession == null)
+                return;
+            if (Manage.ServerSession.Server.Record.IsStartRecording)
             {
-                if (Manage.ServerSession.Server.Record.IsRecording)
-                    Manage.ServerSession.Server.Record.Save();
-                else
-                    Manage.ServerSession.Server.Record.Start();
+                Manage.ServerSession.Server.Record.Save();
+                Record.Content = FindResource("Record");
+                RecordPause.Content = FindResource("Play");
+            }
+            else
+            {
+                Manage.ServerSession.Server.Record.Start();
+                Record.Content = FindResource("Stop");
+                RecordPause.Content = FindResource("Pause");
             }
         }
         private void RecordPause_Click(object sender, RoutedEventArgs e)
         {
-            if (Manage.ServerSession != null)
+            if (Record.Content == FindResource("Record"))
+                return;
+            if (Manage.ServerSession == null)
+                return;
+            if (Manage.ServerSession.Server.Record.IsRecording)
             {
-                if (Manage.ServerSession.Server.Record.IsRecording)
-                    Manage.ServerSession.Server.Record.Pause();
-                else
-                    Manage.ServerSession.Server.Record.Play();
+                Manage.ServerSession.Server.Record.Pause();
+                RecordPause.Content = FindResource("Play");
+            }
+            else
+            {
+                Manage.ServerSession.Server.Record.Play();
+                RecordPause.Content = FindResource("Pause");
             }
         }
         private void PlayPrevious_Click(object sender, RoutedEventArgs e)
@@ -113,15 +127,15 @@ namespace Server
             if (!Manage.Application.IsAudioLoaded)
                 return;
             Manage.Application.SwitchIsPlayingAudio();
-            if (Manage.Application.IsPlayingAudio)
+            if (Play.Content == FindResource("Play2"))
             {
                 Play.Content = FindResource("Pause2");
-                Manage.Logger.Add($"Start playing audio file {Manage.ApplicationManager.Current.ServerSettings.PlayAudioFile}", LogType.Application, LogLevel.Info);
+                Manage.Logger.Add($"Start playing audio file {Manage.ApplicationManager.ServerSettings.PlayAudioFile}", LogType.Application, LogLevel.Info);
             }
             else
             {
-                Play.Content = FindResource("Play");
-                Manage.Logger.Add($"Stop playing audio file {Manage.ApplicationManager.Current.ServerSettings.PlayAudioFile}", LogType.Application, LogLevel.Info);
+                Play.Content = FindResource("Play2");
+                Manage.Logger.Add($"Stop playing audio file {Manage.ApplicationManager.ServerSettings.PlayAudioFile}", LogType.Application, LogLevel.Info);
             }
         }
         private void PlayNext_Click(object sender, RoutedEventArgs e)
@@ -152,6 +166,10 @@ namespace Server
         #endregion
 
         #region Other Events
+        public void OnFontFamilyChanged(FontFamilyChangedEvent fontFamilyChangedEvent)
+        {
+            FontFamily = new FontFamily(fontFamilyChangedEvent.FontFamilyName);
+        }
         protected override void OnClosing(CancelEventArgs e)
         {
             Manage.EventManager.ExecuteEvent<IEventHandlerShutdown>(new ShutdownEvent());
@@ -170,9 +188,10 @@ namespace Server
         #region Client-Server
         public void OnSettingsLoaded(SettingsLoadedEvent settingsLoadedEvent)
         {
-            Manage.ApplicationManager.Current.ServerSettings.ThemeType = settingsLoadedEvent.Settings.ServerSettings.ThemeType;
-            Manage.Application.LoadAudioData(Manage.ApplicationManager.Current.ServerSettings.PlayAudioFile);
-            Manage.EventManager.ExecuteEvent<IEventHandlerFontFamilyChanged>(new FontFamilyChangedEvent(settingsLoadedEvent.Settings.ServerSettings.FontFamily));
+            ServerSettings serverSettings = settingsLoadedEvent.Settings as ServerSettings;
+            Manage.ApplicationManager.ServerSettings.ThemeType = serverSettings.ThemeType;
+            Manage.Application.LoadAudioData(Manage.ApplicationManager.ServerSettings.PlayAudioFile);
+            Manage.EventManager.ExecuteEvent<IEventHandlerFontFamilyChanged>(new FontFamilyChangedEvent(serverSettings.FontFamily));
         }
         public void OnOpen(OpenEvent openEvent)
         {
@@ -182,6 +201,9 @@ namespace Server
         public void OnClose(CloseEvent closeEvent)
         {
             UpdateServerInfo(new List<Client>());
+
+            Record.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { Record.Content = FindResource("Record"); }));
+            RecordPause.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { RecordPause.Content = FindResource("Play"); }));
             Open.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { Open.Content = FindResource("Connection"); }));
             SessionTime.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { SessionTime.Text = "00:00:00"; }));
             CurrentTime.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { CurrentTime.Text = "00:00:00"; }));
@@ -239,7 +261,6 @@ namespace Server
                         break;
                 }
             }
-            RefreshLists();
         }
         private void RemoveDragConnectionInfoFromList()
         {
@@ -256,13 +277,6 @@ namespace Server
                     break;
             }
         }
-        public void RefreshLists()
-        {
-            Servers.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { Servers.Items.Refresh(); }));
-            Moderators.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { Moderators.Items.Refresh(); }));
-            Speakers.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { Speakers.Items.Refresh(); }));
-            Listeners.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { Listeners.Items.Refresh(); }));
-        }
         #endregion
 
         #region Drag and Drop
@@ -272,7 +286,6 @@ namespace Server
             DragConnectionInfo.SetClientStatus(ClientStatus.Moderator);
             ModeratorsConnectionInfos.Add(DragConnectionInfo);
             DragConnectionInfo = null;
-            RefreshLists();
         }
         private void Speakers_Drop(object sender, DragEventArgs e)
         {
@@ -280,7 +293,6 @@ namespace Server
             DragConnectionInfo.SetClientStatus(ClientStatus.Speaker);
             SpeakersConnectionInfos.Add(DragConnectionInfo);
             DragConnectionInfo = null;
-            RefreshLists();
         }
         private void Listeners_Drop(object sender, DragEventArgs e)
         {
@@ -288,7 +300,6 @@ namespace Server
             DragConnectionInfo.SetClientStatus(ClientStatus.Listener);
             ListenersConnectionInfos.Add(DragConnectionInfo);
             DragConnectionInfo = null;
-            RefreshLists();
         }
         #endregion
 
@@ -345,13 +356,6 @@ namespace Server
                 Manage.EventManager.ExecuteEvent<IEventHandlerClientsInputMuteStatusChanged>(new ClientsInputMuteStatusChangedEvent(false, ClientStatus.Speaker));
             }
         }
-
-        public void OnFontFamilyChanged(FontFamilyChangedEvent fontFamilyChangedEvent)
-        {
-            FontFamily = new FontFamily(fontFamilyChangedEvent.FontFamilyName);
-        }
-
-        /*
         private void ListenersOutputMuteStatus_Click(object sender, RoutedEventArgs e)
         {
             if (ListenersOutputMuteStatus.Content == FindResource("Speaker"))
@@ -365,20 +369,6 @@ namespace Server
                 Manage.EventManager.ExecuteEvent<IEventHandlerClientsOutputMuteStatusChanged>(new ClientsOutputMuteStatusChangedEvent(false, ClientStatus.Listener));
             }
         }
-        private void ListenersInputMuteStatus_Click(object sender, RoutedEventArgs e)
-        {
-            if (ListenersInputMuteStatus.Content == FindResource("Microphone"))
-            {
-                ListenersInputMuteStatus.Content = FindResource("MicrophoneCrossed");
-                Manage.EventManager.ExecuteEvent<IEventHandlerClientsInputMuteStatusChanged>(new ClientsInputMuteStatusChangedEvent(true, ClientStatus.Listener));
-            }
-            else
-            {
-                ListenersInputMuteStatus.Content = FindResource("Microphone");
-                Manage.EventManager.ExecuteEvent<IEventHandlerClientsInputMuteStatusChanged>(new ClientsInputMuteStatusChangedEvent(false, ClientStatus.Listener));
-            }
-        }
-        */
         #endregion
     }
 }

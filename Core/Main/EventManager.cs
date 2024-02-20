@@ -1,6 +1,7 @@
 ﻿using Core.Handlers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Core.Main
 {
@@ -14,7 +15,7 @@ namespace Core.Main
         {
 			if (!Events.ContainsKey(typeof(T)))
 				return;
-            foreach (IEventHandler eventHandler in Events[typeof(T)])
+            foreach (IEventHandler eventHandler in Events[typeof(T)].ToList())
             {
                 ev.ExecuteHandler(eventHandler);
             }

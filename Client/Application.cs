@@ -32,7 +32,7 @@ namespace Client
             WaveOutAudio.DesiredLatency = 80;
             WaveOutAudio.Init(BufferedWaveProviderAudio);
             WaveOutAudio.Play();
-            WaveOutAudio.Volume = Manage.ApplicationManager.Current.ClientSettings.OutputMuteStatus ? 0.0f : 1.0f;
+            WaveOutAudio.Volume = Manage.ApplicationManager.ClientSettings.OutputMuteStatus ? 0.0f : 1.0f;
 
             IsOutputPrepared = true;
         }
@@ -64,13 +64,18 @@ namespace Client
             }
         }
 
+
         public override void OnOutputMuteStatusChanged(OutputMuteStatusChangedEvent outputMuteStatusChangedEvent)
         {
             if (outputMuteStatusChangedEvent.OutputMuteStatus)
+            {
                 WaveOutAudio.Volume = 0.0f;
+                MainWindow.MainWindowInstance.OutputSpectrum.ProcessData(new byte[Manage.DefaultInformation.DataLength], Manage.ApplicationManager.ClientSettings.OutputMuteStatus);
+            }
             else
                 WaveOutAudio.Volume = 1.0f;
         }
+
 
         public void OnOutput(OutputEvent outputEvent)
         {
@@ -80,8 +85,10 @@ namespace Client
                 MainWindow.MainWindowInstance.Client.AddAudio(outputEvent.Data);
             }
             else
+            {
                 BufferedWaveProvider.AddSamples(outputEvent.Data, 0, outputEvent.Data.Length);
-            MainWindow.MainWindowInstance.OutputSpectrum.ProcessData(outputEvent.Data, Manage.ApplicationManager.Current.ClientSettings.OutputMuteStatus);
+            }
+            MainWindow.MainWindowInstance.OutputSpectrum.ProcessData(outputEvent.Data, Manage.ApplicationManager.ClientSettings.OutputMuteStatus);
         }
 
         public void OnNextStep(NextStepEvent nextStepEvent)
@@ -109,7 +116,7 @@ namespace Client
         public void OnInput(InputEvent inputEvent)
         {
             MainWindow.MainWindowInstance.Client.AddAudio(inputEvent.Data);
-            MainWindow.MainWindowInstance.InputSpectrum.ProcessData(inputEvent.Data, Manage.ApplicationManager.Current.ClientSettings.InputMuteStatus);
+            MainWindow.MainWindowInstance.InputSpectrum.ProcessData(inputEvent.Data, Manage.ApplicationManager.ClientSettings.InputMuteStatus);
         }
 
         protected override void AudioPlaybackStopped()

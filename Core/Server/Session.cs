@@ -9,10 +9,12 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using Core.Client;
 
 namespace Core.Server
 {
-    public class Session : IEventHandlerClientsInputMuteStatusChanged, IEventHandlerClientsOutputMuteStatusChanged, IEventHandlerInput
+    public class Session : IEventHandlerClientsInputMuteStatusChanged, IEventHandlerClientsOutputMuteStatusChanged, IEventHandlerInput, IEventHandlerClientInputMuteStatusChanged, 
+        IEventHandlerClientOutputMuteStatusChanged, IEventHandlerClientInputVolumeChanged, IEventHandlerClientOutputVolumeChanged
     {
         private bool ShouldRedirectPort { get; set; } = true;
         private ServerStage ServerStage { get; set; } = ServerStage.Starting;
@@ -20,14 +22,12 @@ namespace Core.Server
         private Thread ListeningThread { get; set; }
         public List<Client> Clients { get; private set; } = new List<Client>();
         public List<Client> DisconnectedClients { get; private set; } = new List<Client>();
-        private List<IPAddress> Blacklist { get; set; } = new List<IPAddress>();
         private string Password { get; set; } = string.Empty;
         private Thread CloseThread { get; set; }
         private Thread StartThread { get; set; }
         private Thread SendingThread { get; set; }
         private INatDevice NatDevice { get; set; }
         private int Port { get; set; } = 0;
-        public bool IsEncrypting { get; private set; } = false;
         public string Name { get; private set; } = nameof(Name);
         public string ServerName { get; private set; } = nameof(ServerName);
 
@@ -94,6 +94,16 @@ namespace Core.Server
         {
             AddAudio(inputEvent.Data, Server);
         }
+        public void OnClientInputMuteStatusChanged(ClientInputMuteStatusChangedEvent clientInputMuteStatusChangedEvent)
+        {
+            Clients.FirstOrDefault(x => x.ConnectionInfo.Id == clientInputMuteStatusChangedEvent.Id).ConnectionInfo.ServerInputMuteStatus = clientInputMuteStatusChangedEvent.InputMuteStatus;
+            if (clientInputMuteStatusChangedEvent.InputMuteStatus)
+                Manage.EventManager.ExecuteEvent<IEventHandlerSpectrumUpdate>(new SpectrumUpdateEvent(clientInputMuteStatusChangedEvent.Id, new byte[Manage.DefaultInformation.DataLength]));
+        }
+        public void OnClientOutputMuteStatusChanged(ClientOutputMuteStatusChangedEvent clientOutputMuteStatusChangedEvent)
+        {
+            Clients.FirstOrDefault(x => x.ConnectionInfo.Id == clientOutputMuteStatusChangedEvent.Id).ConnectionInfo.ServerOutputMuteStatus = clientOutputMuteStatusChangedEvent.OutputMuteStatus;
+        }
         public void OnClientsInputMuteStatusChanged(ClientsInputMuteStatusChangedEvent clientsInputMuteStatusChangedEvent)
         {
             switch (clientsInputMuteStatusChangedEvent.ClientStatus)
@@ -112,7 +122,9 @@ namespace Core.Server
             {
                 if (client.ConnectionInfo.ClientStatus == clientsInputMuteStatusChangedEvent.ClientStatus)
                 {
-                    client.ConnectionInfo.InputMuteStatus = clientsInputMuteStatusChangedEvent.InputMuteStatus;
+                    client.ConnectionInfo.ServerInputMuteStatus = clientsInputMuteStatusChangedEvent.InputMuteStatus;
+                    if (clientsInputMuteStatusChangedEvent.InputMuteStatus)
+                        Manage.EventManager.ExecuteEvent<IEventHandlerSpectrumUpdate>(new SpectrumUpdateEvent(client.ConnectionInfo.Id, new byte[Manage.DefaultInformation.DataLength]));
                 }
             }
         }
@@ -134,9 +146,17 @@ namespace Core.Server
             {
                 if (client.ConnectionInfo.ClientStatus == clientsOutputMuteStatusChangedEvent.ClientStatus)
                 {
-                    client.ConnectionInfo.OutputMuteStatus = clientsOutputMuteStatusChangedEvent.OutputMuteStatus;
+                    client.ConnectionInfo.ServerOutputMuteStatus = clientsOutputMuteStatusChangedEvent.OutputMuteStatus;
                 }
             }
+        }
+        public void OnClientInputVolumeChanged(ClientInputVolumeChangedEvent clientInputVolumeChangedEvent)
+        {
+            Clients.FirstOrDefault(x => x.ConnectionInfo.Id == clientInputVolumeChangedEvent.Id).ConnectionInfo.ServerInputVolumeValue = clientInputVolumeChangedEvent.InputVolumeValue;
+        }
+        public void OnClientOutputVolumeChanged(ClientOutputVolumeChangedEvent clientOutputVolumeChangedEvent)
+        {
+            Clients.FirstOrDefault(x => x.ConnectionInfo.Id == clientOutputVolumeChangedEvent.Id).ConnectionInfo.ServerInputVolumeValue = clientOutputVolumeChangedEvent.OutputVolumeValue;
         }
         #endregion
 
@@ -160,7 +180,6 @@ namespace Core.Server
             Manage.Logger.Add("Start the server shutdown process...", LogType.Server, LogLevel.Debug);
             Manage.EventManager.ExecuteEvent<IEventHandlerClose>(new CloseEvent(reason));
             Clients.Clear();
-            Blacklist.Clear();
             ListeningSocket.Close();
             ListeningSocket.Dispose();
             if (ShouldRedirectPort)
@@ -193,10 +212,6 @@ namespace Core.Server
         #endregion
 
         #region Helper
-        public void SetEncrypting(bool value)
-        {
-            IsEncrypting = value;
-        }
         private bool IsKey(byte[] data)
         {
             if (Manage.GetStringFromData(Manage.ParseKeyFromString(Password)) != Manage.GetStringFromData(data))
@@ -248,6 +263,11 @@ namespace Core.Server
             Manage.EventManager.ExecuteEvent<IEventHandlerClientDisconnect>(new ClientDisconnectEvent(client.ConnectionInfo));
             SendData(Encoding.UTF8.GetBytes(Manage.DefaultInformation.DisconnectMessage + reason), client.Socket);
         }
+        public void DisconnectIpEndPoint(IPEndPoint iPEndPoint, string reason)
+        {
+            SendData(Encoding.UTF8.GetBytes(Manage.DefaultInformation.DisconnectMessage + reason), iPEndPoint);
+            Manage.Logger.Add($"Disconnect the {nameof(iPEndPoint)} {iPEndPoint} by {reason}", LogType.Server, LogLevel.Info);
+        }
         private void ConnectClient(IPEndPoint iPEndPoint)
         {
             Client client = new Client(iPEndPoint, Clients.Count + DisconnectedClients.Count, "Username", Server.ConnectionInfo.SessionStartTimeSpan, Name, ServerName, false, false);
@@ -260,15 +280,9 @@ namespace Core.Server
                 CheckVerification(client);
             }).Start();
         }
-        private void BlockClient(IPEndPoint client, string reason)
-        {
-            Blacklist.Add(client.Address);
-            SendData(new byte[Manage.DefaultInformation.DataLength], client);
-            Manage.Logger.Add($"The user {client} was refused to connect and was added to the blacklist by {reason}", LogType.Server, LogLevel.Warn);
-        }
         private void AddAudio(byte[] data, Client sender)
         {
-            if (sender.ConnectionInfo.ClientStatus == ClientStatus.Listener)
+            if (sender.ConnectionInfo.ClientStatus == ClientStatus.Listener || sender.ConnectionInfo.ServerInputMuteStatus || sender.ConnectionInfo.ServerInputVolumeValue == 0.0f)
                 return;
             if (Server.Record.IsRecording)
             {
@@ -276,9 +290,11 @@ namespace Core.Server
             }
             foreach (Client client in Clients)
             {
-                //if (sender.Socket.Address.Equals(client.Socket.Address) && sender.Socket.Port == client.Socket.Port)
-                    //continue;
-                client.AddAudio(data);
+                if (sender.Socket.Address.Equals(client.Socket.Address) && sender.Socket.Port == client.Socket.Port && !Manage.ApplicationManager.ServerSettings.ShouldMirrorAudio)
+                    continue;
+                if (client.ConnectionInfo.ServerOutputMuteStatus || client.ConnectionInfo.ServerOutputVolumeValue == 0.0f)
+                    continue;
+                SendData(Manage.Application.ScaleVolume(Manage.Application.ScaleVolume(data, sender.ConnectionInfo.ServerInputVolumeValue), client.ConnectionInfo.ServerOutputVolumeValue), client.Socket);
             }
             Manage.EventManager.ExecuteEvent<IEventHandlerSpectrumUpdate>(new SpectrumUpdateEvent(sender.ConnectionInfo.Id, data));
         }
@@ -291,9 +307,7 @@ namespace Core.Server
             {
                 foreach (Client client in Clients.ToList())
                 {
-                    byte[] data = client.GetAudio();
-                    if (Manage.GetUlongFromBuffer(data) > 0)
-                        SendData(data, client.Socket);
+                    SendData(Manage.ClientInfoBehaviour.GetClientInfosData(Clients.ToList()), client.Socket);
                     Manage.EventManager.ExecuteEvent<IEventHandlerClientUpdate>(new ClientUpdateEvent(client.ConnectionInfo));
                 }
                 Manage.EventManager.ExecuteEvent<IEventHandlerServerUpdate>(new ServerUpdateEvent(Clients));
@@ -339,8 +353,7 @@ namespace Core.Server
                     continue;
                 }
                 IPEndPoint iPEndPoint = remoteIp as IPEndPoint;
-                if (Blacklist.Contains(iPEndPoint.Address))
-                    continue;
+
                 Client client = GetClientBySocket(iPEndPoint);
                 if (client != null)
                 {
@@ -348,8 +361,22 @@ namespace Core.Server
                     {
                         client.UpdateVerification(data);
                     }
-                    else
+                    else if (Manage.ClientInfoBehaviour.IsClientInfosMessage(data))
                     {
+                        if (client.ConnectionInfo.ClientStatus == ClientStatus.Moderator)
+                        {
+                            List<ClientInfo> clientInfos = Manage.ClientInfoBehaviour.GetClientInfosFromData(data);
+                            foreach (ClientInfo clientInfo in clientInfos)
+                            {
+                                if (Clients.ToList().FirstOrDefault(x => x.ConnectionInfo.Id == clientInfo.Id) != default)
+                                {
+                                    Clients.ToList().FirstOrDefault(x => x.ConnectionInfo.Id == clientInfo.Id).ConnectionInfo.SetClientStatus(clientInfo.ClientStatus);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {   
                         AddAudio(data, client);
                     }
                 }
@@ -361,14 +388,13 @@ namespace Core.Server
                     }
                     else
                     {
-                        BlockClient(iPEndPoint, $"by wrong {nameof(Password)} {Manage.GetStringFromData(data)}");
+                        DisconnectIpEndPoint(iPEndPoint, "Wrong password");
                     }
                 }
             }
         }
         #endregion
     }
-
     public enum ServerStage
     {
         Starting, Open, Closing

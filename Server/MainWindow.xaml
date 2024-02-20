@@ -8,7 +8,9 @@
         mc:Ignorable="d"
         AllowsTransparency="true"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="250" MinWidth="900" Height="0" Width="0">
+        Icon="/Server;component/Resources/ConnectionTwo.png"
+        Title="зов-сервер"
+        WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="350" MinWidth="900" Height="0" Width="0">
     <Window.Resources>
         <Image x:Key="Minimize" Source="/Server;component/Resources/Minimize.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
         <Image x:Key="Deploy" Source="/Server;component/Resources/Deploy.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
@@ -18,18 +20,20 @@
         <Image x:Key="Settings" Source="/Server;component/Resources/Settings.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
         <Image x:Key="Connection" Source="/Server;component/Resources/Connection.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
         <Image x:Key="ConnectionTwo" Source="/Server;component/Resources/ConnectionTwo.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
-        
+
         <Image x:Key="Pause" Source="/Server;component/Resources/Pause.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0" />
+        <Image x:Key="Stop" Source="/Server;component/Resources/Stop.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0" />
         <Image x:Key="Play" Source="/Server;component/Resources/Play.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0" />
+        <Image x:Key="Play2" Source="/Server;component/Resources/Play.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0" />
         <Image x:Key="Record" Source="/Server;component/Resources/Record.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0" />
         <Image x:Key="PlayNext" Source="/Server;component/Resources/PlayNext.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0" />
         <Image x:Key="PlayPrevious" Source="/Server;component/Resources/PlayPrevious.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0" />
         <Image x:Key="Pause2" Source="/Server;component/Resources/Pause.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0"/>
 
-        <BitmapImage x:Key="Speaker" UriSource="/Server;component/Resources/Speaker.png" RenderOptions.BitmapScalingMode="HighQuality" />
-        <BitmapImage x:Key="SpeakerCrossed" UriSource="/Server;component/Resources/SpeakerCrossed.png" RenderOptions.BitmapScalingMode="HighQuality" />
-        <BitmapImage x:Key="Microphone" UriSource="/Server;component/Resources/Microphone.png" RenderOptions.BitmapScalingMode="HighQuality" />
-        <BitmapImage x:Key="MicrophoneCrossed" UriSource="/Server;component/Resources/MicrophoneCrossed.png" RenderOptions.BitmapScalingMode="HighQuality" />
+        <Image x:Key="Speaker" Source="/Server;component/Resources/Speaker.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
+        <Image x:Key="SpeakerCrossed" Source="/Server;component/Resources/SpeakerCrossed.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
+        <Image x:Key="Microphone" Source="/Server;component/Resources/Microphone.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
+        <Image x:Key="MicrophoneCrossed" Source="/Server;component/Resources/MicrophoneCrossed.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
 
         <Image x:Key="Speaker2" Source="/Server;component/Resources/Speaker.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
         <Image x:Key="SpeakerCrossed2" Source="/Server;component/Resources/SpeakerCrossed.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6" />
@@ -197,7 +201,7 @@
                             <DynamicResource ResourceKey="Record"/>
                         </Button>
                         <Button x:Name="RecordPause" Grid.Column="1" Click="RecordPause_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="пауза">
-                            <DynamicResource ResourceKey="Pause"/>
+                            <DynamicResource ResourceKey="Play"/>
                         </Button>
                         <Slider x:Name="InputVolume" Grid.Column="2" Maximum="1.0" Value="1.0" ValueChanged="InputVolume_ValueChanged" ToolTip="уровень"/>
                     </Grid>
@@ -216,7 +220,7 @@
                             <StaticResource ResourceKey="PlayPrevious"/>
                         </RepeatButton>
                         <Button x:Name="Play" Grid.Column="1" Click="Play_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="воспроизвести">
-                            <DynamicResource ResourceKey="Play"/>
+                            <DynamicResource ResourceKey="Play2"/>
                         </Button>
                         <RepeatButton x:Name="PlayNext" Grid.Column="2" Click="PlayNext_Click" Style="{StaticResource MenuButton}" ToolTip="следующий" Delay="20" Interval="20">
                             <StaticResource ResourceKey="PlayNext"/>
@@ -258,11 +262,11 @@
                         <ColumnDefinition Width="auto"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="ServersOutputMuteStatus" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="динамик">
+                    <Button x:Name="ServersOutputMuteStatus" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="динамик" IsEnabled="False">
                         <DynamicResource ResourceKey="Speaker4"/>
                     </Button>
                     <TextBlock x:Name="ServersField" Grid.Column="1" Text="серверы"/>
-                    <Button x:Name="ServersInputMuteStatus" Grid.Column="2" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="микрофон">
+                    <Button x:Name="ServersInputMuteStatus" Grid.Column="2" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="микрофон" IsEnabled="False">
                         <DynamicResource ResourceKey="Microphone4"/>
                     </Button>
                 </Grid>
@@ -306,9 +310,15 @@
                         <ColumnDefinition Width="auto"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Image Source="{DynamicResource Speaker}" Width="20" Height="20" Margin="6"/>
+
+                    <Button x:Name="ListenersOutputMuteStatus" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="ListenersOutputMuteStatus_Click" ToolTip="микрофон">
+                        <StaticResource ResourceKey="Speaker"/>
+                    </Button>
                     <TextBlock x:Name="ListenersField" Grid.Column="1" Text="слушатели"/>
-                    <Image Source="{DynamicResource MicrophoneCrossed}" Grid.Column="2" Width="20" Height="20" Margin="6"/>
+
+                    <Button x:Name="ListenersInputMuteStatus" Grid.Column="2" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="микрофон" IsEnabled="False">
+                        <StaticResource ResourceKey="MicrophoneCrossed"/>
+                    </Button>
                 </Grid>
             </Border>
 

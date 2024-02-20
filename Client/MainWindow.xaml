@@ -8,6 +8,8 @@
         mc:Ignorable="d"
         AllowsTransparency="true"
         WindowStartupLocation="CenterScreen"
+        Icon="/Client;component/Resources/ConnectionTwo.png"
+        Title="зов-голос"
         WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="200" MinWidth="880" Height="0" Width="0">
     <Window.Resources>
         <Image x:Key="Minimize" Source="/Client;component/Resources/Minimize.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
@@ -22,13 +24,15 @@
         <Image x:Key="Connection" Source="/Client;component/Resources/Connection.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
         <Image x:Key="ConnectionTwo" Source="/Client;component/Resources/ConnectionTwo.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
         <Image x:Key="Pause" Source="/Client;component/Resources/Pause.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0"/>
+        <Image x:Key="Pause2" Source="/Client;component/Resources/Pause.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0"/>
         <Image x:Key="Play" Source="/Client;component/Resources/Play.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0"/>
+        <Image x:Key="Play2" Source="/Client;component/Resources/Play.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0"/>
         <Image x:Key="Record" Source="/Client;component/Resources/Record.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0"/>
+        <Image x:Key="Stop" Source="/Client;component/Resources/Stop.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0"/>
         <Image x:Key="PlayNext" Source="/Client;component/Resources/PlayNext.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0"/>
         <Image x:Key="PlayPrevious" Source="/Client;component/Resources/PlayPrevious.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0"/>
         <Image x:Key="Help" Source="/Client;component/Resources/Help.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
         <Image x:Key="Clients" Source="/Client;component/Resources/Clients.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="6"/>
-        <Image x:Key="Pause2" Source="/Client;component/Resources/Pause.png" Height="20" Width="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0"/>
         <Style x:Key="MenuButton" TargetType="RepeatButton">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="White" />
@@ -216,13 +220,13 @@
                             <DynamicResource ResourceKey="Record"/>
                         </Button>
                         <Button x:Name="RecordPause" Grid.Column="2" Click="RecordPause_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="пауза">
-                            <DynamicResource ResourceKey="Pause"/>
+                            <DynamicResource ResourceKey="Play"/>
                         </Button>
                         <RepeatButton x:Name="PlayPrevious" Grid.Column="3" Click="PlayPrevious_Click" Style="{StaticResource MenuButton}" ToolTip="предыдущий" Delay="20" Interval="20">
                             <StaticResource ResourceKey="PlayPrevious"/>
                         </RepeatButton>
                         <Button x:Name="Play" Grid.Column="4" Click="Play_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" ToolTip="воспроизвести">
-                            <DynamicResource ResourceKey="Play"/>
+                            <DynamicResource ResourceKey="Play2"/>
                         </Button>
                         <RepeatButton x:Name="PlayNext" Grid.Column="5" Click="PlayNext_Click" Style="{StaticResource MenuButton}" ToolTip="следующий" Delay="20" Interval="20">
                             <StaticResource ResourceKey="PlayNext"/>

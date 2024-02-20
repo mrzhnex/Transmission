@@ -5,7 +5,7 @@ namespace Core.Events
 {
     public class SettingsLoadedEvent : Event
     {
-        public Settings Settings { get; set; } = Settings.Default;
+        public Settings Settings { get; set; }
         public SettingsLoadedEvent(Settings Settings)
         {
             this.Settings = Settings;

@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.ComponentModel;
 using System.Text;
+using Core.Client;
 using Core.Server;
 
 namespace Core.Main
@@ -12,8 +13,9 @@ namespace Core.Main
         public static Logger Logger { get; private set; } = new Logger();
         public static Core.Application.Manager ApplicationManager { get; private set; } = new Core.Application.Manager();
         public static Localization.Manager LocalizationManager { get; private set; } = new Localization.Manager();
+        public static ClientInfoBehaviour ClientInfoBehaviour { get; private set; } = new ClientInfoBehaviour();
         public static Client.Session ClientSession { get; set; }
-        public static Session ServerSession { get; set; }
+        public static Server.Session ServerSession { get; set; }
         public static Application Application { get; set; }
 
         public static string GetStringFromData(byte[] data)
@@ -46,7 +48,6 @@ namespace Core.Main
         {
             return System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B);
         }
-
         public static byte[] GetDataFromString(string key)
         {
             return Encoding.UTF8.GetBytes(key);
@@ -70,12 +71,14 @@ namespace Core.Main
             }
             return result;
         }
-        public static IEnumerable<IEnumerable<T>> Split<T>(this T[] array, int size)
+        public static T ToEnum<T>(this string value) where T : struct
         {
-            for (var i = 0; i < (float)array.Length / size; i++)
-            {
-                yield return array.Skip(i * size).Take(size);
-            }
+            if (string.IsNullOrEmpty(value)) return default;
+            return Enum.TryParse<T>(value, true, out T result) ? result : default;
+        }
+        public static void Raise(this PropertyChangedEventHandler handler, object sender, string propertyName)
+        {
+            handler?.Invoke(sender, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

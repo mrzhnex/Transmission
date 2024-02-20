@@ -14,7 +14,7 @@ namespace Core.Events
         }
         public override void ExecuteHandler(IEventHandler handler)
         {
-            Manage.Logger.Add($"Set all {nameof(ClientStatus)} to {InputMuteStatus}", LogType.Application, LogLevel.Info);
+            Manage.Logger.Add($"Set all {ClientStatus} {nameof(InputMuteStatus)} to {InputMuteStatus}", LogType.Application, LogLevel.Info);
             ((IEventHandlerClientsInputMuteStatusChanged)handler).OnClientsInputMuteStatusChanged(this);
         }
     }

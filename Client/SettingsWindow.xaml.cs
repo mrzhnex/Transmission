@@ -26,35 +26,29 @@ namespace Client
                 Themes.Items.Add(new ComboBoxItem() { Name = keyValuePair.Key.ThemeType.ToString(), Content = keyValuePair.Key.ThemeName });
             }
 
-            for (int i = 1; i < 4; i++)
-            {
-                InputOutputType.Items.Add($"вид {i}");
-            }
-            InputOutputType.SelectedItem = "вид 1";
+            FontStyles.ItemsSource = Core.Application.Info.FontFamilies;
 
-            var installedFontCollection = new System.Drawing.Text.InstalledFontCollection();
-            foreach (System.Drawing.FontFamily fontFamily in installedFontCollection.Families)
+            foreach (FontFamily fontFamily in Core.Application.Info.FontFamilies)
             {
-                FontFamily font = new FontFamily(fontFamily.Name);
-                if (font.Source == Manage.ApplicationManager.Current.ClientSettings.FontFamily)
+                if (fontFamily.Source == Manage.ApplicationManager.ClientSettings.FontFamily)
                 {
-                    FontStyles.SelectedItem = font;
+                    FontStyles.SelectedItem = fontFamily;
                 }
             }
-            
+
             if (FontStyles.SelectedItem == null)
             {
                 FontStyles.SelectedItem = new FontFamily(Manage.DefaultInformation.DefaultFontFamily);
             }
 
-            ShouldLog.SelectedItem = Manage.ApplicationManager.Current.ClientSettings.ShouldLog ? ShouldLog.Items[0] : ShouldLog.Items[1];
+            ShouldLog.SelectedItem = Manage.ApplicationManager.ClientSettings.ShouldLog ? ShouldLog.Items[0] : ShouldLog.Items[1];
             foreach (ComboBoxItem comboBoxItem in Themes.Items)
             {
-                if ((ThemeType)Enum.Parse(typeof(ThemeType), comboBoxItem.Name) == Manage.ApplicationManager.Current.ClientSettings.ThemeType)
+                if ((ThemeType)Enum.Parse(typeof(ThemeType), comboBoxItem.Name) == Manage.ApplicationManager.ClientSettings.ThemeType)
                     Themes.SelectedItem = comboBoxItem;
             }
-            RecordSaveFolder.Text = Manage.ApplicationManager.Current.ClientSettings.RecordSaveFolder == string.Empty ? Manage.Logger.LogsFolder : Manage.ApplicationManager.Current.ClientSettings.RecordSaveFolder;
-            PlayAudioFile.Text = Manage.ApplicationManager.Current.ClientSettings.PlayAudioFile == string.Empty ? Manage.DefaultInformation.DefaultFileName : Manage.ApplicationManager.Current.ClientSettings.PlayAudioFile;
+            RecordSaveFolder.Text = Manage.ApplicationManager.ClientSettings.RecordSaveFolder == string.Empty ? Manage.Logger.LogsFolder : Manage.ApplicationManager.ClientSettings.RecordSaveFolder;
+            PlayAudioFile.Text = Manage.ApplicationManager.ClientSettings.PlayAudioFile == string.Empty ? Manage.DefaultInformation.DefaultFileName : Manage.ApplicationManager.ClientSettings.PlayAudioFile;
         }
 
         private void Languages_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -124,9 +118,9 @@ namespace Client
             };
             if (commonOpenFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                Manage.ApplicationManager.Current.ClientSettings.PlayAudioFile = commonOpenFileDialog.FileName;
-                PlayAudioFile.Text = Manage.ApplicationManager.Current.ClientSettings.PlayAudioFile;
-                Manage.Application.LoadAudioData(Manage.ApplicationManager.Current.ClientSettings.PlayAudioFile);
+                Manage.ApplicationManager.ClientSettings.PlayAudioFile = commonOpenFileDialog.FileName;
+                PlayAudioFile.Text = Manage.ApplicationManager.ClientSettings.PlayAudioFile;
+                Manage.Application.LoadAudioData(Manage.ApplicationManager.ClientSettings.PlayAudioFile);
             }
         }
 
@@ -149,15 +143,15 @@ namespace Client
             };
             if (commonOpenFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                Manage.ApplicationManager.Current.ClientSettings.RecordSaveFolder = commonOpenFileDialog.FileName;
-                RecordSaveFolder.Text = Manage.ApplicationManager.Current.ClientSettings.RecordSaveFolder;
+                Manage.ApplicationManager.ClientSettings.RecordSaveFolder = commonOpenFileDialog.FileName;
+                RecordSaveFolder.Text = Manage.ApplicationManager.ClientSettings.RecordSaveFolder;
             }
         }
 
         private void FontStyles_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             FontFamily fontFamily = (FontFamily)((ComboBox)sender).SelectedItem;
-            Manage.ApplicationManager.Current.ClientSettings.FontFamily = fontFamily.Source;
+            Manage.ApplicationManager.ClientSettings.FontFamily = fontFamily.Source;
             Manage.EventManager.ExecuteEvent<IEventHandlerFontFamilyChanged>(new FontFamilyChangedEvent(fontFamily.Source));
         }
 
@@ -169,12 +163,12 @@ namespace Client
 
         private void Themes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Manage.ApplicationManager.Current.ClientSettings.ThemeType = (ThemeType)Enum.Parse(typeof(ThemeType), (((ComboBox)sender).SelectedItem as ComboBoxItem).Name);
+            Manage.ApplicationManager.ClientSettings.ThemeType = (ThemeType)Enum.Parse(typeof(ThemeType), (((ComboBox)sender).SelectedItem as ComboBoxItem).Name);
         }
 
         private void ShouldLog_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Manage.ApplicationManager.Current.ClientSettings.ShouldLog = bool.Parse((((ComboBox)sender).SelectedItem as ComboBoxItem).Name);
+            Manage.ApplicationManager.ClientSettings.ShouldLog = bool.Parse((((ComboBox)sender).SelectedItem as ComboBoxItem).Name);
         }
     }
 }

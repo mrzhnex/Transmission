@@ -8,7 +8,7 @@
         AllowsTransparency="True"
         WindowStartupLocation="CenterOwner"
         Closing="Window_Closing"
-        Title="Transmission" WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="240" MinWidth="500" Width="0" Height="0" MaxHeight="300">
+        Title="Transmission" WindowStyle="None" ResizeMode="CanResizeWithGrip" MinHeight="240" MinWidth="600" Width="0" Height="0" MaxHeight="300">
     <Window.Resources>
         <Image x:Key="Minimize" Source="/Server;component/Resources/Minimize.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
         <Image x:Key="Deploy" Source="/Server;component/Resources/Deploy.png" Height="14" Width="14" RenderOptions.BitmapScalingMode="HighQuality" Margin="3"/>
@@ -76,20 +76,25 @@
 
             <TextBlock Grid.Row="6" Text="тема"/>
             <ComboBox x:Name="Themes" Grid.Column="1" Grid.Row="6" SelectionChanged="Themes_SelectionChanged"/>
+            
+            <TextBlock Grid.Row="7" Text="сортировка"/>
+            <ComboBox x:Name="Sort" Grid.Column="1" Grid.Row="7"/>
 
-            <TextBlock Grid.Row="7" Text="тип значков"/>
-            <ComboBox x:Name="InputOutputType" Grid.Column="1" Grid.Row="7"/>
-
-            <TextBlock Grid.Row="8" Text="сортировка"/>
-            <ComboBox x:Name="Sort" Grid.Column="1" Grid.Row="8"/>
-
-            <TextBlock Grid.Row="9" Text="шрифт"/>
-            <ComboBox x:Name="FontStyles" Grid.Column="1" Grid.Row="9" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" FontSize="14" SelectionChanged="FontStyles_SelectionChanged">
+            <TextBlock Grid.Row="8" Text="шрифт"/>
+            <ComboBox x:Name="FontStyles" Grid.Column="1" Grid.Row="8" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" FontSize="14" SelectionChanged="FontStyles_SelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock FontFamily="{Binding .}" Text="{Binding Source}" ToolTip="{Binding Source}" />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <TextBlock Grid.Row="9" Text="отзеркаливание аудио"/>
+            <ComboBox x:Name="ShouldMirroAudio" Grid.Column="1" Grid.Row="9" SelectionChanged="ShouldMirroAudio_SelectionChanged">
+                <ComboBoxItem x:Name="true" Content="включено">
+                </ComboBoxItem>
+                <ComboBoxItem x:Name="false" Content="отключено">
+                </ComboBoxItem>
             </ComboBox>
         </Grid>
     </Border>

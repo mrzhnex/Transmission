@@ -3,14 +3,55 @@ using Core.Handlers;
 using NAudio.Wave;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Core.Main
 {
     public abstract class Application : IEventHandlerInputMuteStatusChanged, IEventHandlerOutputMuteStatusChanged, IEventHandlerShutdown, 
         IEventHandlerInputVolumeChanged, IEventHandlerOutputVolumeChanged, IEventHandlerLog, IEventHandlerClientUpdate, IEventHandlerShouldLogChanged
     {
+        public List<byte> ServerAudio { get; set; } = new List<byte>();
+        public void AddAudio(byte[] data)
+        {
+            Task.Run(new Action(() => AddAudioCore(data)));
+        }
+
+        private void AddAudioCore(byte[] data)
+        {
+            for (int i = 0; i < data.Length; i++)
+            {
+                lock (ServerAudio)
+                {
+                    if (ServerAudio.Count > i)
+                    {
+                        ServerAudio[i] = (byte)(ServerAudio[i] + data[i]);
+                    }
+                    else
+                    {
+                        ServerAudio.Add(data[i]);
+                    }
+                }
+            }
+        }
+
+        public byte[] GetAudio()
+        {
+            byte[] data = new byte[ServerAudio.Count < Manage.DefaultInformation.DataLength ? ServerAudio.Count : Manage.DefaultInformation.DataLength];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = ServerAudio[i];
+            }
+            lock (ServerAudio)
+            {
+                ServerAudio.RemoveRange(0, data.Length);
+            }
+            return data;
+        }
+
+
         protected internal bool IsInputPrepared { get; set; } = false;
         protected internal bool IsOutputPrepared { get; set; } = false;
         protected internal bool IsInputNotFound { get; set; } = true;
@@ -24,7 +65,6 @@ namespace Core.Main
         public bool IsAudioLoaded { get; set; } = false;
         protected internal int Length { get; set; } = Manage.DefaultInformation.DataLength;
         protected internal int Index { get; set; } = 0;
-
         #region Main
         public Application()
         {
@@ -88,6 +128,11 @@ namespace Core.Main
         {
             if (audioFilePath == null || audioFilePath == string.Empty || audioFilePath.Length == 0 || audioFilePath == Manage.DefaultInformation.DefaultFileName)
                 return;
+            if (!File.Exists(audioFilePath))
+            {
+                Manage.Logger.Add($"Could't load {nameof(AudioData)} from {audioFilePath}", LogType.Application, LogLevel.Info);
+                return;
+            }
             WaveFileReader waveFileReader = new WaveFileReader(audioFilePath);
             byte[] data = new byte[waveFileReader.Length];
             waveFileReader.Read(data, 0, data.Length);
@@ -169,6 +214,11 @@ namespace Core.Main
                 }
                 else
                 {
+                    data = GetAudio();
+                    if (Manage.GetUlongFromBuffer(data) > 0)
+                    {
+                        Manage.EventManager.ExecuteEvent<IEventHandlerOutput>(new OutputEvent(data));
+                    }
                     if (BufferedDuration().TotalSeconds > 0.5)
                         ClearBuffer();
                 }
@@ -179,7 +229,10 @@ namespace Core.Main
         #region Events
         public void OnShutdown(ShutdownEvent shutdownEvent)
         {
-            Manage.ApplicationManager.Save();
+            if (IsServer())
+                Manage.ApplicationManager.ServerSettings.Save();
+            else
+                Manage.ApplicationManager.ClientSettings.Save();
             if (Manage.ServerSession != null)
             {
                 Manage.ServerSession.Close("The app is closing");

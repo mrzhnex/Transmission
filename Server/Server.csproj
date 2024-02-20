@@ -4,15 +4,8 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>ConnectionTwo.ico</ApplicationIcon>
   </PropertyGroup>
-
-	<ItemGroup>
-		<PackageReference Include="LiveCharts.Geared" Version="1.2.9" />
-		<PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
-		<PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
-		<PackageReference Include="System.Drawing.Common" Version="5.0.0" />
-		<PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" />
-	</ItemGroup>
 
   <ItemGroup>
     <None Remove="Resources\Close.png" />
@@ -32,10 +25,15 @@
     <None Remove="Resources\Settings.png" />
     <None Remove="Resources\Speaker.png" />
     <None Remove="Resources\SpeakerCrossed.png" />
-    <None Remove="Resources\Test.png" />
+    <None Remove="Resources\Stop.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AudioVisualizationLibrary\AudioVisualizationLibrary.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
@@ -57,7 +55,7 @@
     <Resource Include="Resources\Settings.png" />
     <Resource Include="Resources\Speaker.png" />
     <Resource Include="Resources\SpeakerCrossed.png" />
-    <Resource Include="Resources\Test.png" />
+    <Resource Include="Resources\Stop.png" />
   </ItemGroup>
 
 </Project>

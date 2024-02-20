@@ -1,7 +1,7 @@
-﻿using Core.Application;
-using Core.Events;
+﻿using Core.Events;
 using Core.Handlers;
 using Core.Main;
+using Core.Server;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,7 +12,7 @@ namespace Server
 {
     public partial class ClientWindow : Window, IEventHandlerSpectrumUpdate, IEventHandlerFontFamilyChanged
     {
-        public Spectrum InputSpectrum { get; set; } = new Spectrum();
+        public SpectrumControl InputSpectrum { get; set; } = new SpectrumControl();
 
         public int Id { get; set; } = -1;
 
@@ -20,15 +20,20 @@ namespace Server
         {
             this.Id = Id;
             InitializeComponent();
+            InputSpectrum = InputSpectrumControl;
             Manage.Application.AddEventHandlers(this);
             foreach (TextBlock textBlock in new TextBlock[] { Username, ClientStatus, ConnectionTimeSpan, Ip })
             {
                 SetBinding(textBlock);
             }
-
-            InputSpectrum = (Spectrum)InputSpectrumControl.DataContext;
-            Manage.Application.AddEventHandlers(this);
-            return;
+            ConnectionInfo connectionInfo = Manage.ServerSession.Clients.FirstOrDefault(x => x.ConnectionInfo.Id == Id).ConnectionInfo;
+            if (connectionInfo != null)
+            {
+                OutputMuteStatus.Content = connectionInfo.ServerOutputMuteStatus ? FindResource("SpeakerCrossed") : FindResource("Speaker");
+                InputMuteStatus.Content = connectionInfo.ServerInputMuteStatus ? FindResource("MicrophoneCrossed") : FindResource("Microphone");
+                InputVolume.Value = connectionInfo.ServerInputVolumeValue;
+                OutputVolume.Value = connectionInfo.ServerOutputVolumeValue;
+            }
         }
 
         private void SetBinding(TextBlock textBlock)
@@ -41,7 +46,7 @@ namespace Server
             });
         }
 
-        #region Client
+        #region ClientButtons
         private void Disconnect_Click(object sender, RoutedEventArgs e)
         {
             Manage.ServerSession.DisconnectClient(Manage.ServerSession.Clients.FirstOrDefault(x => x.ConnectionInfo.Id == Id), "Server discision");
@@ -49,23 +54,33 @@ namespace Server
         }
         private void OutputMuteStatus_Click(object sender, RoutedEventArgs e)
         {
-
+            if (OutputMuteStatus.Content == FindResource("Speaker"))
+            {
+                Manage.EventManager.ExecuteEvent<IEventHandlerClientOutputMuteStatusChanged>(new ClientOutputMuteStatusChangedEvent(Id, true));
+                OutputMuteStatus.Content = FindResource("SpeakerCrossed");
+            }
+            else
+            {
+                Manage.EventManager.ExecuteEvent<IEventHandlerClientOutputMuteStatusChanged>(new ClientOutputMuteStatusChangedEvent(Id, false));
+                OutputMuteStatus.Content = FindResource("Speaker");
+            }
         }
         private void InputMuteStatus_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-        private void InputVolume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-
-        }
-        private void OutputVolume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-
+            if (InputMuteStatus.Content == FindResource("Microphone"))
+            {
+                Manage.EventManager.ExecuteEvent<IEventHandlerClientInputMuteStatusChanged>(new ClientInputMuteStatusChangedEvent(Id, true));
+                InputMuteStatus.Content = FindResource("MicrophoneCrossed");
+            }
+            else
+            {
+                Manage.EventManager.ExecuteEvent<IEventHandlerClientInputMuteStatusChanged>(new ClientInputMuteStatusChangedEvent(Id, false));
+                InputMuteStatus.Content = FindResource("Microphone");
+            }
         }
         #endregion
 
-        #region Buttons
+        #region WindowButtons
         private void Minimize_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
@@ -103,6 +118,14 @@ namespace Server
             if (MainWindow.MainWindowInstance.ClientWindows.FirstOrDefault(x => x.Id == Id) != default)
                 MainWindow.MainWindowInstance.ClientWindows.Remove(MainWindow.MainWindowInstance.ClientWindows.FirstOrDefault(x => x.Id == Id));
         }
+        private void InputVolume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Manage.EventManager.ExecuteEvent<IEventHandlerClientInputVolumeChanged>(new ClientInputVolumeChangedEvent(Id, (float)e.NewValue));
+        }
+        private void OutputVolume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Manage.EventManager.ExecuteEvent<IEventHandlerClientOutputVolumeChanged>(new ClientOutputVolumeChangedEvent(Id, (float)e.NewValue));
+        }
         public void OnSpectrumUpdate(SpectrumUpdateEvent spectrumUpdateEvent)
         {
             if (Id == spectrumUpdateEvent.Id)
@@ -110,7 +133,6 @@ namespace Server
                 InputSpectrum.ProcessData(spectrumUpdateEvent.Data, spectrumUpdateEvent.Silent);
             }
         }
-
         public void OnFontFamilyChanged(FontFamilyChangedEvent fontFamilyChangedEvent)
         {
             FontFamily = new FontFamily(fontFamilyChangedEvent.FontFamilyName);

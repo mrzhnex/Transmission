@@ -1,5 +1,4 @@
 ﻿using Core.Handlers;
-using System.Collections.Generic;
 
 namespace Core.Events
 {

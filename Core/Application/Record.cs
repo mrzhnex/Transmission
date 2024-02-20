@@ -10,6 +10,7 @@ namespace Core.Application
     public class Record
     {
         public bool IsRecording { get; private set; }
+        public bool IsStartRecording { get; private set; }
         public List<byte> RecordingAudio { get; private set; } = new List<byte>();
         private DateTime StartTime { get; set; } = DateTime.Now;
         private DateTime EndTime { get; set; }
@@ -55,6 +56,7 @@ namespace Core.Application
         public void Save()
         {
             Active = false;
+            IsStartRecording = false;
             IsRecording = false;
             EndTime = DateTime.Now;
             if (RecordingAudio.Count > 0)
@@ -62,7 +64,10 @@ namespace Core.Application
                 Manage.Logger.Add("Trying to save a record", LogType.Application, LogLevel.Debug);
                 try
                 {
-                    string fileFullName = Path.Combine(IsClient ? Manage.ApplicationManager.Current.ClientSettings.RecordSaveFolder : Manage.ApplicationManager.Current.ServerSettings.RecordSaveFolder, $"{GetStartTime()} - {GetEndTime()}_{Name}.wav");
+                    string fileFullName = IsClient ? Manage.ApplicationManager.ClientSettings.RecordSaveFolder : Manage.ApplicationManager.ServerSettings.RecordSaveFolder;
+                    if (fileFullName == string.Empty)
+                        fileFullName = Manage.Logger.LogsFolder;
+                    fileFullName = Path.Combine(fileFullName, $"{GetStartTime()} - {GetEndTime()}_{Name}.wav");
                     WaveFileWriter waveFileWriter = new WaveFileWriter(fileFullName, Manage.DefaultInformation.WaveFormat);
                     waveFileWriter.WriteData(RecordingAudio.ToArray(), 0, RecordingAudio.ToArray().Length);
                     waveFileWriter.Close();
@@ -86,6 +91,7 @@ namespace Core.Application
             RecordingAudio = new List<byte>();
             IsRecording = true;
             Active = true;
+            IsStartRecording = true;
             new Thread(delegate ()
             {
                 Recording();

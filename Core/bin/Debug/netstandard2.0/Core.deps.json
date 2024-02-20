@@ -9,47 +9,14 @@
     ".NETStandard,Version=v2.0/": {
       "Core/1.0.0": {
         "dependencies": {
-          "LiveCharts.Geared": "1.2.9",
-          "LiveCharts.Wpf": "0.9.7",
-          "Mono.Nat": "2.0.2",
+          "Mono.Nat": "3.0.1",
           "NAudio": "1.10.0",
           "NETStandard.Library": "2.0.3",
-          "System.Drawing.Common": "5.0.0",
+          "System.Drawing.Common": "5.0.2",
           "PresentationCore": "4.0.0.0"
         },
         "runtime": {
           "Core.dll": {}
-        }
-      },
-      "LiveCharts/0.9.7": {
-        "runtime": {
-          "lib/net45/LiveCharts.dll": {
-            "assemblyVersion": "0.9.7.0",
-            "fileVersion": "0.9.7.0"
-          }
-        }
-      },
-      "LiveCharts.Geared/1.2.9": {
-        "dependencies": {
-          "LiveCharts": "0.9.7",
-          "LiveCharts.Wpf": "0.9.7"
-        },
-        "runtime": {
-          "lib/net45/LiveCharts.Geared.dll": {
-            "assemblyVersion": "1.2.8.2",
-            "fileVersion": "1.2.8.2"
-          }
-        }
-      },
-      "LiveCharts.Wpf/0.9.7": {
-        "dependencies": {
-          "LiveCharts": "0.9.7"
-        },
-        "runtime": {
-          "lib/net45/LiveCharts.Wpf.dll": {
-            "assemblyVersion": "0.9.7.0",
-            "fileVersion": "0.9.7.0"
-          }
         }
       },
       "Microsoft.NETCore.Platforms/1.1.0": {},
@@ -67,11 +34,11 @@
           }
         }
       },
-      "Mono.Nat/2.0.2": {
+      "Mono.Nat/3.0.1": {
         "runtime": {
           "lib/netstandard2.0/Mono.Nat.dll": {
-            "assemblyVersion": "2.0.0.0",
-            "fileVersion": "2.0.2.0"
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.0.1.0"
           }
         }
       },
@@ -99,11 +66,11 @@
           }
         }
       },
-      "System.Drawing.Common/5.0.0": {
+      "System.Drawing.Common/5.0.2": {
         "runtime": {
           "lib/netstandard2.0/System.Drawing.Common.dll": {
-            "assemblyVersion": "4.0.0.1",
-            "fileVersion": "4.6.26919.2"
+            "assemblyVersion": "4.0.0.2",
+            "fileVersion": "4.6.29719.1"
           }
         }
       },
@@ -259,27 +226,6 @@
       "serviceable": false,
       "sha512": ""
     },
-    "LiveCharts/0.9.7": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-p4xyBrUaNNfkWZSNsIle0r51cyVyFg0Yi0uBRZM5GQtdFiA/7guZHlffFyNUILIdux10Ch2hUaJpcZENVU9aaQ==",
-      "path": "livecharts/0.9.7",
-      "hashPath": "livecharts.0.9.7.nupkg.sha512"
-    },
-    "LiveCharts.Geared/1.2.9": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-rChzrOJkjJLRdnVYzR9KKYD7TC7TJCmrmVB4jQY3mKajpYQ41qe7xU1g4kufcgx5PBAu90oCcHJ2/Sff23ODNQ==",
-      "path": "livecharts.geared/1.2.9",
-      "hashPath": "livecharts.geared.1.2.9.nupkg.sha512"
-    },
-    "LiveCharts.Wpf/0.9.7": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-lv6YZoK0B4yWykMq5b9grZXtIbTj+OWu4sVN9GDpdgV6zffu64m4d5CW8KSjfSl9rB8VU649x1NZvhoU67hCDg==",
-      "path": "livecharts.wpf/0.9.7",
-      "hashPath": "livecharts.wpf.0.9.7.nupkg.sha512"
-    },
     "Microsoft.NETCore.Platforms/1.1.0": {
       "type": "package",
       "serviceable": true,
@@ -294,12 +240,12 @@
       "path": "microsoft.win32.registry/4.7.0",
       "hashPath": "microsoft.win32.registry.4.7.0.nupkg.sha512"
     },
-    "Mono.Nat/2.0.2": {
+    "Mono.Nat/3.0.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-7auPBsgAOKrCa30LOCbj1wMbsLAqr5WHR49/jrGQVjU83vSMvF7SRizGbMoCKVhqPlLQd2ahmKPtO6O+iuHNCw==",
-      "path": "mono.nat/2.0.2",
-      "hashPath": "mono.nat.2.0.2.nupkg.sha512"
+      "sha512": "sha512-TLaz/q4i81y5nRyqBlJO2JS73JRyB1y6uhcgxhiyIn3MMIgH1mlTOPZNX7uUB0XYg6+7Igp4tFAqf/u+Unc3tw==",
+      "path": "mono.nat/3.0.1",
+      "hashPath": "mono.nat.3.0.1.nupkg.sha512"
     },
     "NAudio/1.10.0": {
       "type": "package",
@@ -322,12 +268,12 @@
       "path": "system.buffers/4.5.0",
       "hashPath": "system.buffers.4.5.0.nupkg.sha512"
     },
-    "System.Drawing.Common/5.0.0": {
+    "System.Drawing.Common/5.0.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-SztFwAnpfKC8+sEKXAFxCBWhKQaEd97EiOL7oZJZP56zbqnLpmxACWA8aGseaUExciuEAUuR9dY8f7HkTRAdnw==",
-      "path": "system.drawing.common/5.0.0",
-      "hashPath": "system.drawing.common.5.0.0.nupkg.sha512"
+      "sha512": "sha512-rvr/M1WPf24ljpvvrVd74+NdjRUJu1bBkspkZcnzSZnmAUQWSvanlQ0k/hVHk+cHufZbZfu7vOh/vYc0q5Uu/A==",
+      "path": "system.drawing.common/5.0.2",
+      "hashPath": "system.drawing.common.5.0.2.nupkg.sha512"
     },
     "System.Memory/4.5.3": {
       "type": "package",

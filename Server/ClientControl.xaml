@@ -3,10 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:notlocal="clr-namespace:Server"
         mc:Ignorable="d"
+        xmlns:theme="clr-namespace:Core.Application;assembly=Core"
+        Loaded="UserControl_Loaded"
         DataContext="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}}"
         MouseLeftButtonDown="UserControl_MouseLeftButtonDown"
-        MouseDoubleClick="UserControl_MouseDoubleClick">
+        MouseDoubleClick="UserControl_MouseDoubleClick"
+        MaxHeight="100" MaxWidth="200">
     <UserControl.Resources>
         <BitmapImage x:Key="ConnectionTwo" UriSource="/Server;component/Resources/ConnectionTwo.png" RenderOptions.BitmapScalingMode="HighQuality"/>
         <BitmapImage x:Key="Speaker" UriSource="/Server;component/Resources/Speaker.png" RenderOptions.BitmapScalingMode="HighQuality"/>
@@ -14,7 +18,7 @@
         <BitmapImage x:Key="Microphone" UriSource="/Server;component/Resources/Microphone.png" RenderOptions.BitmapScalingMode="HighQuality"/>
         <BitmapImage x:Key="MicrophoneCrossed" UriSource="/Server;component/Resources/MicrophoneCrossed.png" RenderOptions.BitmapScalingMode="HighQuality"/>
     </UserControl.Resources>
-    <Border BorderBrush="MediumPurple" BorderThickness="2">
+    <Border BorderBrush="{Binding Source={x:Static theme:ServerSettings.Theme}, Path=FourthColor}" BorderThickness="2">
         <Grid>
             <Grid.Resources>
                 <Style TargetType="TextBlock">
@@ -32,7 +36,7 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Grid Background="LightPink">
+            <Grid Background="{Binding Source={x:Static theme:ServerSettings.Theme}, Path=FirstColor}">
                 <Image Source="{StaticResource ConnectionTwo}" Width="12" Height="12" Margin="2"/>
             </Grid>
             <Grid Grid.Row="1" Background="LightGoldenrodYellow">
@@ -42,7 +46,7 @@
                 <Image Source="{DynamicResource Microphone}" Width="12" Height="12" Margin="2"/>
             </Grid>
 
-            <Grid Grid.Column="1" Background="LightPink">
+            <Grid Grid.Column="1" Background="{Binding Source={x:Static theme:ServerSettings.Theme}, Path=FirstColor}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -53,11 +57,8 @@
                 <TextBlock Grid.Column="2" Text="{Binding Path=Ip}"/>
             </Grid>
 
-            <Grid Grid.Row="1" Grid.Column="1" Background="LightGoldenrodYellow">
-                <Grid Background="Black" Margin="2" />
-            </Grid>
-            <Grid Grid.Row="2" Grid.Column="1" Background="LightGoldenrodYellow">
-                <Grid Background="Black" Margin="2" />
+            <Grid Grid.Row="1" Grid.RowSpan="2" Background="LightGoldenrodYellow" Grid.Column="1">
+                <notlocal:SpectrumControl x:Name="InputSpectrumControl" Margin="4"/>
             </Grid>
         </Grid>
     </Border>

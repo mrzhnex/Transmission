@@ -9,83 +9,100 @@ using Core.Application;
 using Core.Events;
 using Core.Handlers;
 using Core.Main;
+using Core.Server;
 
 namespace Client
 {
     public partial class MainWindow : Window, IEventHandlerConnect, IEventHandlerDisconnect, IEventHandlerFontFamilyChanged,
-        IEventHandlerInputFound, IEventHandlerOutputFound, IEventHandlerInputNotFound, IEventHandlerOutputNotFound, IEventHandlerSettingsLoaded, IEventHandlerClientUpdate
+        IEventHandlerInputFound, IEventHandlerOutputFound, IEventHandlerInputNotFound, IEventHandlerOutputNotFound, IEventHandlerSettingsLoaded, IEventHandlerClientUpdate,
+        IEventHandlerInputMuteStatusChanged, IEventHandlerOutputMuteStatusChanged
     {
         #region Main
         public static MainWindow MainWindowInstance { get; set; }
         public bool IsConnectWindowOpened { get; set; } = false;
         public bool IsHelpWindowOpened { get; set; } = false;
         public bool IsSettingsWindowOpened { get; set; } = false;
+        public bool IsClientsWindowOpened { get; set; } = false;
         public Core.Server.Client Client { get; set; } = new Core.Server.Client(new IPEndPoint(IPAddress.Any, 0), 0, nameof(Client), new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second), nameof(Client), nameof(Client), true, false);
-        public Spectrum InputSpectrum { get; set; } = new Spectrum(); 
-        public Spectrum OutputSpectrum { get; set; } = new Spectrum();
-
+        public SpectrumControl InputSpectrum { get; set; } = new SpectrumControl(); 
+        public SpectrumControl OutputSpectrum { get; set; } = new SpectrumControl();
         public Theme Theme { get; set; } = Theme.Default;
+        public ClientStatus ClientStatus { get; set; } = ClientStatus.Listener;
         public MainWindow()
         {
             InitializeComponent();
-            
             MainWindowInstance = this;
+            OutputSpectrum = OutputSpectrumControl;
+            InputSpectrum = InputSpectrumControl;
             Manage.Application = new Application();
             Manage.Application.AddEventHandlers(this); 
-            Manage.ApplicationManager.Load();
-            OutputSpectrum = (Spectrum)OutputSpectrumControl.DataContext;
-            InputSpectrum = (Spectrum)InputSpectrumControl.DataContext;
+            Manage.ApplicationManager.ClientSettings.Load();
         }
 
         public void OnSettingsLoaded(SettingsLoadedEvent settingsLoadedEvent)
         {
-            ClientName.Text = settingsLoadedEvent.Settings.ClientSettings.ClientName;
-            InputVolume.Value = settingsLoadedEvent.Settings.ClientSettings.InputVolumeValue;
-            OutputVolume.Value = settingsLoadedEvent.Settings.ClientSettings.OutputVolumeValue;
-            if (settingsLoadedEvent.Settings.ClientSettings.OutputMuteStatus)
+            ClientSettings clientSettings = settingsLoadedEvent.Settings as ClientSettings;
+            ClientName.Text = clientSettings.ClientName;
+            InputVolume.Value = clientSettings.InputVolumeValue;
+            OutputVolume.Value = clientSettings.OutputVolumeValue;
+            if (clientSettings.OutputMuteStatus)
             {
                 OutputMuteStatus.Content = FindResource("SpeakerCrossed");
             }
-            if (settingsLoadedEvent.Settings.ClientSettings.InputMuteStatus)
+            if (clientSettings.InputMuteStatus)
             {
                 InputMuteStatus.Content = FindResource("MicrophoneCrossed");
             }
-            Manage.Application.LoadAudioData(Manage.ApplicationManager.Current.ClientSettings.PlayAudioFile);
-            Manage.ApplicationManager.Current.ClientSettings.ThemeType = settingsLoadedEvent.Settings.ClientSettings.ThemeType;
-            Manage.EventManager.ExecuteEvent<IEventHandlerFontFamilyChanged>(new FontFamilyChangedEvent(settingsLoadedEvent.Settings.ClientSettings.FontFamily));
+            Manage.Application.LoadAudioData(Manage.ApplicationManager.ClientSettings.PlayAudioFile);
+            Manage.ApplicationManager.ClientSettings.ThemeType = clientSettings.ThemeType;
+            Manage.EventManager.ExecuteEvent<IEventHandlerFontFamilyChanged>(new FontFamilyChangedEvent(clientSettings.FontFamily));
         }
         #endregion
 
         #region Buttons
         private void Record_Click(object sender, RoutedEventArgs e)
         {
-            if (Client.Record.IsRecording)
+            if (Client.Record.IsStartRecording)
+            {
                 Client.Record.Save();
+                Record.Content = FindResource("Record");
+                RecordPause.Content = FindResource("Play");
+            }
             else
+            {
                 Client.Record.Start();
+                Record.Content = FindResource("Stop");
+                RecordPause.Content = FindResource("Pause");
+            }
         }
-
         private void RecordPause_Click(object sender, RoutedEventArgs e)
         {
+            if (Record.Content == FindResource("Record"))
+                return;
             if (Client.Record.IsRecording)
+            {
                 Client.Record.Pause();
+                RecordPause.Content = FindResource("Play");
+            }
             else
+            {
                 Client.Record.Play();
+                RecordPause.Content = FindResource("Pause");
+            }
         }
         private void Connect_Click(object sender, RoutedEventArgs e)
         {
             if (Manage.ClientSession == null)
             {
-                if (!IsConnectWindowOpened)
+                if (IsConnectWindowOpened)
+                    return;
+                IsConnectWindowOpened = true;
+                ConnectWindow connectWindow = new ConnectWindow
                 {
-                    IsConnectWindowOpened = true;
-                    ConnectWindow connectWindow = new ConnectWindow
-                    {
-                        Owner = this,
-                        FontFamily = FontFamily
-                    };
-                    connectWindow.Show();
-                }
+                    Owner = this,
+                    FontFamily = FontFamily
+                };
+                connectWindow.Show();
             }
             else
             {
@@ -94,29 +111,27 @@ namespace Client
         }
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
-            if (!IsSettingsWindowOpened)
+            if (IsSettingsWindowOpened)
+                return;
+            IsSettingsWindowOpened = true;
+            SettingsWindow settingsWindow = new SettingsWindow
             {
-                IsSettingsWindowOpened = true;
-                SettingsWindow settingsWindow = new SettingsWindow
-                {
-                    Owner = this,
-                    FontFamily = FontFamily
-                };
-                settingsWindow.Show();
-            }
+                Owner = this,
+                FontFamily = FontFamily
+            };
+            settingsWindow.Show();
         }
         private void Help_Click(object sender, RoutedEventArgs e)
         {
-            if (!IsHelpWindowOpened)
+            if (IsHelpWindowOpened)
+                return;
+            IsHelpWindowOpened = true;
+            HelpWindow helpWindow = new HelpWindow
             {
-                IsHelpWindowOpened = true;
-                HelpWindow helpWindow = new HelpWindow
-                {
-                    Owner = this,
-                    FontFamily = FontFamily
-                };
-                helpWindow.Show();
-            }
+                Owner = this,
+                FontFamily = FontFamily
+            };
+            helpWindow.Show();
         }
         private void PlayPrevious_Click(object sender, RoutedEventArgs e)
         {
@@ -130,12 +145,12 @@ namespace Client
             if (Manage.Application.IsPlayingAudio)
             {
                 Play.Content = FindResource("Pause2");
-                Manage.Logger.Add($"Start playing audio file {Manage.ApplicationManager.Current.ClientSettings.PlayAudioFile}", LogType.Client, LogLevel.Info);
+                Manage.Logger.Add($"Start playing audio file {Manage.ApplicationManager.ClientSettings.PlayAudioFile}", LogType.Client, LogLevel.Info);
             }
             else
             {
-                Play.Content = FindResource("Play");
-                Manage.Logger.Add($"Stop playing audio file {Manage.ApplicationManager.Current.ClientSettings.PlayAudioFile}", LogType.Client, LogLevel.Info);
+                Play.Content = FindResource("Play2");
+                Manage.Logger.Add($"Stop playing audio file {Manage.ApplicationManager.ClientSettings.PlayAudioFile}", LogType.Client, LogLevel.Info);
             }
         }
         private void PlayNext_Click(object sender, RoutedEventArgs e)
@@ -144,7 +159,15 @@ namespace Client
         }
         private void Clients_Click(object sender, RoutedEventArgs e)
         {
-
+            if (IsClientsWindowOpened)
+                return;
+            IsClientsWindowOpened = true;
+            ClientsWindow clientsWindow = new ClientsWindow
+            {
+                Owner = this,
+                FontFamily = FontFamily
+            };
+            clientsWindow.Show();
         }
         private void OutputMuteStatus_Click(object sender, RoutedEventArgs e)
         {
@@ -200,9 +223,9 @@ namespace Client
         {
             if ((sender as TextBox).Text != null && (sender as TextBox).Text.Length > 0)
             {
-                Manage.ApplicationManager.Current.ClientSettings.ClientName = (sender as TextBox).Text;
+                Manage.ApplicationManager.ClientSettings.ClientName = (sender as TextBox).Text;
                 if (Manage.ClientSession != null)
-                    Manage.ClientSession.SetUsername(Manage.ApplicationManager.Current.ClientSettings.ClientName);
+                    Manage.ClientSession.SetUsername(Manage.ApplicationManager.ClientSettings.ClientName);
             }
         }
         protected override void OnClosing(CancelEventArgs e)
@@ -210,18 +233,6 @@ namespace Client
             Client.Record.Save();
             Manage.EventManager.ExecuteEvent<IEventHandlerShutdown>(new ShutdownEvent());
             base.OnClosing(e);
-        }
-        private void InputMuteStatus_Checked(object sender, RoutedEventArgs e)
-        {
-            if (((sender as CheckBox).IsChecked == null || (bool)(sender as CheckBox).IsChecked) == Manage.ApplicationManager.Current.ClientSettings.InputMuteStatus)
-                return;
-            Manage.EventManager.ExecuteEvent<IEventHandlerInputMuteStatusChanged>(new InputMuteStatusChangedEvent((sender as CheckBox).IsChecked == null || (bool)(sender as CheckBox).IsChecked));
-        }
-        private void OutputMuteStatus_Checked(object sender, RoutedEventArgs e)
-        {
-            if (((sender as CheckBox).IsChecked == null || (bool)(sender as CheckBox).IsChecked) == Manage.ApplicationManager.Current.ClientSettings.OutputMuteStatus)
-                return;
-            Manage.EventManager.ExecuteEvent<IEventHandlerOutputMuteStatusChanged>(new OutputMuteStatusChangedEvent((sender as CheckBox).IsChecked == null || (bool)(sender as CheckBox).IsChecked));
         }
         private void InputVolume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -240,7 +251,9 @@ namespace Client
         #region Client-Server
         public void OnClientUpdate(ClientUpdateEvent clientUpdateEvent)
         {
-            Status.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { Status.Text = clientUpdateEvent.ConnectionInfo.ClientStatus.ToString(); }));
+            ClientStatus = clientUpdateEvent.ConnectionInfo.ClientStatus;
+            Manage.EventManager.ExecuteEvent<IEventHandlerClientStatusChanged>(new ClientStatusChangedEvent(clientUpdateEvent.ConnectionInfo.ClientStatus));
+            Status.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { Status.Text = ClientStatus.ToString(); }));
             SessionName.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { SessionName.Text = clientUpdateEvent.ConnectionInfo.SessionName; }));
             ServerName.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { ServerName.Text = clientUpdateEvent.ConnectionInfo.ServerName; }));
             SessionTime.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { SessionTime.Text = $"{clientUpdateEvent.ConnectionInfo.SessionStartTimeSpan}"; }));
@@ -280,6 +293,14 @@ namespace Client
         {
             OutputMuteStatus.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { OutputMuteStatus.Content = FindResource("SpeakerCrossed"); }));
             OutputMuteStatus.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => { OutputMuteStatus.IsEnabled = false; }));
+        }
+        public void OnInputMuteStatusChanged(InputMuteStatusChangedEvent inputMuteStatusChangedEvent)
+        {
+            InputSpectrum.CanProcess = !inputMuteStatusChangedEvent.InputMuteStatus;
+        }
+        public void OnOutputMuteStatusChanged(OutputMuteStatusChangedEvent outputMuteStatusChangedEvent)
+        {
+            OutputSpectrum.CanProcess = !outputMuteStatusChangedEvent.OutputMuteStatus;
         }
         #endregion
     }

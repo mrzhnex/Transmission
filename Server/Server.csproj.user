@@ -7,27 +7,16 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="ClientControl.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="ClientWindow.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="HelpWindow.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="SettingsWindow.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="SpectrumControl.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="ClientControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ClientWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\ColorPicker.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\PenEditor.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="HelpWindow.xaml">

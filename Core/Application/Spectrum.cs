@@ -3,29 +3,34 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Core.Main;
-using LiveCharts.Geared;
 
 namespace Core.Application
 {
     public class Spectrum
     {
-        private int KeepValues { get; set; } = 10000;
-        public GearedValues<double> Values { get; set; } = new GearedValues<double>().WithQuality(Quality.Low);
+        private int KeepValues { get; set; } = 1000;
+        public List<double> Values { get; set; } = new List<double>();
         private List<double> PreValues { get; set; } = new List<double>();
 
         public Spectrum()
         {
             new Thread(Update).Start();
+            new Thread(AddVoidValues).Start();
         }
 
-        public void SetKeepValues(int KeepValues)
+        private void AddVoidValues()
         {
-            this.KeepValues = KeepValues;
+            while (Manage.Logger.ActiveLog)
+            {
+                Thread.Sleep(500);
+                ProcessData(new byte[10000], true);
+            }
         }
+
 
         private void Update()
         {
-            int length = 70;
+            int length = 500;
             
             while (Manage.Logger.ActiveLog)
             {
@@ -34,11 +39,14 @@ namespace Core.Application
                 {
                     if (PreValues.Count < length)
                         continue;
-                    if (Values.Count > KeepValues - length)
+                    lock (Values)
                     {
-                        for (int i = 0; i < length; i++)
+                        if (Values.Count > KeepValues)
                         {
-                            Values.RemoveAt(0);
+                            for (int i = 0; i < length; i++)
+                            {
+                                Values.RemoveAt(0);
+                            }
                         }
                     }
                     Values.AddRange(PreValues.GetRange(0, length));
@@ -60,22 +68,29 @@ namespace Core.Application
 
         private unsafe void CoreProcessData(byte[] input, bool silent = false)
         {
-            var bufferA = new double[input.Length / 4];
-            fixed (byte* pSource = input)
-            fixed (double* pBufferA = bufferA)
+            try
             {
-                var pLen = pSource + input.Length;
-                double* pA = pBufferA;
-                for (var pS = pSource; pS < pLen; pS += 4, pA++)
+                var bufferA = new double[input.Length / 4];
+                fixed (byte* pSource = input)
+                fixed (double* pBufferA = bufferA)
                 {
-                    if (silent)
-                        *pA = *(short*)pS / 100000;
-                    else
-                        *pA = *(short*)pS / 200;
-                    if (*pA < 0)
-                        *pA = 0;
-                    PreValues.Add(*pA);
+                    var pLen = pSource + input.Length;
+                    double* pA = pBufferA;
+                    for (var pS = pSource; pS < pLen; pS += 4, pA++)
+                    {
+                        if (silent)
+                            *pA = *(short*)pS / 100000;
+                        else
+                            *pA = *(short*)pS / 80;
+                        if (*pA < 0)
+                            *pA = 0;
+                        PreValues.Add(*pA);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Manage.Logger.Add($"Catch an exception {ex.Message} during {nameof(CoreProcessData)}", LogType.Application, LogLevel.Error);
             }
         }
     }

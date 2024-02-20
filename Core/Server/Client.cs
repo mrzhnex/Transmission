@@ -47,15 +47,14 @@ namespace Core.Server
 
         public byte[] GetAudio()
         {
-            byte[] data = new byte[Manage.DefaultInformation.DataLength];
-            int length = AudioData.Count < data.Length ? AudioData.Count : data.Length;
-            for (int i = 0; i < length; i++)
+            byte[] data = new byte[AudioData.Count < Manage.DefaultInformation.DataLength ? AudioData.Count : Manage.DefaultInformation.DataLength];
+            for (int i = 0; i < data.Length; i++)
             {
                 data[i] = AudioData[i];
             }
             lock (AudioData)
             {
-                AudioData.RemoveRange(0, length);
+                AudioData.RemoveRange(0, data.Length);
             }
             return data;
         }

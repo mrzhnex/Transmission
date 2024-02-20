@@ -35,6 +35,26 @@ namespace Core.Server
         #endregion
 
         #region server decision
+        public float ServerOutputVolumeValue
+        {
+            get { return serverOutputVolumeValue; }
+            set
+            {
+                serverOutputVolumeValue = value;
+                OnPropertyChanged(nameof(ServerOutputVolumeValue));
+            }
+        }
+        private float serverOutputVolumeValue { get; set; } = 1.0f;
+        public float ServerInputVolumeValue
+        {
+            get { return serverInputVolumeValue; }
+            set
+            {
+                serverInputVolumeValue = value;
+                OnPropertyChanged(nameof(ServerInputVolumeValue));
+            }
+        }
+        private float serverInputVolumeValue { get; set; } = 1.0f;
         public ClientStatus ClientStatus
         {
             get { return clientStatus; }
@@ -48,7 +68,8 @@ namespace Core.Server
         public string SessionName { get; private set; } = string.Empty;
         public string ServerName { get; private set; } = string.Empty;
         public TimeSpan SessionStartTimeSpan { get; private set; } = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-
+        public bool ServerOutputMuteStatus { get; set; } = false;
+        public bool ServerInputMuteStatus { get; set; } = false;
         #endregion
         public TimeSpan ConnectionTimeSpan
         {

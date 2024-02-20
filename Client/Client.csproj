@@ -4,16 +4,13 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>ConnectionTwo.ico</ApplicationIcon>
   </PropertyGroup>
-	
-    <ItemGroup>
-		<PackageReference Include="LiveCharts.Geared" Version="1.2.9" />
-		<PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
-		<PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
-		<PackageReference Include="System.Drawing.Common" Version="5.0.0" />
-		<PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" />
-	</ItemGroup>
-	
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="Resources\Clients.png" />
     <None Remove="Resources\Close.png" />
@@ -33,11 +30,17 @@
     <None Remove="Resources\Settings.png" />
     <None Remove="Resources\Speaker.png" />
     <None Remove="Resources\SpeakerCrossed.png" />
-    <None Remove="Resources\Test.png" />
-    <None Remove="Resources\Test2.png" />
+    <None Remove="Resources\Stop.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAPICodePack-Shell" Version="1.1.0" />
+    <PackageReference Include="NAudio" Version="1.10.0" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AudioVisualizationLibrary\AudioVisualizationLibrary.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
@@ -60,23 +63,7 @@
     <Resource Include="Resources\Settings.png" />
     <Resource Include="Resources\Speaker.png" />
     <Resource Include="Resources\SpeakerCrossed.png" />
-    <Resource Include="Resources\Test.png" />
-    <Resource Include="Resources\Test2.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Resource.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resource.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Resource.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Resource Include="Resources\Stop.png" />
   </ItemGroup>
 
 </Project>

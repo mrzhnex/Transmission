@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="Client.Controls.PenEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Client.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="#7F000000">
+    <Border BorderBrush="Black" BorderThickness="1">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="50*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+
+            <Label Content="Pen Editor" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="White" FontWeight="Bold" Grid.ColumnSpan="2" Background="#404040"/>
+
+            <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1">
+                <Grid>
+                    <Label Content="Pen Start Line Cap : " Margin="11,22,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White"/>
+                    <ComboBox x:Name="ComboStartLineCap" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="132,25,0,0"/>
+
+                    <Label Content="Pen End Line Cap : " Margin="11,68,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White"/>
+                    <ComboBox x:Name="ComboEndLineCap" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="132,71,0,0"/>
+
+                    <Label Content="Pen Dash Cap : " Margin="11,113,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White"/>
+                    <ComboBox x:Name="ComboDashCap" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="132,112,0,0"/>
+
+                    <Label Content="Pen Dash Style : " Margin="11,151,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White"/>
+                    <ComboBox x:Name="ComboDashStyle" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="132,154,0,0"/>
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="1" Grid.Column="2" BorderBrush="Black" BorderThickness="1">
+                <local:ColorPicker x:Name="PenColorPicker" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            </Border>
+
+            <Button x:Name="CancelButton" Content="İptal" HorizontalAlignment="Right" VerticalAlignment="Center" Width="75" Grid.Row="2"/>
+            <Button x:Name="OKButton" Content="Tamam" HorizontalAlignment="Left" VerticalAlignment="Center" Width="75" Grid.Row="2" Grid.Column="2"/>
+
+        </Grid>
+    </Border>
+</UserControl>

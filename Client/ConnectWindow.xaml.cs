@@ -37,7 +37,7 @@ namespace Client
                 return;
             }
             Manage.Logger.Add($"Попытка подключиться к {IpAddressField.Text}", LogType.Application, LogLevel.Info);
-            Manage.ClientSession = new Core.Client.Session(iPAddress, Manage.ApplicationManager.Current.ClientSettings.ClientName, port, PasswordField.Text);
+            Manage.ClientSession = new Core.Client.Session(iPAddress, Manage.ApplicationManager.ClientSettings.ClientName, port, PasswordField.Text);
             Close();
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
